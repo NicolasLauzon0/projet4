@@ -1,0 +1,49 @@
+@import "mixins.scss";
+@import "variables.scss";
+
+html {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+main{
+    min-height: 100vh;
+    width: 100%;
+}
+
+div.interface {
+    min-height: 100vh;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+img,
+picture,
+svg,
+video {
+    max-width: 100%;
+    display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
+}
