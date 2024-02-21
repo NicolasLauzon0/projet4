@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import Board from "./components/Board/Board";
+
 import Layout from "./Layout";
+import Flow from "./components/Board/Flow";
 
 const Routes = () => {
   const routes = [
@@ -11,7 +12,7 @@ const Routes = () => {
         {
           path: "/",
           index: true,
-          element: <Board />,
+          element: <Flow />,
         },
         {
           path: "*",
