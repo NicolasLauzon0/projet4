@@ -5,8 +5,11 @@ import { shallow } from "zustand/shallow";
 
 import SampleNode from "../Nodes/Sample/SampleNode";
 import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
+import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
+import GainNode from "../Nodes/Effects/GainNode";
 
 import "reactflow/dist/style.css";
+import OutNode from "../Nodes/Master/OutNode.jsx";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -14,6 +17,7 @@ const selector = (store) => ({
   onNodesChange: store.onNodesChange,
   onEdgesChange: store.onEdgesChange,
   addEdge: store.addEdge,
+  onNodesDelete: store.removeNode,
 });
 
 const Flow = () => {
@@ -21,12 +25,14 @@ const Flow = () => {
     () => ({
       sample: SampleNode,
       oscillator: OscillatorNode,
+      amSynth: AMSynthNode,
+      gainNode: GainNode,
+      outNode: OutNode,
     }),
     []
   );
 
   const store = useStore(selector, shallow);
-  // console.log(store);
 
   return (
     <ReactFlow
@@ -34,7 +40,9 @@ const Flow = () => {
       edges={store.edges}
       onNodesChange={store.onNodesChange}
       onEdgesChange={store.onEdgesChange}
+      onNodesDelete={store.removeNode}
       onConnect={store.addEdge}
+      nodeTypes={nodeTypes}
       fitView
     >
       <Background color="#aaa" />
