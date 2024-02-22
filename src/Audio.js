@@ -14,7 +14,6 @@ const loop = new Tone.Loop((time) => {
 }
 , '4n').start(0);
 
-loop.start();
 // Connect the gain node to the destination
 gainNode.connect(outNode);
 
