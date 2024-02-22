@@ -1,7 +1,14 @@
 import { applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import { nanoid } from "nanoid";
 import { createWithEqualityFn } from "zustand/traditional";
-import { updateAudioNode, removeAudioNode } from '../Audio';
+import {
+    updateAudioNode,
+    removeAudioNode,
+    disconnect,
+    connect,
+    isRunning,
+    toggleAudio,
+} from '../Audio';
 
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
@@ -9,23 +16,27 @@ export const useStore = createWithEqualityFn((set, get) => ({
             type: "amSynth",
             id: "1",
             data: {
-                occilator: {
+                oscillator: {
                     type: "sine",
-                    attack: 0.1,
-                    decay: 0.2,
-                    sustain: 0.3,
-                    release: 0.4,
+                },
+                envelope: {
+                    attack: 0.5,
+                    decay: 0.5,
+                    sustain: 0.5,
+                    release: 0.5,
                 },
                 modulation: {
                     type: "sine",
-                    attack: 0.1,
-                    decay: 0.2,
-                    sustain: 0.3,
-                    release: 0.4,
+                },
+                modulationEnvelope: {
+                    attack: 0.5,
+                    decay: 0.5,
+                    sustain: 0.5,
+                    release: 0.5,
                 },
                 portamento: 0.5,
-                harmonicity: 0.6,
-                volume: 0.6,
+                harmonicity: 0.5,
+                volume: 0.5,
             },
             position: { x: 250, y: 5 },
         },
@@ -61,24 +72,47 @@ export const useStore = createWithEqualityFn((set, get) => ({
         set({
             edges: [edge, ...get().edges],
         });
+        connect(data.source, data.target);
     },
-    removeNode(nodes) {
-        for (const {id} of nodes) {
+    onNodesDelete(nodes) {
+        for (const { id } of nodes) {
             removeAudioNode(id);
+        }
+    },
+    onEdgesDelete(edges) {
+        for (const { source, target } of edges) {
+            disconnect(source, target);
         }
     },
     updateNode(id, data) {
         updateAudioNode(id, data);
-        set({
-            nodes: get().nodes.map(node =>
-                node.id === id
-                    ? { ...node, data: { ...node.data, ...data } }
-                    : node
-            )
+        set((state) => ({
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    // Pour chaque clé dans data, vérifier si c'est un objet imbriqué et nécessite une fusion profonde
+                    const newData = Object.keys(data).reduce((acc, key) => {
+                        if (typeof data[key] === 'object' && data[key] !== null) {
+                            // Si c'est un objet, fusionner profondément
+                            acc[key] = { ...node.data[key], ...data[key] };
+                        } else {
+                            // Sinon, juste mettre à jour la valeur
+                            acc[key] = data[key];
+                        }
+                        return acc;
+                    }, {});
+
+                    return { ...node, data: { ...node.data, ...newData } };
+                }
+                return node;
+            }),
+        }));
+    },
+    isRunning: isRunning(),
+
+    toggleVolume() {
+        toggleAudio().then(() => {
+            set({ isRunning: !get().isRunning });
         });
-    },
-    isRunning: false,
-    toggleAudio() {
-        set({ isRunning: !get().isRunning });
-    },
+    }
+
 }));

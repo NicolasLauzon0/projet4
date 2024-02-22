@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import ReactFlow, { Background, Controls } from "reactflow";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
@@ -7,9 +6,10 @@ import SampleNode from "../Nodes/Sample/SampleNode";
 import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
 import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
 import GainNode from "../Nodes/Effects/GainNode";
+import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import "reactflow/dist/style.css";
-import OutNode from "../Nodes/Master/OutNode.jsx";
+
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -17,20 +17,20 @@ const selector = (store) => ({
   onNodesChange: store.onNodesChange,
   onEdgesChange: store.onEdgesChange,
   addEdge: store.addEdge,
-  onNodesDelete: store.removeNode,
+  onNodesDelete: store.onNodesDelete,
+  onEdgesDelete: store.onEdgesDelete,
 });
 
+const nodeTypes = {
+    sample: SampleNode,
+    oscillator: OscillatorNode,
+    amSynth: AMSynthNode,
+    gainNode: GainNode,
+    outNode: OutNode,
+};
+
 const Flow = () => {
-  const nodeTypes = useMemo(
-    () => ({
-      sample: SampleNode,
-      oscillator: OscillatorNode,
-      amSynth: AMSynthNode,
-      gainNode: GainNode,
-      outNode: OutNode,
-    }),
-    []
-  );
+
 
   const store = useStore(selector, shallow);
 
@@ -42,6 +42,7 @@ const Flow = () => {
       onEdgesChange={store.onEdgesChange}
       onNodesDelete={store.removeNode}
       onConnect={store.addEdge}
+      onEdgesDelete={store.onEdgesDelete}
       nodeTypes={nodeTypes}
       fitView
     >

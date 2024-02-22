@@ -5,11 +5,11 @@ import { useStore } from "../../../store/Store.js"
 
 const selector = (store) => ({
     isRunning: store.isRunning,
-    toggleAudio: () => store.toggleAudio(),
+    toggleVolume: () => store.toggleVolume(),
 })
 
 const Out = ({ id, data }) => {
-    const { isRunning, toggleAudio } = useStore(selector, shallow)
+    const { isRunning, toggleVolume } = useStore(selector, shallow)
 
     return (
         <div>
@@ -17,8 +17,8 @@ const Out = ({ id, data }) => {
             <div>
                 <p>Output Node</p>
 
-                <button onClick={toggleAudio}>
-                    {isRunning ? (
+                <button onClick={toggleVolume}>
+                    {!isRunning ? (
                         <span role="img" aria-label="mute">
                             🔇
                         </span>

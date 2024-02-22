@@ -4,28 +4,27 @@ import { shallow } from "zustand/shallow"
 import { useStore } from "../../../store/Store.js"
 
 const selector = (id) => (store) => ({
-  setOccilatorType: (e) => store.updateNode(id, { occilator: { type: e.target.value } }),
-  setOccilatorAttack: (e) => store.updateNode(id, { occilator: { attack: e.target.value } }),
-  setOccilatorDecay: (e) => store.updateNode(id, { occilator: { decay: e.target.value } }),
-  setOccilatorSustain: (e) => store.updateNode(id, { occilator: { sustain: e.target.value } }),
-  setOccilatorRelease: (e) => store.updateNode(id, { occilator: { release: e.target.value } }),
+  setOscilatorType: (e) => store.updateNode(id, { oscillator: { type: e.target.value } }),
+  setOscilatorAttack: (e) => store.updateNode(id, { envelope: { attack: +e.target.value } }),
+  setOscilatorDecay: (e) => store.updateNode(id, { envelope: { decay: +e.target.value } }),
+  setOscilatorSustain: (e) => store.updateNode(id, { envelope: { sustain: +e.target.value } }),
+  setOscilatorRelease: (e) => store.updateNode(id, { envelope: { release: +e.target.value } }),
   setModulationType: (e) => store.updateNode(id, { modulation: { type: e.target.value } }),
-  setModulationAttack: (e) => store.updateNode(id, { modulation: { attack: e.target.value } }),
-  setModulationDecay: (e) => store.updateNode(id, { modulation: { decay: e.target.value } }),
-  setModulationSustain: (e) => store.updateNode(id, { modulation: { sustain: e.target.value } }),
-  setModulationRelease: (e) => store.updateNode(id, { modulation: { release: e.target.value } }),
-  setPortamento: (e) => store.updateNode(id, { portamento: e.target.value }),
-  setHarmonicity: (e) => store.updateNode(id, { harmonicity: e.target.value }),
-  setVolume: (e) => store.updateNode(id, { volume: e.target.value }),
+  setModulationAttack: (e) => store.updateNode(id, { modulationEnvelope: { attack: +e.target.value } }),
+  setModulationDecay: (e) => store.updateNode(id, { modulationEnvelope: { decay: +e.target.value } }),
+  setModulationSustain: (e) => store.updateNode(id, { modulationEnvelope: { sustain: +e.target.value } }),
+  setModulationRelease: (e) => store.updateNode(id, { modulationEnvelope: { release: +e.target.value } }),
+  setPortamento: (e) => store.updateNode(id, { portamento: +e.target.value }),
+  setHarmonicity: (e) => store.updateNode(id, { harmonicity: +e.target.value }),
+  setVolume: (e) => store.updateNode(id, { volume: +e.target.value }),
 })
-
 const AMSynthNode = ({ id, data }) => {
   const {
-    setOccilatorType,
-    setOccilatorAttack,
-    setOccilatorDecay,
-    setOccilatorSustain,
-    setOccilatorRelease,
+    setOscilatorType,
+    setOscilatorAttack,
+    setOscilatorDecay,
+    setOscilatorSustain,
+    setOscilatorRelease,
     setModulationType,
     setModulationAttack,
     setModulationDecay,
@@ -35,8 +34,6 @@ const AMSynthNode = ({ id, data }) => {
     setHarmonicity,
     setVolume,
   } = useStore(selector(id), shallow)
-
-  
 
   return (
     <div className='node amsynthnode'>
@@ -48,8 +45,8 @@ const AMSynthNode = ({ id, data }) => {
             <div className="type">
               <label>Sine</label>
               <select
-                value={data.occilator.type || "sine"}
-                onChange={setOccilatorType}
+                value={data.oscillator.type}
+                onChange={setOscilatorType}
               >
                 <option value="sine">Sine</option>
                 <option value="triangle">Triangle</option>
@@ -66,8 +63,8 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.occilator.attack || 0.1}
-                  onChange={setOccilatorAttack}
+                  value={data.envelope.attack}
+                  onChange={setOscilatorAttack}
                 />
               </div>
               <div className="knob">
@@ -78,8 +75,8 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.occilator.decay || 0.2}
-                  onChange={setOccilatorDecay}
+                  value={data.envelope.decay }
+                  onChange={setOscilatorDecay}
                 />
               </div>
               <div className="knob">
@@ -90,8 +87,8 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.occilator.sustain || 0.3}
-                  onChange={setOccilatorSustain}
+                  value={data.envelope.sustain}
+                  onChange={setOscilatorSustain}
                 />
               </div>
               <div className="knob">
@@ -102,8 +99,8 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.occilator.release || 0.4}
-                  onChange={setOccilatorRelease}
+                  value={data.envelope.release}
+                  onChange={setOscilatorRelease}
                 />
               </div>
             </div>
@@ -113,7 +110,7 @@ const AMSynthNode = ({ id, data }) => {
             <div className="type">
               <label>Type</label>
               <select
-                value={data.modulation.type || "sine"}
+                value={data.modulation.type}
                 onChange={setModulationType}
               >
                 <option value="sine">Sine</option>
@@ -131,7 +128,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulation.attack || 0.1}
+                  value={data.modulationEnvelope.attack}
                   onChange={setModulationAttack}
                 />
               </div>
@@ -143,7 +140,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulation.decay || 0.2}
+                  value={data.modulationEnvelope.decay}
                   onChange={setModulationDecay}
                 />
               </div>
@@ -155,7 +152,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulation.sustain || 0.3}
+                  value={data.modulationEnvelope.sustain}
                   onChange={setModulationSustain}
                 />
               </div>
@@ -167,7 +164,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulation.release || 0.4}
+                  value={data.modulationEnvelope.release}
                   onChange={setModulationRelease}
                 />
               </div>
@@ -183,7 +180,7 @@ const AMSynthNode = ({ id, data }) => {
               max="1"
               step="0.01"
               className='nodrag'
-              value={data.portamento || 0.5}
+              value={data.portamento}
               onChange={setPortamento}
             />
           </div>
@@ -195,7 +192,7 @@ const AMSynthNode = ({ id, data }) => {
               max="1"
               step="0.01"
               className='nodrag'
-              value={data.harmonicity || 0.6}
+              value={data.harmonicity}
               onChange={setHarmonicity}
             />
           </div>
@@ -207,14 +204,13 @@ const AMSynthNode = ({ id, data }) => {
               max="1"
               step="0.01"
               className='nodrag'
-              value={data.volume || 0.6}
+              value={data.volume}
               onChange={setVolume}
             />
           </div>
         </div>
       </div>
       <Handle type="source" position="bottom" id="a" />
-      <Handle type="source" position="bottom" id="b" />
     </div>
   )
 }
