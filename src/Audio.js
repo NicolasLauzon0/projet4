@@ -3,30 +3,11 @@ import * as Tone from 'tone';
 // Create a gain node connected to the destination
 const outNode = new Tone.Gain().toDestination();
 
-// Create a gain node to control the volume
-const gainNode = new Tone.Gain();
-
-// Create an AM synth connected to the gain node
-const amSynth = new Tone.AMSynth().connect(gainNode);
-
-const loop = new Tone.Loop((time) => {
-  amSynth.triggerAttackRelease('C4', '8n', time);
-}
-, '4n').start(0);
-
-// Connect the gain node to the destination
-gainNode.connect(outNode);
-
-// Start the Tone.js context
-Tone.start();
-
 // Now you can continue connecting other audio nodes to the gain node or other Tone.js audio nodes without creating new audio contexts
 
-// Add your audio nodes to the map
+// default nodes
 const nodes = new Map();
-nodes.set('1', amSynth);
-nodes.set('2', gainNode);
-nodes.set('3', outNode);
+nodes.set('1', outNode);
 
 // Function to update audio node parameters
 export function updateAudioNode(id, data) {
@@ -49,6 +30,49 @@ export function updateAudioNode(id, data) {
   }
 }
 
+export function createAudioNode(id, type, data) {
+  switch (type) {
+    case 'amSynth': {
+      const node = new Tone.AMSynth()
+      node.data = data;
+      const loop = new Tone.Loop((time) => {
+        node.triggerAttackRelease('C4', '8n', time);
+      }, '4n')
+      loop.start(0);
+      nodes.set(id, node);
+      break;
+    }
+    case 'gain': {
+      const node = new Tone.Gain();
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'out': {
+      const node = new Tone.Gain().toDestination();
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'player': {
+      const node = new Tone.Player(data.url);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    default:
+      break;
+  }
+
+}
+
+export function playPlayerNode(id) {
+  if(Tone.Transport.state === 'started') {
+    const node = nodes.get(id);
+    node.start();
+  } 
+}
+
 // Function to remove an audio node
 export function removeAudioNode(id) {
   const node = nodes.get(id);
@@ -67,6 +91,7 @@ export function disconnect(sourceId, targetId) {
 export function connect(sourceId, targetId) {
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
+  
   source.connect(target);
 }
 
@@ -75,15 +100,23 @@ export function isRunning() {
   return Tone.Transport.state === 'started';
 }
 
-// Function to toggle audio playback
+// Fonction pour démarrer ou arrêter la lecture audio
 export function toggleAudio() {
   return new Promise((resolve, reject) => {
     if (isRunning()) {
+      // Mettez en pause la lecture audio
       Tone.Transport.pause();
       resolve();
     } else {
-      Tone.Transport.start();
-      resolve();
+      // Essayez de démarrer la lecture audio
+      try {
+        // Démarrer la lecture audio
+        Tone.Transport.start();
+        resolve();
+      } catch (error) {
+        // Rejeter la promesse en cas d'erreur
+        reject(error);
+      }
     }
   });
 }

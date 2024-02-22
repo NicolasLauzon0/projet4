@@ -1,14 +1,18 @@
-import ReactFlow, { Background, Controls } from "reactflow";
+import ReactFlow, { Background, Controls, Panel } from "reactflow";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
 
-import SampleNode from "../Nodes/Sample/SampleNode";
 import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
 import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
+
 import GainNode from "../Nodes/Effects/GainNode";
+
+import Sequencer from "../Nodes/Events/Sequencer.jsx";
+
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import "reactflow/dist/style.css";
+import Player from "../Nodes/Source/Player.jsx";
 
 
 const selector = (store) => ({
@@ -19,14 +23,15 @@ const selector = (store) => ({
   addEdge: store.addEdge,
   onNodesDelete: store.onNodesDelete,
   onEdgesDelete: store.onEdgesDelete,
+  createNode: store.createNode,
 });
 
 const nodeTypes = {
-    sample: SampleNode,
-    oscillator: OscillatorNode,
-    amSynth: AMSynthNode,
-    gainNode: GainNode,
-    outNode: OutNode,
+  oscillator: OscillatorNode,
+  amSynth: AMSynthNode,
+  gain: GainNode,
+  out: OutNode,
+  player: Player,
 };
 
 const Flow = () => {
@@ -46,6 +51,23 @@ const Flow = () => {
       nodeTypes={nodeTypes}
       fitView
     >
+      <Panel position="top-right">
+        <button onClick={() => {
+          store.createNode("amSynth");
+        }}>
+          Add Synth
+        </button>
+        <button onClick={() => {
+          store.createNode("gain");
+        }}>
+          Add Gain
+        </button>
+        <button onClick={() => {
+          store.createNode("player");
+        }}>
+          Add Player
+        </button>
+      </Panel>
       <Background color="#aaa" />
       <Controls />
     </ReactFlow>

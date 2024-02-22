@@ -8,54 +8,124 @@ import {
     connect,
     isRunning,
     toggleAudio,
+    createAudioNode,
+    playPlayerNode,
 } from '../Audio';
+import HH from '../assets/sons/hh.wav';
 
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
         {
-            type: "amSynth",
             id: "1",
-            data: {
-                oscillator: {
-                    type: "sine",
-                },
-                envelope: {
-                    attack: 0.5,
-                    decay: 0.5,
-                    sustain: 0.5,
-                    release: 0.5,
-                },
-                modulation: {
-                    type: "sine",
-                },
-                modulationEnvelope: {
-                    attack: 0.5,
-                    decay: 0.5,
-                    sustain: 0.5,
-                    release: 0.5,
-                },
-                portamento: 0.5,
-                harmonicity: 0.5,
-                volume: 0.5,
-            },
-            position: { x: 250, y: 5 },
-        },
-        {
-            type: "gainNode",
-            id: "2",
-            data: {
-                gain: 0.5,
-            },
-            position: { x: 250, y: 200 },
-        },
-        {
-            type: "outNode",
-            id: "3",
+            type: "out",
             data: {},
-            position: { x: 250, y: 350 },
+            position: { x: 0, y: 0 },
         },
     ],
     edges: [],
+    createNode(type) {
+        const id = nanoid();
+        switch (type) {
+            case "amSynth": {
+                const data = {
+                    oscillator: {
+                        type: "sine",
+                    },
+                    envelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5,
+                    },
+                    modulation: {
+                        type: "sine",
+                    },
+                    modulationEnvelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5,
+                    },
+                    harmonicity: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "gain": {
+
+                const data = {
+                    gain: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "out": {
+                const data = {};
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "player": {
+                const data = {
+                    gain: 0.5,
+                    loop: true,
+                    url: HH,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            default:
+                break;
+        }
+        console.log(get().nodes);
+    },
     onNodesChange(changes) {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
@@ -108,11 +178,13 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }));
     },
     isRunning: isRunning(),
-
     toggleVolume() {
         toggleAudio().then(() => {
-            set({ isRunning: !get().isRunning });
+            set({ isRunning: isRunning() });
         });
+    },
+    play(id) {
+        
+        playPlayerNode(id);
     }
-
 }));

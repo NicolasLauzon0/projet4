@@ -14,9 +14,7 @@ const selector = (id) => (store) => ({
   setModulationDecay: (e) => store.updateNode(id, { modulationEnvelope: { decay: +e.target.value } }),
   setModulationSustain: (e) => store.updateNode(id, { modulationEnvelope: { sustain: +e.target.value } }),
   setModulationRelease: (e) => store.updateNode(id, { modulationEnvelope: { release: +e.target.value } }),
-  setPortamento: (e) => store.updateNode(id, { portamento: +e.target.value }),
   setHarmonicity: (e) => store.updateNode(id, { harmonicity: +e.target.value }),
-  setVolume: (e) => store.updateNode(id, { volume: +e.target.value }),
 })
 const AMSynthNode = ({ id, data }) => {
   const {
@@ -30,9 +28,7 @@ const AMSynthNode = ({ id, data }) => {
     setModulationDecay,
     setModulationSustain,
     setModulationRelease,
-    setPortamento,
     setHarmonicity,
-    setVolume,
   } = useStore(selector(id), shallow)
 
   return (
@@ -173,18 +169,6 @@ const AMSynthNode = ({ id, data }) => {
         </div>
         <div className="right">
           <div className="knob">
-            <label>Portamento</label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              className='nodrag'
-              value={data.portamento}
-              onChange={setPortamento}
-            />
-          </div>
-          <div className="knob">
             <label>Harmonicity</label>
             <input
               type="range"
@@ -194,18 +178,6 @@ const AMSynthNode = ({ id, data }) => {
               className='nodrag'
               value={data.harmonicity}
               onChange={setHarmonicity}
-            />
-          </div>
-          <div className="knob">
-            <label>Volume</label>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              className='nodrag'
-              value={data.volume}
-              onChange={setVolume}
             />
           </div>
         </div>
