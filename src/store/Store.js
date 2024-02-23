@@ -125,7 +125,10 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     rows: 2,
                     cols: 16,
-                    notes: [2][16]
+                    notes: [
+                        [true, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false],
+                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+                    ]
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);

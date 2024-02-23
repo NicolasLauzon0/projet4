@@ -1,7 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
-import { Tone } from "tone/build/esm/core/Tone.js";
+import * as Tone from "tone";
 import { useEffect, useMemo } from "react";
 
 const selector = (id, data) => (store) => ({
@@ -23,11 +23,18 @@ const Sequencer = ({ id, data }) => {
     }
     return notes;
   }, [data.rows, data.cols]);
+  console.log("notes", notes);
 
-  console.log(notes);
   useEffect(() => {
-    setNotes(notes);
-  }, []);
+    const node = new Tone.Sequence((time, note) => {
+      console.log("note", note);
+    }, notes, "4n");
+    node.start(0);
+    Tone.Transport.start();
+    return () => {
+      node.dispose();
+    };
+  }, [notes]);
 
   return (
     <div className="node sequencer">
