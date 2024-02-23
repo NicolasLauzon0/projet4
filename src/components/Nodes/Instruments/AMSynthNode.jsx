@@ -33,6 +33,7 @@ const AMSynthNode = ({ id, data }) => {
 
   return (
     <div className='node amsynthnode'>
+      <Handle type="target" position="top" id="a" />
       <div className='amsynthnode__container'>
         <h3>AMSynth</h3>
         <div className="sound">
@@ -182,7 +183,7 @@ const AMSynthNode = ({ id, data }) => {
           </div>
         </div>
       </div>
-      <Handle type="source" position="bottom" id="a" />
+      <Handle type="source" position="bottom" id="b" />
     </div>
   )
 }

@@ -9,14 +9,15 @@ const outNode = new Tone.Gain().toDestination();
 const nodes = new Map();
 nodes.set('1', outNode);
 
-// Function to update audio node parameters
+
 export function updateAudioNode(id, data) {
   const node = nodes.get(id);
-
   for (const [key, val] of Object.entries(data)) {
-    if (typeof val === 'object') {
+    if (typeof val === 'object' && !Array.isArray(val)) {
       for (const [k, v] of Object.entries(val)) {
-        node[key][k] = v;
+        if (key in node && typeof node[key] === 'object' && k in node[key]) {
+          node[key][k] = v;
+        }
       }
     } else {
       if (key in node) {
@@ -30,15 +31,12 @@ export function updateAudioNode(id, data) {
   }
 }
 
+
 export function createAudioNode(id, type, data) {
   switch (type) {
     case 'amSynth': {
       const node = new Tone.AMSynth()
       node.data = data;
-      const loop = new Tone.Loop((time) => {
-        node.triggerAttackRelease('C4', '8n', time);
-      }, '4n')
-      loop.start(0);
       nodes.set(id, node);
       break;
     }
@@ -56,6 +54,18 @@ export function createAudioNode(id, type, data) {
     }
     case 'player': {
       const node = new Tone.Player(data.url);
+      node.autostart = true;
+      node.loop = data.loop;
+      
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'sequencer': {
+      console.log(data);
+      const node = new Tone.Sequence((time, note) => {
+      }, [data.notes], "8n")
+      node.start(0);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -63,14 +73,57 @@ export function createAudioNode(id, type, data) {
     default:
       break;
   }
-
 }
 
+
+function handleSequencerConnection(source, target) {
+  for (let i = 0; i < source.data.rows; i++) {
+    source.callback = (time, note) => {
+      console.log("triggered handleSequencerConnection");
+      if (source.data.notes[i][note]) {
+        target.triggerAttackRelease("C2", "8n", time);
+      }
+    };
+  }
+}
+
+// Function to connect two audio nodes
+export function connect(sourceId, targetId) {
+  const source = nodes.get(sourceId);
+  const target = nodes.get(targetId);
+
+  if (source.name === "Sequence") {
+    handleSequencerConnection(source, target);
+    return;
+  }
+  source.connect(target);
+}
+
+// Function to disconnect two audio nodes
+export function disconnect(sourceId, targetId) {
+  const source = nodes.get(sourceId);
+  const target = nodes.get(targetId);
+
+  if (source.name === "Sequence") {
+    source.callback = null;
+    source.dispose();
+    return;
+  }
+  source.disconnect(target);
+}
+
+
+
+
 export function playPlayerNode(id) {
-  if(Tone.Transport.state === 'started') {
-    const node = nodes.get(id);
-    node.start();
-  } 
+
+  const node = nodes.get(id);
+  if (Tone.Transport.state === 'started') {
+    node.load().then(() => {
+      node.start();
+    });
+  }
+  
 }
 
 // Function to remove an audio node
@@ -80,20 +133,8 @@ export function removeAudioNode(id) {
   nodes.delete(id);
 }
 
-// Function to disconnect two audio nodes
-export function disconnect(sourceId, targetId) {
-  const source = nodes.get(sourceId);
-  const target = nodes.get(targetId);
-  source.disconnect(target);
-}
 
-// Function to connect two audio nodes
-export function connect(sourceId, targetId) {
-  const source = nodes.get(sourceId);
-  const target = nodes.get(targetId);
-  
-  source.connect(target);
-}
+
 
 // Function to check if audio is running
 export function isRunning() {

@@ -121,10 +121,30 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 });
                 break;
             }
+            case "sequencer": {
+                const data = {
+                    rows: 2,
+                    cols: 16,
+                    notes: [2][16]
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
             default:
                 break;
         }
-        console.log(get().nodes);
     },
     onNodesChange(changes) {
         set({
@@ -184,7 +204,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     play(id) {
-        
+
         playPlayerNode(id);
     }
 }));

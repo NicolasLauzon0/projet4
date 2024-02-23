@@ -13,6 +13,7 @@ const Player = ({id,data}) => {
     const { setGain, setLoop, play } = useStore(selector(id), shallow)
     return (
         <div className="node player">
+            <Handle type="target" position="top" id="a"/>
             <div className="player__container">
                 <h3>Player</h3>
                 <div className="player__grid">
@@ -39,7 +40,7 @@ const Player = ({id,data}) => {
                     </div>
                 </div>
             </div>
-            <Handle type="source" position="bottom" />
+            <Handle type="source" position="bottom" id="b"/>
         </div>
     )
 }

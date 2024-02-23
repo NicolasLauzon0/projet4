@@ -7,7 +7,7 @@ import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
 
 import GainNode from "../Nodes/Effects/GainNode";
 
-import Sequencer from "../Nodes/Events/Sequencer.jsx";
+import Sequencer from "../Nodes/Event/Sequencer.jsx";
 
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
@@ -32,6 +32,7 @@ const nodeTypes = {
   gain: GainNode,
   out: OutNode,
   player: Player,
+  sequencer: Sequencer,
 };
 
 const Flow = () => {
@@ -66,6 +67,11 @@ const Flow = () => {
           store.createNode("player");
         }}>
           Add Player
+        </button>
+        <button onClick={() => {
+          store.createNode("sequencer");
+        }}>
+          Add Sequencer
         </button>
       </Panel>
       <Background color="#aaa" />
