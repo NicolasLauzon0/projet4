@@ -1,40 +1,65 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
-import * as Tone from "tone";
-import { useEffect, useMemo } from "react";
 
 const selector = (id, data) => (store) => ({
-  setRows: (e) => store.updateNode(id, { rows: e.target.value }),
-  setColumns: (e) => store.updateNode(id, { cols: e.target.value }),
-  setNotes: (e) => store.updateNode(id, { notes: e }),
-});
-
-const Sequencer = ({ id, data }) => {
-  const { setRows, setColumns, setNotes } = useStore(selector(id), shallow);
-
-  const notes = useMemo(() => {
+  setRows: (e) => {
+    const newRows = parseInt(e.target.value);
+    const { cols } = data;
     const notes = [];
-    for (let i = 0; i < data.rows; i++) {
+
+    // Construire un nouveau tableau de notes avec les nouvelles lignes
+    for (let i = 0; i < newRows; i++) {
       notes[i] = [];
-      for (let j = 0; j < data.cols; j++) {
-        notes[i][j] = false;
+      for (let j = 0; j < cols; j++) {
+        notes[i][j] = data.notes[i]?.[j] || false;
       }
     }
-    return notes;
-  }, [data.rows, data.cols]);
-  console.log("notes", notes);
 
-  useEffect(() => {
-    const node = new Tone.Sequence((time, note) => {
-      console.log("note", note);
-    }, notes, "4n");
-    node.start(0);
-    Tone.Transport.start();
-    return () => {
-      node.dispose();
-    };
-  }, [notes]);
+    // Mettre à jour les données dans le magasin
+    store.updateNode(id, { rows: newRows, notes });
+  },
+  setColumns: (e) => {
+    const newCols = parseInt(e.target.value);
+    const { rows } = data;
+    const notes = [];
+
+    // Construire un nouveau tableau de notes avec les nouvelles colonnes
+    for (let i = 0; i < rows; i++) {
+      notes[i] = [];
+      for (let j = 0; j < newCols; j++) {
+        notes[i][j] = data.notes[i]?.[j] || false;
+      }
+    }
+
+    // Mettre à jour les données dans le magasin
+    store.updateNode(id, { cols: newCols, notes });
+  },
+  setNotes: (e) => {
+    const [row, col] = e.target.id.split("-").map(Number);
+    const { rows, cols } = data;
+    const notes = [];
+
+    // Construire un tableau de notes avec les bonnes dimensions
+    for (let i = 0; i < rows; i++) {
+      notes[i] = [];
+      for (let j = 0; j < cols; j++) {
+        notes[i][j] = data.notes[i]?.[j] || false;
+      }
+    }
+
+    // Mettre à jour la valeur de la case à cocher
+    notes[row][col] = e.target.checked;
+
+    // Mettre à jour les données dans le magasin
+    store.updateNode(id, { notes });
+  }
+});
+
+
+const Sequencer = ({ id, data }) => {
+  const { setRows, setColumns, setNotes } = useStore(selector(id, data), shallow);
+  console.log(data.notes);
 
   return (
     <div className="node sequencer">
@@ -66,11 +91,7 @@ const Sequencer = ({ id, data }) => {
                       <input
                         type="checkbox"
                         id={ids}
-                        checked={notes[rowId][colId]}
-                        onChange={(e) => {
-                          notes[rowId][colId] = e.target.checked;
-                          setNotes(notes);
-                        }}
+                        onChange={setNotes}
                       />
                     </label>
                   </div>

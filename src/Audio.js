@@ -35,10 +35,7 @@ export function updateAudioNode(id, data) {
 export function createAudioNode(id, type, data) {
   switch (type) {
     case 'amSynth': {
-      const node = new Tone.AMSynth()
-      const loop = new Tone.Loop((time) => {
-        node.triggerAttackRelease("C4", "8n", time);
-      }, "4n").start(0);
+      const node = new Tone.AMSynth();
       node.data = data;
       nodes.set(id, node);
       break;
@@ -65,9 +62,10 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case 'sequencer': {
-      const node = new Tone.Sequence((time, note) => {
-        console.log("note", note);
-      }, data.notes, "8n");
+      const node = new Tone.Sequence((time, value) => {
+        console.log("value", value);
+      }, data.notes, "4n");
+
       node.data = data;
       nodes.set(id, node);
       break;
@@ -79,6 +77,7 @@ export function createAudioNode(id, type, data) {
 
 
 function handleSequencerConnection(source, target) {
+ 
 }
 
 // Function to connect two audio nodes
