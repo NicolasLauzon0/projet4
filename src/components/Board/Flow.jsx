@@ -36,17 +36,14 @@ const nodeTypes = {
 };
 
 const Flow = () => {
-
-
   const store = useStore(selector, shallow);
-
   return (
     <ReactFlow
       nodes={store.nodes}
       edges={store.edges}
       onNodesChange={store.onNodesChange}
       onEdgesChange={store.onEdgesChange}
-      onNodesDelete={store.removeNode}
+      onNodesDelete={store.onNodesDelete}
       onConnect={store.addEdge}
       onEdgesDelete={store.onEdgesDelete}
       nodeTypes={nodeTypes}

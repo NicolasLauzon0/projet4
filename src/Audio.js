@@ -1,4 +1,5 @@
 import * as Tone from 'tone';
+import { useStore } from './store/Store';
 
 // Create a gain node connected to the destination
 const outNode = new Tone.Gain().toDestination();
@@ -12,6 +13,7 @@ nodes.set('1', outNode);
 
 export function updateAudioNode(id, data) {
   const node = nodes.get(id);
+  node.data = { ...node.data, ...data }
   for (const [key, val] of Object.entries(data)) {
     if (typeof val === 'object' && !Array.isArray(val)) {
       for (const [k, v] of Object.entries(val)) {
@@ -29,13 +31,15 @@ export function updateAudioNode(id, data) {
       }
     }
   }
+  console.log(node);
 }
+
 
 
 export function createAudioNode(id, type, data) {
   switch (type) {
     case 'amSynth': {
-      const node = new Tone.AMSynth();
+      const node = new Tone.AMSynth(data);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -56,16 +60,13 @@ export function createAudioNode(id, type, data) {
       const node = new Tone.Player(data.url);
       node.autostart = true;
       node.loop = data.loop;
-      
+
       node.data = data;
       nodes.set(id, node);
       break;
     }
     case 'sequencer': {
-      const node = new Tone.Sequence((time, value) => {
-        console.log("value", value);
-      }, data.notes, "4n");
-
+      const node = createSequence(data);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -76,33 +77,112 @@ export function createAudioNode(id, type, data) {
 }
 
 
-function handleSequencerConnection(source, target) {
- 
+
+function createSequence(data) {
+  const sequence = new Tone.Sequence(
+    (time, note) => {
+      sequence.data.outputs.forEach((output, index) => {
+        if (sequence.data.notes[index][note]) {
+          if (output.type === "Gain" || output.type === "") return;
+          output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
+        }
+      });
+    },
+    [...Array.from({ length: data.cols }, (_, index) => index)],
+  );
+  sequence.start(0);
+  return sequence;
 }
 
-// Function to connect two audio nodes
-export function connect(sourceId, targetId) {
+
+
+function handleSequencerConnection(source, id, data, sourceHandle) {
+  const outputRef = source.data.outputs;
+  console.log(outputRef);
+  const updatedOutputs = outputRef.map((output, index) => {
+    if (sourceHandle === index.toString()) {
+      return { id: index.toString(), type: data.name, data: data };
+    }
+    return output;
+  });
+
+  console.log(updatedOutputs);
+  useStore.getState().updateOutputs(id, { outputs: updatedOutputs });
+
+  updateAudioNode(id, { outputs: updatedOutputs });
+}
+
+
+
+export function connect(data) {
+  const {
+    source: sourceId,
+    sourceHandle: sourceHandle,
+    target: targetId,
+    targetHandle: targetHandle
+  } = data;
+
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
 
   if (source.name === "Sequence") {
-    handleSequencerConnection(source, target);
+    handleSequencerConnection(source, sourceId, target, sourceHandle);
     return;
   }
   source.connect(target);
 }
 
+
+
+function handleSequencerDisconnection(source, id, sourceHandle) {
+  const outputRef = source.data.outputs;
+  const updatedOutputs = outputRef.map((output, index) => {
+    if (sourceHandle === index.toString()) {
+      return { id: index.toString(), type: "", data: {} };
+    }
+    return output;
+  });
+
+  useStore.getState().updateOutputs(id, { outputs: updatedOutputs });
+  updateAudioNode(id, { outputs: updatedOutputs });
+}
+
+
+
 // Function to disconnect two audio nodes
-export function disconnect(sourceId, targetId) {
+export function disconnect(edge) {
+  const {
+    source: sourceId,
+    sourceHandle,
+    target: targetId,
+    targetHandle } = edge;
+
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
-
+  
   if (source.name === "Sequence") {
-    source.callback = null;
-    source.dispose();
+    handleSequencerDisconnection(source, sourceId, sourceHandle);
     return;
   }
+
   source.disconnect(target);
+}
+
+
+
+// Function to remove an audio node
+export function removeAudioNode(id) {
+  const node = nodes.get(id);
+
+  if (node.name === "Sequence") {
+    node.dispose();
+    nodes.delete(id);
+    return;
+  }
+
+  // Si ce n'est pas un séquenceur, déconnectez simplement le nœud et supprimez-le
+  node.disconnect();
+  nodes.delete(id);
 }
 
 
@@ -116,16 +196,8 @@ export function playPlayerNode(id) {
       node.start();
     });
   }
-  
-}
 
-// Function to remove an audio node
-export function removeAudioNode(id) {
-  const node = nodes.get(id);
-  node.disconnect();
-  nodes.delete(id);
 }
-
 
 
 
@@ -134,11 +206,13 @@ export function isRunning() {
   return Tone.Transport.state === 'started';
 }
 
+
+
 // Fonction pour démarrer ou arrêter la lecture audio
 export function toggleAudio() {
   return new Promise((resolve, reject) => {
     if (isRunning()) {
-      // Mettez en pause la lecture audio
+      Tone.Transport.stop();
       Tone.Transport.pause();
       resolve();
     } else {

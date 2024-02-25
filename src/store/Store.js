@@ -48,7 +48,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     },
                     harmonicity: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = { x: 300, y: -300 };
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -123,18 +123,21 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "sequencer": {
                 const data = {
-                    rows: 2,
+                    rows: 1,
                     cols: 16,
                     notes: [
                         [
                             false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
-                        ],
-                        [
-                            false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
-                        ],
-                    ],    
+                        ]
+                    ],
+                    outputs: [{
+                        id: "0",
+                        type: "",
+                        data: {},
+                    }],
+                    subdivision: "16",
                 };
-                const position = { x: 0, y: 0 };
+                const position = { x: -600, y: -400 };
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -169,7 +172,18 @@ export const useStore = createWithEqualityFn((set, get) => ({
         set({
             edges: [edge, ...get().edges],
         });
-        connect(data.source, data.target);
+        connect(data);
+    },
+    updateOutputs(id, outputs) {
+        console.log(outputs);
+        set((state) => ({
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    return { ...node, data: { ...node.data, ...outputs } };
+                }
+                return node;
+            }),
+        }));
     },
     onNodesDelete(nodes) {
         for (const { id } of nodes) {
@@ -177,9 +191,10 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }
     },
     onEdgesDelete(edges) {
-        for (const { source, target } of edges) {
-            disconnect(source, target);
-        }
+        console.log(edges);
+        Array.from(edges).forEach((edge) => {
+            disconnect(edge);
+        });
     },
     updateNode(id, data) {
         updateAudioNode(id, data);
@@ -211,7 +226,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     play(id) {
-
         playPlayerNode(id);
     }
 }));

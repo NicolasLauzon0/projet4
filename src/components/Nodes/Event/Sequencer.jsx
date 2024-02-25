@@ -16,8 +16,20 @@ const selector = (id, data) => (store) => ({
       }
     }
 
+    const updatedOutputs = Array.from({ length: newRows }, (_, index) => {
+      if (index < data.outputs.length) {
+        return data.outputs[index];
+      } else {
+        return { id: index.toString(), type: "", data: {} };
+      }
+    });
+
     // Mettre à jour les données dans le magasin
-    store.updateNode(id, { rows: newRows, notes });
+    store.updateNode(id, {
+      rows: newRows,
+      notes: notes,
+      outputs: updatedOutputs,
+    });
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
@@ -33,7 +45,7 @@ const selector = (id, data) => (store) => ({
     }
 
     // Mettre à jour les données dans le magasin
-    store.updateNode(id, { cols: newCols, notes });
+    store.updateNode(id, { cols: newCols, notes: notes });
   },
   setNotes: (e) => {
     const [row, col] = e.target.id.split("-").map(Number);
@@ -52,15 +64,15 @@ const selector = (id, data) => (store) => ({
     notes[row][col] = e.target.checked;
 
     // Mettre à jour les données dans le magasin
-    store.updateNode(id, { notes });
-  }
+    store.updateNode(id, { notes: notes });
+  },
 });
 
-
 const Sequencer = ({ id, data }) => {
-  const { setRows, setColumns, setNotes } = useStore(selector(id, data), shallow);
-  console.log(data.notes);
-
+  const { setRows, setColumns, setNotes } = useStore(
+    selector(id, data),
+    shallow
+  );
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
@@ -88,11 +100,7 @@ const Sequencer = ({ id, data }) => {
                 return (
                   <div className="cell" key={ids}>
                     <label key={ids}>
-                      <input
-                        type="checkbox"
-                        id={ids}
-                        onChange={setNotes}
-                      />
+                      <input type="checkbox" id={ids} onChange={setNotes} />
                     </label>
                   </div>
                 );

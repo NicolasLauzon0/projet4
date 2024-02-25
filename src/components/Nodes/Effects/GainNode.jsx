@@ -20,7 +20,7 @@ const GainNode = ({ id, data }) => {
                 <input
                     type="range"
                     min="0"
-                    max="1"
+                    max="2"
                     step="0.01"
                     className="nodrag"
                     value={data.gain || 0.5}
