@@ -17,13 +17,17 @@ const selector = (id, data) => (store) => ({
     }
 
     const updatedOutputs = Array.from({ length: newRows }, (_, index) => {
-      if (index < data.outputs.length) {
-        return data.outputs[index];
-      } else {
+      if (newRows > data.rows) {
+        if (data.outputs[index]) {
+          return data.outputs[index];
+        }
         return { id: index.toString(), type: "", data: {} };
+      } else {
+        return data.outputs[index];
       }
     });
 
+    console.log(updatedOutputs);
     // Mettre à jour les données dans le magasin
     store.updateNode(id, {
       rows: newRows,
