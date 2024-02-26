@@ -174,6 +174,17 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
         connect(data);
     },
+    updateNodeInternals(id, data) {
+        set((state) => ({
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    return { ...node, data: { ...node.data, ...data } };
+                }
+                return node;
+            }
+            ),
+        }));
+    },
     updateOutputs(id, outputs) {
         console.log(outputs);
         set((state) => ({
