@@ -1,4 +1,4 @@
-import { applyNodeChanges, applyEdgeChanges } from 'reactflow';
+import { applyNodeChanges, applyEdgeChanges, getOutgoers, } from 'reactflow';
 import { nanoid } from "nanoid";
 import { createWithEqualityFn } from "zustand/traditional";
 import {
@@ -11,7 +11,6 @@ import {
     createAudioNode,
     playPlayerNode,
 } from '../Audio';
-import HH from '../assets/sons/hh.wav';
 
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
@@ -100,12 +99,15 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 });
                 break;
             }
-            case "player": {
+            case "sampler": {
                 const data = {
-                    gain: 0.5,
-                    loop: true,
-                    url: HH,
-                };
+                    attack: 0.5,
+                    urls: {
+                        C2: "../public/snare.wav",
+                    },
+                    baseUrl: "public/hh.wav",
+
+                }
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
                 set({
@@ -174,17 +176,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
         connect(data);
     },
-    updateNodeInternals(id, data) {
-        set((state) => ({
-            nodes: state.nodes.map((node) => {
-                if (node.id === id) {
-                    return { ...node, data: { ...node.data, ...data } };
-                }
-                return node;
-            }
-            ),
-        }));
-    },
+
     updateOutputs(id, outputs) {
         console.log(outputs);
         set((state) => ({
@@ -207,6 +199,23 @@ export const useStore = createWithEqualityFn((set, get) => ({
             disconnect(edge);
         });
     },
+    isValidConnection(connection) {
+        const target = get().nodes.find((node) => node.id === connection.target);
+        const hasCycle = (node, visited = new Set()) => {
+            if (visited.has(node.id)) return false;
+
+            visited.add(node.id);
+
+            for (const outgoer of getOutgoers(node, get().nodes, get().edges)) {
+                if (outgoer.id === connection.source) return true;
+                if (hasCycle(outgoer, visited)) return true;
+            }
+        };
+
+        if (target.id === connection.source) return false;
+        return !hasCycle(target);
+
+    },
     updateNode(id, data) {
         updateAudioNode(id, data);
         set((state) => ({
@@ -223,7 +232,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         }
                         return acc;
                     }, {});
-
                     return { ...node, data: { ...node.data, ...newData } };
                 }
                 return node;

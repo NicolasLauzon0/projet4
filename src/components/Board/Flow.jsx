@@ -13,8 +13,7 @@ import Sequencer from "../Nodes/Event/Sequencer.jsx";
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import "reactflow/dist/style.css";
-import Player from "../Nodes/Source/Player.jsx";
-
+import Sampler from "../Nodes/Source/Sampler.jsx";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -25,9 +24,7 @@ const selector = (store) => ({
   onNodesDelete: store.onNodesDelete,
   onEdgesDelete: store.onEdgesDelete,
   createNode: store.createNode,
-  onEdgeUpdateStart: store.onEdgeUpdateStart,
-  onEdgeUpdate: store.onEdgeUpdate,
-  onEdgeUpdateEnd: store.onEdgeUpdateEnd,
+  isValidConnection: store.isValidConnection,
 });
 
 const nodeTypes = {
@@ -35,7 +32,7 @@ const nodeTypes = {
   amSynth: AMSynthNode,
   gain: GainNode,
   out: OutNode,
-  player: Player,
+  sampler: Sampler,
   sequencer: Sequencer,
 };
 
@@ -84,14 +81,12 @@ const menu = [
     name: "Source",
     children: [
       {
-        name: "Player",
-        type: "player",
+        name: "Sampler",
+        type: "sampler",
       },
     ],
   },
 ];
-
-
 
 const Flow = () => {
   const store = useStore(selector, shallow);
@@ -106,48 +101,53 @@ const Flow = () => {
       onNodesChange={store.onNodesChange}
       onEdgesChange={store.onEdgesChange}
       onNodesDelete={store.onNodesDelete}
-      onEdgeUpdateStart={store.onEdgeUpdateStart}
-      onEdgeUpdate={store.onEdgeUpdate}
-      onEdgeUpdateEnd={store.onEdgeUpdateEnd}
       onConnect={store.addEdge}
       onEdgesDelete={store.onEdgesDelete}
       nodeTypes={nodeTypes}
+      isValidConnection={store.isValidConnection}
       fitView
     >
       <Panel position="bottom-right">
         <div className="menu">
-          <div onClick={(e) => {
-            setMenuOpen(!menuOpen)
-            e.target.classList.add("menubutton__container--active")
-          }}
+          <div
+            onClick={(e) => {
+              setMenuOpen(!menuOpen);
+              e.target.classList.add("menubutton__container--active");
+            }}
             className="menubutton"
           >
-            <div className="menubutton__container">
-
-            </div>
+            <div className="menubutton__container"></div>
           </div>
           <div className="menu-items">
-            {menuOpen &&
-              menu.map((item, index) => (
-                <div key={index} className="menu-item" onClick={() =>
-                  selectedMenu === item ? setSelectedMenu(null) : setSelectedMenu(item)
-                }>
-                  {item.name}
-                  {selectedMenu === item &&
-                    item.children.map((child, index) => (
-                      <div
-                        key={index}
-                        className="menu-item"
-                        onClick={() => {
-                          store.createNode(child.type);
-                          setMenuOpen(false);
-                        }}
-                      >
-                        {child.name}
-                      </div>
-                    ))}
-                </div>
-              ))}
+            <div className="menu-items__container">
+              {menuOpen &&
+                menu.map((item, index) => (
+                  <div
+                    key={index}
+                    className="menu-item"
+                    onClick={() =>
+                      selectedMenu === item
+                        ? setSelectedMenu(null)
+                        : setSelectedMenu(item)
+                    }
+                  >
+                    {item.name}
+                    {selectedMenu === item &&
+                      item.children.map((child, index) => (
+                        <div
+                          key={index}
+                          className="menu-item"
+                          onClick={() => {
+                            store.createNode(child.type);
+                            setMenuOpen(false);
+                          }}
+                        >
+                          {child.name}
+                        </div>
+                      ))}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </Panel>

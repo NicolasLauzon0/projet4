@@ -1,7 +1,6 @@
-import { Handle, useUpdateNodeInternals } from "reactflow";
+import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
-import { useCallback } from "react";
 
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
@@ -36,6 +35,8 @@ const selector = (id, data) => (store) => ({
       notes: notes,
       outputs: updatedOutputs,
     });
+
+    // Mettre à jour les sorties
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
@@ -80,23 +81,13 @@ const Sequencer = ({ id, data }) => {
     shallow
   );
 
-  const updateNode = useCallback(() => {
-    useUpdateNodeInternals(id);
-  }, [id, data]);
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
         <div className="sequencer__controls">
           <label>
             Rows
-            <input type="number"
-              value={data.rows}
-              onChange={(e) => {
-                setRows(e);
-                updateNode;
-              }}
-              readOnly
-              min={1} />
+            <input type="number" value={data.rows} onChange={setRows} min={1} />
           </label>
           <label>
             Columns
@@ -117,15 +108,17 @@ const Sequencer = ({ id, data }) => {
                 return (
                   <div className="cell" key={ids}>
                     <label key={ids}>
-                      <input type="checkbox" id={ids} onChange={setNotes} />
+                      <input
+                        type="checkbox"
+                        id={ids}
+                        onChange={setNotes}
+                        checked={data.notes[rowId][colId]}
+                      />
                     </label>
                   </div>
                 );
               })}
-              <Handle
-                type="source"
-                position="right"
-                id={rowId + ""} />
+              <Handle type="source" position="right" id={rowId + ""} />
             </div>
           ))}
         </div>

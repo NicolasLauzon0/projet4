@@ -56,15 +56,14 @@ export function createAudioNode(id, type, data) {
       nodes.set(id, node);
       break;
     }
-    case 'player': {
-      const node = new Tone.Player(data.url);
-      node.autostart = true;
-      node.loop = data.loop;
-
+    case 'sampler': {
+      const node = new Tone.Sampler(data);
       node.data = data;
       nodes.set(id, node);
+      playSamplerTest(node);
       break;
     }
+
     case 'sequencer': {
       const node = createSequence(data);
       node.data = data;
@@ -76,6 +75,20 @@ export function createAudioNode(id, type, data) {
   }
 }
 
+function playSamplerTest(node) {
+  const buffer = new Tone.Buffer("public/snare.wav")
+  buffer.onLoad().then(() => {
+    node.triggerAttack("C2");
+  });
+}
+
+
+function playSamplerNode(output) {
+  Tone.Buffer.on('load', () => {
+    output.data.triggerAttack("C2");
+  });
+}
+
 
 
 function createSequence(data) {
@@ -84,6 +97,8 @@ function createSequence(data) {
       sequence.data.outputs.forEach((output, index) => {
         if (sequence.data.notes[index][note]) {
           if (output.type === "Gain" || output.type === "") return;
+          if (output.type === "Sampler") {
+          }
           output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
         }
       });
@@ -143,8 +158,7 @@ function handleSequencerDisconnection(source, id, sourceHandle) {
     return output;
   });
 
-  useStore.getState().updateOutputs(id, { outputs: updatedOutputs });
-  updateAudioNode(id, { outputs: updatedOutputs });
+  useStore.getState().updateNode(id, { outputs: updatedOutputs });
 }
 
 
@@ -159,12 +173,13 @@ export function disconnect(edge) {
 
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
-  
+
   if (source.name === "Sequence") {
     handleSequencerDisconnection(source, sourceId, sourceHandle);
     return;
   }
 
+  source.dispose();
   source.disconnect(target);
 }
 
