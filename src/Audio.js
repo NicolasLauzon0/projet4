@@ -57,17 +57,10 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case 'sampler': {
-      const sampler = new Tone.Sampler({
-        urls: {
-          C2: "hh.wav"
-        },
-        baseUrl: "./assets/sons/",
-        onload: () => {
-          sampler.triggerAttackRelease("C2", "8n");
-        }
-      }).toDestination();
-      sampler.data = data;
-      nodes.set(id, sampler);
+      const node = new Tone.Sampler(data);
+      node.data = data;
+      node.sync();
+      nodes.set(id, node);
       break;
     }
 
@@ -82,16 +75,6 @@ export function createAudioNode(id, type, data) {
   }
 }
 
-function playSamplerTest(node) {
-
-}
-
-
-function playSamplerNode(output) {
-  output.onload = () => { // Utilisez la propriété onload de l'échantillonneur, pas celle des données
-    output.triggerAttackRelease("C2", "8n");
-  };
-}
 
 
 
@@ -103,7 +86,7 @@ function createSequence(data) {
         if (sequence.data.notes[index][note]) {
           if (output.type === "Gain" || output.type === "") return;
           if (output.type === "Sampler") {
-            playSamplerNode(output);
+            output.data.triggerAttackRelease("C2", time);
           }
           output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
         }

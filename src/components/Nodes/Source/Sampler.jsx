@@ -17,9 +17,9 @@ const Sampler = ({ id, data }) => {
         <h3>Sampler</h3>
 
         <select value={data.urls.C2} onChange={setUrl} className="nodrag">
-          <option value="/snare.wav">Snare</option>
-          <option value="/kick.wav">Kick</option>
-          <option value="/hh.wav">Hihat</option>
+          <option value="snare.wav">Snare</option>
+          <option value="kick.wav">Kick</option>
+          <option value="hh.wav">Hihat</option>
         </select>
 
         <label>
