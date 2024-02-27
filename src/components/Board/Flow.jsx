@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReactFlow, { Background, Controls, Panel } from "reactflow";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
@@ -14,6 +14,9 @@ import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import "reactflow/dist/style.css";
 import Sampler from "../Nodes/Source/Sampler.jsx";
+import Menu from "./Menu/Menu.jsx";
+
+import file from "../../store/SaveTest.json";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -25,6 +28,10 @@ const selector = (store) => ({
   onEdgesDelete: store.onEdgesDelete,
   createNode: store.createNode,
   isValidConnection: store.isValidConnection,
+  saveProject: store.saveProject,
+  createNodeFromData: store.createNodeFromData,
+  createEdgeFromData: store.createEdgeFromData,
+  reset: store.reset,
 });
 
 const nodeTypes = {
@@ -36,6 +43,22 @@ const nodeTypes = {
   sequencer: Sequencer,
 };
 
+
+const menuProject = [
+  {
+    name: "Project",
+    children: [
+      {
+        name: "Save",
+        type: "save",
+      },
+      {
+        name: "Load",
+        type: "load",
+      },
+    ],
+  },
+];
 const menu = [
   {
     name: "Instruments",
@@ -69,15 +92,6 @@ const menu = [
     ],
   },
   {
-    name: "Master",
-    children: [
-      {
-        name: "Out",
-        type: "out",
-      },
-    ],
-  },
-  {
     name: "Source",
     children: [
       {
@@ -90,10 +104,24 @@ const menu = [
 
 const Flow = () => {
   const store = useStore(selector, shallow);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState(null);
 
-  console.log("render");
+  const loadProject = useCallback(() => {
+    const fetchData = async () => {
+      const data = await JSON.parse(localStorage.getItem("project"))
+      
+
+      await store.reset();
+      const nodes = store.nodes;
+      const edges = store.edges;
+      await data.nodes.forEach((node) => {
+        store.createNodeFromData(node);
+      });
+      await data.edges.forEach((edge) => {
+        store.createEdgeFromData(edge);
+      });
+    }
+    fetchData();
+  }, []);
   return (
     <ReactFlow
       nodes={store.nodes}
@@ -108,48 +136,7 @@ const Flow = () => {
       fitView
     >
       <Panel position="bottom-right">
-        <div className="menu">
-          <div
-            onClick={(e) => {
-              setMenuOpen(!menuOpen);
-              e.target.classList.add("menubutton__container--active");
-            }}
-            className="menubutton"
-          >
-            <div className="menubutton__container"></div>
-          </div>
-          <div className="menu-items">
-            <div className="menu-items__container">
-              {menuOpen &&
-                menu.map((item, index) => (
-                  <div
-                    key={index}
-                    className="menu-item"
-                    onClick={() =>
-                      selectedMenu === item
-                        ? setSelectedMenu(null)
-                        : setSelectedMenu(item)
-                    }
-                  >
-                    {item.name}
-                    {selectedMenu === item &&
-                      item.children.map((child, index) => (
-                        <div
-                          key={index}
-                          className="menu-item"
-                          onClick={() => {
-                            store.createNode(child.type);
-                            setMenuOpen(false);
-                          }}
-                        >
-                          {child.name}
-                        </div>
-                      ))}
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
+        <Menu menuProject={menuProject} menu={menu} store={store} loadProject={loadProject} />
       </Panel>
       <Background color="#aaa" />
       <Controls />

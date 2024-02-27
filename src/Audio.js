@@ -37,6 +37,9 @@ export function updateAudioNode(id, data) {
 
 
 export function createAudioNode(id, type, data) {
+
+  if (nodes.has(id)) return;
+
   switch (type) {
     case 'amSynth': {
       const node = new Tone.AMSynth(data);

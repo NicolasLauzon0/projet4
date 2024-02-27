@@ -44,7 +44,7 @@
                 display: grid;
                 grid-template-rows: 0fr;
 
-                padding: 1.5rem 1rem;
+                padding: 1rem 0.8rem;
                 margin-inline: 3rem;
 
                 font-family: var(--font);
@@ -201,7 +201,7 @@
             right: 3rem;
             bottom: 5rem;
         }
-        max-height: 600px;
+        max-height: 700px;
         max-width: 600px;
         border-width: 4px;
     }

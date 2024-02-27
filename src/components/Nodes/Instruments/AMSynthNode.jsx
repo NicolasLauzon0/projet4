@@ -42,7 +42,7 @@ const AMSynthNode = ({ id, data }) => {
             <div className="type">
               <label>Sine</label>
               <select
-                value={data.oscillator.type}
+                value={data.oscillator?.type}
                 onChange={setOscilatorType}
               >
                 <option value="sine">Sine</option>
@@ -60,7 +60,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.envelope.attack}
+                  value={data.envelope?.attack}
                   onChange={setOscilatorAttack}
                 />
               </div>
@@ -72,7 +72,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.envelope.decay }
+                  value={data.envelope?.decay }
                   onChange={setOscilatorDecay}
                 />
               </div>
@@ -84,7 +84,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.envelope.sustain}
+                  value={data.envelope?.sustain}
                   onChange={setOscilatorSustain}
                 />
               </div>
@@ -96,7 +96,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className="nodrag"
-                  value={data.envelope.release}
+                  value={data.envelope?.release}
                   onChange={setOscilatorRelease}
                 />
               </div>
@@ -107,7 +107,7 @@ const AMSynthNode = ({ id, data }) => {
             <div className="type">
               <label>Type</label>
               <select
-                value={data.modulation.type}
+                value={data.modulation?.type}
                 onChange={setModulationType}
               >
                 <option value="sine">Sine</option>
@@ -125,7 +125,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulationEnvelope.attack}
+                  value={data.modulationEnvelope?.attack}
                   onChange={setModulationAttack}
                 />
               </div>
@@ -137,7 +137,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulationEnvelope.decay}
+                  value={data.modulationEnvelope?.decay}
                   onChange={setModulationDecay}
                 />
               </div>
@@ -149,7 +149,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulationEnvelope.sustain}
+                  value={data.modulationEnvelope?.sustain}
                   onChange={setModulationSustain}
                 />
               </div>
@@ -161,7 +161,7 @@ const AMSynthNode = ({ id, data }) => {
                   max="1"
                   step="0.01"
                   className='nodrag'
-                  value={data.modulationEnvelope.release}
+                  value={data.modulationEnvelope?.release}
                   onChange={setModulationRelease}
                 />
               </div>
@@ -177,7 +177,7 @@ const AMSynthNode = ({ id, data }) => {
               max="1"
               step="0.01"
               className='nodrag'
-              value={data.harmonicity}
+              value={data?.harmonicity}
               onChange={setHarmonicity}
             />
           </div>

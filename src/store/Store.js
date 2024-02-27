@@ -1,4 +1,4 @@
-import { applyNodeChanges, applyEdgeChanges, getOutgoers, } from 'reactflow';
+import { applyNodeChanges, applyEdgeChanges, useReactFlow } from 'reactflow';
 import { nanoid } from "nanoid";
 import { createWithEqualityFn } from "zustand/traditional";
 import {
@@ -11,6 +11,7 @@ import {
     createAudioNode,
     playPlayerNode,
 } from '../Audio';
+
 
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
@@ -150,6 +151,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                             position,
                         },
                     ],
+
                 });
                 break;
             }
@@ -157,12 +159,66 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 break;
         }
     },
+    reset() {
+        set({
+            nodes: [],
+            edges: [],
+        });
+
+        const nodes = get().nodes;
+        const edges = get().edges;
+    },
+    test() {
+        const nodes = get().nodes;
+        const edges = get().edges;
+        console.log(nodes);
+        console.log(edges);
+    },
+    createNodeFromData(data) {
+        let id;
+        let type;
+        let position;
+        let dataData;
+        if (data.data.type === "sequencer") {
+            id = data.data.id;
+            type = data.data.type;
+            position = data.data.position;
+            dataData = data.data;
+        } else {
+            id = data.id;
+            type = data.type;
+            position = data.position;
+            dataData = data.data;
+        }
+        console.log(position);
+        createAudioNode(id, type, data);
+        set({
+            nodes: [
+                ...get().nodes,
+                {
+                    id,
+                    type,
+                    data: dataData,
+                    position,
+                },
+            ],
+        });
+    },
+    createEdgeFromData(data) {
+        set({
+            edges: [
+                ...get().edges,
+                data,
+            ],
+        });
+    },
     onNodesChange(changes) {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
         });
     },
     onEdgesChange(changes) {
+        console.log(changes);
         set({
             edges: applyEdgeChanges(changes, get().edges),
         });
@@ -188,6 +244,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }));
     },
     onNodesDelete(nodes) {
+        console.log(nodes);
         for (const { id } of nodes) {
             removeAudioNode(id);
         }
@@ -198,21 +255,34 @@ export const useStore = createWithEqualityFn((set, get) => ({
             disconnect(edge);
         });
     },
-    isValidConnection(connection) {
-        const target = get().nodes.find((node) => node.id === connection.target);
-        const hasCycle = (node, visited = new Set()) => {
-            if (visited.has(node.id)) return false;
-
-            visited.add(node.id);
-
-            for (const outgoer of getOutgoers(node, get().nodes, get().edges)) {
-                if (outgoer.id === connection.source) return true;
-                if (hasCycle(outgoer, visited)) return true;
-            }
+    saveProject() {
+        const data = {
+            nodes: get().nodes,
+            edges: get().edges,
         };
+        const newData = {
+            ...data,
+            nodes: data.nodes.map(node => {
+                if (node.type === "sequencer") {
+                    console.log(node);
+                    return {
+                        ...node.data,
+                        outputs: Object.values(node.data.outputs).map(output => {
+                            return {
+                                ...output,
+                                data: {}
+                            }
+                        })
+                    }
+                }
+                return { ...node }
+            })
+        };
+        console.log(newData);
 
-        if (target.id === connection.source) return false;
-        return !hasCycle(target);
+        const file = JSON.stringify(newData);
+        console.log(file);
+        localStorage.setItem("project", file);
 
     },
     updateNode(id, data) {

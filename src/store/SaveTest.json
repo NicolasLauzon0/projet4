@@ -1,0 +1,48 @@
+{
+    "nodes": [
+        {
+            "id": "1",
+            "type": "out",
+            "data": {},
+            "position": {
+                "x": 0,
+                "y": 0
+            },
+            "width": 83,
+            "height": 41
+        },
+        {
+            "rows": 1,
+            "cols": 16,
+            "notes": [
+                [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ]
+            ],
+            "outputs": [
+                {
+                    "id": "0",
+                    "type": "",
+                    "data": {}
+                }
+            ],
+            "subdivision": "16"
+        }
+    ],
+    "edges": []
+}
