@@ -103,10 +103,9 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     attack: 0.5,
                     urls: {
-                        C2: "../public/snare.wav",
+                        "C2": "/hh.wav",
                     },
-                    baseUrl: "public/hh.wav",
-
+                    baseUrl: "../assets/sons/",
                 }
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);

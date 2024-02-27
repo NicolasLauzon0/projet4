@@ -57,10 +57,17 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case 'sampler': {
-      const node = new Tone.Sampler(data);
-      node.data = data;
-      nodes.set(id, node);
-      playSamplerTest(node);
+      const sampler = new Tone.Sampler({
+        urls: {
+          C2: "hh.wav"
+        },
+        baseUrl: "./assets/sons/",
+        onload: () => {
+          sampler.triggerAttackRelease("C2", "8n");
+        }
+      }).toDestination();
+      sampler.data = data;
+      nodes.set(id, sampler);
       break;
     }
 
@@ -76,18 +83,16 @@ export function createAudioNode(id, type, data) {
 }
 
 function playSamplerTest(node) {
-  const buffer = new Tone.Buffer("public/snare.wav")
-  buffer.onLoad().then(() => {
-    node.triggerAttack("C2");
-  });
+
 }
 
 
 function playSamplerNode(output) {
-  Tone.Buffer.on('load', () => {
-    output.data.triggerAttack("C2");
-  });
+  output.onload = () => { // Utilisez la propriété onload de l'échantillonneur, pas celle des données
+    output.triggerAttackRelease("C2", "8n");
+  };
 }
+
 
 
 
@@ -98,6 +103,7 @@ function createSequence(data) {
         if (sequence.data.notes[index][note]) {
           if (output.type === "Gain" || output.type === "") return;
           if (output.type === "Sampler") {
+            playSamplerNode(output);
           }
           output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
         }
