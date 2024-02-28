@@ -1,21 +1,34 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import { useEffect, useRef } from "react";
+import { nodes } from "../../../Audio.js";
 
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
-    const updatedOutputs = data.outputs.slice();
+    if (newRows < 1) return;
+    const { cols } = data;
+    const notes = [];
 
-    if (newRows > data.rows) {
-      for (let i = data.rows; i < newRows; i++) {
-        updatedOutputs.push({ id: i.toString(), type: "", data: {} });
+    // Construire un nouveau tableau de notes avec les nouvelles lignes
+    for (let i = 0; i < newRows; i++) {
+      notes[i] = [];
+      for (let j = 0; j < cols; j++) {
+        notes[i][j] = data.notes[i]?.[j] || false;
       }
-    } else {
-      updatedOutputs.splice(newRows, data.rows - newRows);
     }
 
-    console.log(updatedOutputs);
+    const updatedOutputs = Array.from({ length: newRows }, (_, index) => {
+      if (newRows > data.rows) {
+        if (data.outputs[index]) {
+          return data.outputs[index];
+        }
+        return { id: index.toString(), type: "", data: {} };
+      } else {
+        return data.outputs[index];
+      }
+    });
 
     const newNotes = Array.from({ length: newRows }).map((_, i) => {
       return i < data.rows ? data.notes[i] : Array(data.cols).fill(false);
@@ -63,10 +76,25 @@ const Sequencer = ({ id, data }) => {
     selector(id, data),
     shallow
   );
-  console.log("render sequencer");
+  const notes = useRef(null);
+
+  useEffect(() => {
+    notes.current.querySelectorAll(".row").forEach((row, index) => {
+      row.querySelectorAll(".cell").forEach((cell, cellIndex) => {
+        if (cellIndex === data.value) {
+          cell.style.transform = "scale(1.2)";
+        } else {
+          cell.style.transform = "scale(1)";
+        }
+      });
+    });
+  }, [data.value, data.notes]);
+
+
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
+      <h3>Sequencer</h3>
         <div className="sequencer__controls">
           <label>
             Rows
@@ -82,8 +110,7 @@ const Sequencer = ({ id, data }) => {
             />
           </label>
         </div>
-        <h3>Sequencer</h3>
-        <div className="sequencer__grid">
+        <div className="sequencer__grid" ref={notes}>
           {Array.from({ length: data.rows }).map((_, rowId) => (
             <div className="row" key={rowId}>
               {Array.from({ length: data.cols }).map((_, colId) => {

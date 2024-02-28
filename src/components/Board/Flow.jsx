@@ -27,7 +27,6 @@ const selector = (store) => ({
   onNodesDelete: store.onNodesDelete,
   onEdgesDelete: store.onEdgesDelete,
   createNode: store.createNode,
-  isValidConnection: store.isValidConnection,
   saveProject: store.saveProject,
   createNodeFromData: store.createNodeFromData,
   createEdgeFromData: store.createEdgeFromData,
@@ -111,6 +110,7 @@ const Flow = () => {
 
       await store.reset();
       await data.nodes.forEach((node) => {
+        console.log(node);
         store.createNodeFromData(node);
       });
       await data.edges.forEach((edge) => {
@@ -129,7 +129,6 @@ const Flow = () => {
       onConnect={store.addEdge}
       onEdgesDelete={store.onEdgesDelete}
       nodeTypes={nodeTypes}
-      isValidConnection={store.isValidConnection}
       fitView
     >
       <Panel position="bottom-right">

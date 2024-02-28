@@ -8,7 +8,7 @@ const sequencers = new Map();
 // Now you can continue connecting other audio nodes to the gain node or other Tone.js audio nodes without creating new audio contexts
 
 // default nodes
-const nodes = new Map();
+export const nodes = new Map();
 nodes.set('1', outNode);
 
 
@@ -67,7 +67,8 @@ export function createAudioNode(id, type, data) {
     }
 
     case 'sequencer': {
-      const node = createSequence(data);
+      const node = createSequence(data, id);
+      node.data = data;
       nodes.set(id, node);
       console.log(nodes);
       break;
@@ -79,49 +80,26 @@ export function createAudioNode(id, type, data) {
 
 
 
-function createSequence(data) {
-  // Initialize sequence data
-  const sequenceData = {
-    outputs: data.outputs,
-    notes: data.notes,
-    cols: data.cols,
-    id: data.id,
-    rows: data.rows,
-    subdivision: data.subdivision,
-    name: "Sequence",
-  };
+function createSequence(data, id) {
+  const sequence = new Tone.Sequence(
+    (time, note) => {
+      useStore.getState().setCurrentColumn(id, note);
+      sequence.data.outputs.forEach((output, index) => {
 
-  // Start the sequence
-  const sequence = Tone.Transport.scheduleRepeat(() => {
-    // Get the current column index based on the transport time and the subdivision
-    const currentTime = Tone.now();
-    const currentColumn = Math.floor(currentTime / Tone.Time(data.subdivision).toSeconds()) % data.cols;
-    // Iterate through each output in the sequence
-    sequenceData.outputs.forEach((output, index) => {
-      // Check if the note is scheduled to be played at the current column index
-      if (sequenceData.notes[index][currentColumn]) {
-        // Check the type of the output
-        if (output.type === "Gain" || output.type === "") return;
-        // If the output is a Sampler, trigger the attack of note "C2"
-        if (output.type === "Sampler") {
-          output.data.triggerAttackRelease(output.data.urls.C2, currentTime);
-          // Rechargez l'échantillon dès qu'il a fini de jouer
-          output.data.onended = () => {
-            output.data.load(output.data.urls.C2);
-          };
+        if (sequence.data.notes[index][note]) {
+
+          if (output.type === "Gain" || output.type === "") return;
+          if (output.type === "Sampler") {
+            output.data.triggerAttackRelease("C2", time);
+          }
+          output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
         }
-        // Otherwise, trigger the attack of note "C4" (or any other default note)
-        output.data.triggerAttackRelease("C4", currentTime);
-      }
-    });
-  }, data.subdivision);
-
-  // Store the sequencer in the sequencers map
-  sequencers.set(data.id, sequenceData);
-  console.log(sequencers);
-
-  // Return the sequence data
-  return sequenceData;
+      }); 
+    },
+    [...Array.from({ length: data.cols }, (_, index) => index)],
+  );
+  sequence.start(0);
+  return sequence;
 }
 
 
@@ -133,7 +111,7 @@ function createSequence(data) {
 function handleSequencerConnection(source, id, data, sourceHandle) {
   console.log(source, id, data, sourceHandle);
   const outputRef = source.data.outputs;
-  console.log(outputRef);
+
   const updatedOutputs = outputRef.map((output, index) => {
     if (sourceHandle === index.toString()) {
       return { id: index.toString(), type: data.name, data: data };
@@ -156,8 +134,11 @@ export function connect(data) {
     targetHandle: targetHandle
   } = data;
 
+  console.log(data);
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
+
+  console.log(source, target);
 
   if (source.name === "Sequence") {
     handleSequencerConnection(source, sourceId, target, sourceHandle);
@@ -178,6 +159,8 @@ function handleSequencerDisconnection(source, id, sourceHandle) {
   });
 
   useStore.getState().updateNode(id, { outputs: updatedOutputs });
+
+  updateAudioNode(id, { outputs: updatedOutputs });
 }
 
 
@@ -192,12 +175,12 @@ export function disconnect(edge) {
 
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
+  console.log(source, target);
   if (source.name === "Sequence") {
     handleSequencerDisconnection(source, sourceId, sourceHandle);
     return;
   }
 
-  source.dispose();
   source.disconnect(target);
 }
 
@@ -236,6 +219,7 @@ export function toggleAudio() {
       // Essayez de démarrer la lecture audio
       try {
         // Démarrer la lecture audio
+        Tone.start();
         Tone.Transport.start();
         resolve();
       } catch (error) {
@@ -245,3 +229,5 @@ export function toggleAudio() {
     }
   });
 }
+
+

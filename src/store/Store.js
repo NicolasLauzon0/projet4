@@ -1,4 +1,4 @@
-import { applyNodeChanges, applyEdgeChanges, useReactFlow } from 'reactflow';
+import { applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import { nanoid } from "nanoid";
 import { createWithEqualityFn } from "zustand/traditional";
 import {
@@ -136,6 +136,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         type: "",
                         data: {},
                     }],
+                    value: 0,
                     subdivision: "16",
                 };
                 const position = { x: -600, y: -400 };
@@ -159,21 +160,32 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 break;
         }
     },
+    setCurrentColumn(id, value) {
+        set((state) => ({
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    return { ...node, data: { ...node.data, value } };
+                }
+                return node;
+            }),
+        }));
+    },
     reset() {
         const nodes = get().nodes;
         const edges = get().edges;
-        Array.from(edges).forEach((edge) => {
-            disconnect(edge);
-        });
-        for (const { id } of nodes) {
-            removeAudioNode(id);
+        edges.forEach((edges) => {
+            disconnect(edges);
         }
+        );
         set({
-            nodes: [],
             edges: [],
         });
-
-
+        nodes.forEach((node) => {
+            removeAudioNode(node.id);
+        });
+        set({
+            nodes: [],
+        });
     },
     test() {
         const nodes = get().nodes;
@@ -182,10 +194,11 @@ export const useStore = createWithEqualityFn((set, get) => ({
     createNodeFromData(dataRef) {
         const id = dataRef.id;
         const type = dataRef.type;
-        const data = dataRef.data;
         const position = dataRef.position;
+        const data = dataRef.data;
+
         console.log(data);
-        createAudioNode(id, type, data);
+        createAudioNode(id, type, { ...data });
         set({
             nodes: [
                 ...get().nodes,
@@ -260,28 +273,28 @@ export const useStore = createWithEqualityFn((set, get) => ({
             ...data,
             nodes: data.nodes.map(node => {
                 if (node.type === "sequencer") {
-                    console.log(node);
+                    console.log(node.data);
+                    console.log(node.data.outputs);
                     return {
                         ...node,
                         data: {
                             ...node.data,
-                            outputs: Object.keys(node.data.outputs).map((key, index) => {
+                            outputs: Array.from(node.data.outputs).map(output => {
                                 return {
-                                    id: key,
+                                    id: output.id,
                                     type: "",
-                                    data: "",
-                                }
-                            }
-                            )
+                                    data: {},
+                                };
+                            })
                         }
                     }
                 }
-                return { ...node }
+                return node;
             })
-        };
-        console.log(newData);
+        }
+        console.log({ ...newData });
 
-        const file = JSON.stringify(newData);
+        const file = JSON.stringify({ ...newData });
         console.log(file);
         localStorage.setItem("project", file);
 
@@ -292,7 +305,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         set((state) => ({
             nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),
         }));
-        console.log(get().nodes);
     },
     isRunning: isRunning(),
     toggleVolume() {
