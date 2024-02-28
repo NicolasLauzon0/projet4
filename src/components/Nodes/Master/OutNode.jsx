@@ -13,7 +13,7 @@ const Out = ({ id, data }) => {
 
     return (
         <div>
-            <Handle type="target" position="top" />
+            <Handle type="target" position="top" id="0"/>
             <div>
                 <p>Output Node</p>
 

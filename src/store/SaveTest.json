@@ -12,36 +12,148 @@
             "height": 41
         },
         {
-            "rows": 1,
-            "cols": 16,
-            "notes": [
-                [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                ]
-            ],
-            "outputs": [
-                {
-                    "id": "0",
-                    "type": "",
-                    "data": {}
-                }
-            ],
-            "subdivision": "16"
+            "id": "HvD3evd2hdSFU128XrCWh",
+            "type": "sequencer",
+            "data": {
+                "rows": 4,
+                "cols": 16,
+                "notes": [
+                    [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ],
+                    [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ],
+                    [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ],
+                    [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                    ]
+                ],
+                "outputs": [
+                    {
+                        "id": "0",
+                        "type": "",
+                        "data": {}
+                    },
+                    {
+                        "id": "1",
+                        "type": "",
+                        "data": {}
+                    },
+                    {
+                        "id": "2",
+                        "type": "",
+                        "data": {}
+                    },
+                    {
+                        "id": "3",
+                        "type": "",
+                        "data": {}
+                    }
+                ],
+                "subdivision": "16"
+            },
+            "position": {
+                "x": -600,
+                "y": -400
+            },
+            "width": 384,
+            "height": 254,
+            "selected": true,
+            "dragging": false
+        },
+        {
+            "id": "RViXv9d7teBfOuAOovujl",
+            "type": "amSynth",
+            "data": {
+                "oscillator": {
+                    "type": "sine"
+                },
+                "envelope": {
+                    "attack": 0.5,
+                    "decay": 0.5,
+                    "sustain": 0.5,
+                    "release": 0.5
+                },
+                "modulation": {
+                    "type": "sine"
+                },
+                "modulationEnvelope": {
+                    "attack": 0.5,
+                    "decay": 0.5,
+                    "sustain": 0.5,
+                    "release": 0.5
+                },
+                "harmonicity": 0.5
+            },
+            "position": {
+                "x": 300,
+                "y": -300
+            },
+            "width": 210,
+            "height": 282
         }
     ],
     "edges": []

@@ -1,10 +1,13 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import { useEffect, useRef } from "react";
+import { nodes } from "../../../Audio.js";
 
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
+    if (newRows < 1) return;
     const { cols } = data;
     const notes = [];
 
@@ -26,8 +29,6 @@ const selector = (id, data) => (store) => ({
         return data.outputs[index];
       }
     });
-
-    console.log(updatedOutputs);
 
     // Mettre à jour les données dans le magasin
     store.updateNode(id, {
@@ -80,10 +81,25 @@ const Sequencer = ({ id, data }) => {
     selector(id, data),
     shallow
   );
+  const notes = useRef(null);
+
+  useEffect(() => {
+    notes.current.querySelectorAll(".row").forEach((row, index) => {
+      row.querySelectorAll(".cell").forEach((cell, cellIndex) => {
+        if (cellIndex === data.value) {
+          cell.style.transform = "scale(1.2)";
+        } else {
+          cell.style.transform = "scale(1)";
+        }
+      });
+    });
+  }, [data.value, data.notes]);
+
 
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
+      <h3>Sequencer</h3>
         <div className="sequencer__controls">
           <label>
             Rows
@@ -99,8 +115,7 @@ const Sequencer = ({ id, data }) => {
             />
           </label>
         </div>
-        <h3>Sequencer</h3>
-        <div className="sequencer__grid">
+        <div className="sequencer__grid" ref={notes}>
           {Array.from({ length: data.rows }).map((_, rowId) => (
             <div className="row" key={rowId}>
               {Array.from({ length: data.cols }).map((_, colId) => {

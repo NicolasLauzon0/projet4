@@ -19,6 +19,8 @@
 
         transition: max-height 0.3s;
 
+        box-shadow: -2px 2px 5px 2px color-mix(in srgb, var(--vert) 30%, transparent);
+
         &:has(.menu-item) {
             animation: openMenu 0.3s forwards ease-in-out;
         }
@@ -35,10 +37,12 @@
             &:has(.menu-item) {
                 animation: openItem 0.4s forwards ease-in-out;
             }
-            & .menu-item{
+
+            & .menu-item {
                 user-select: none;
             }
-            & > .menu-item {
+
+            &>.menu-item {
                 position: relative;
 
                 display: grid;
@@ -53,23 +57,42 @@
                 color: var(--noir);
                 text-align: center;
 
-                cursor: pointer;
+                border-radius: 1rem;
 
-                &:has(.menu-item) > .menu-item {
+                cursor: pointer;
+                outline-color: transparent;
+                outline-width: 4px;
+                transition: outline 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+
+                text-shadow: -2px 2px 2px color-mix(in srgb, var(--noir) 15%, transparent);
+
+                &:hover {
+                    outline: 4px solid var(--noir);
+                    border-radius: 2rem;
+                }
+
+                &:has(.menu-item)>.menu-item {
                     animation: openSousMenu 0.3s forwards ease-in-out;
                 }
 
                 & > .menu-item {
                     max-height: 0;
-                    
+
                     font-size: 1.5rem;
                     font-weight: 400;
                     color: var(--gris);
-                    
+
                     overflow: hidden;
 
                     &:first-child {
                         margin-top: 0.6rem;
+                    }
+
+                    transition: color 0.2s,
+                    max-height 0.3s;
+
+                    &:hover {
+                        color: var(--jaune);
                     }
                 }
             }
@@ -163,9 +186,11 @@
     0% {
         opacity: 0;
     }
+
     85% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -179,10 +204,12 @@
             right: 2rem;
             bottom: 2rem;
         }
+
         max-height: 4rem;
         max-width: 4rem;
         border-width: 0px;
     }
+
     50% {
         padding: {
             top: 2rem;
@@ -190,10 +217,12 @@
             right: 3rem;
             bottom: 2rem;
         }
+
         max-width: 600px;
         max-height: 4rem;
         border-width: 4px;
     }
+
     100% {
         padding: {
             top: 3rem;
@@ -201,6 +230,7 @@
             right: 3rem;
             bottom: 5rem;
         }
+
         max-height: 700px;
         max-width: 600px;
         border-width: 4px;
