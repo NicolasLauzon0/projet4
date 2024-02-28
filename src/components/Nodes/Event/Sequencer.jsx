@@ -5,73 +5,56 @@ import { useStore } from "../../../store/Store.js";
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
-    const { cols } = data;
-    const notes = [];
+    const updatedOutputs = data.outputs.slice();
 
-    // Construire un nouveau tableau de notes avec les nouvelles lignes
-    for (let i = 0; i < newRows; i++) {
-      notes[i] = [];
-      for (let j = 0; j < cols; j++) {
-        notes[i][j] = data.notes[i]?.[j] || false;
+    if (newRows > data.rows) {
+      for (let i = data.rows; i < newRows; i++) {
+        updatedOutputs.push({ id: i.toString(), type: "", data: {} });
       }
+    } else {
+      updatedOutputs.splice(newRows, data.rows - newRows);
     }
-
-    const updatedOutputs = Array.from({ length: newRows }, (_, index) => {
-      if (newRows > data.rows) {
-        if (data.outputs[index]) {
-          return data.outputs[index];
-        }
-        return { id: index.toString(), type: "", data: {} };
-      } else {
-        return data.outputs[index];
-      }
-    });
 
     console.log(updatedOutputs);
 
-    // Mettre à jour les données dans le magasin
+    const newNotes = Array.from({ length: newRows }).map((_, i) => {
+      return i < data.rows ? data.notes[i] : Array(data.cols).fill(false);
+    });
+    // Update data in the store
     store.updateNode(id, {
       rows: newRows,
-      notes: notes,
-      outputs: updatedOutputs,
+      notes: newNotes,
     });
 
-    // Mettre à jour les sorties
+    // Update outputs in the store
+    store.updateNode(id, { outputs: updatedOutputs });
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
-    const { rows } = data;
-    const notes = [];
 
-    // Construire un nouveau tableau de notes avec les nouvelles colonnes
-    for (let i = 0; i < rows; i++) {
-      notes[i] = [];
-      for (let j = 0; j < newCols; j++) {
-        notes[i][j] = data.notes[i]?.[j] || false;
-      }
-    }
+    const newNotes = Array.from({ length: newCols }).map((_, i) => {
+      return i < data.rows ? data.notes[i] : Array(data.cols).fill(false);
+    });
 
     // Mettre à jour les données dans le magasin
-    store.updateNode(id, { cols: newCols, notes: notes });
+    store.updateNode(id, {
+      cols: newCols,
+      notes: newNotes,
+    });
   },
   setNotes: (e) => {
     const [row, col] = e.target.id.split("-").map(Number);
-    const { rows, cols } = data;
-    const notes = [];
 
-    // Construire un tableau de notes avec les bonnes dimensions
-    for (let i = 0; i < rows; i++) {
-      notes[i] = [];
-      for (let j = 0; j < cols; j++) {
-        notes[i][j] = data.notes[i]?.[j] || false;
-      }
-    }
+    const updatedNotes = data.notes.map((rowData, rowIndex) => {
+      return rowIndex === row
+        ? rowData.map((val, colIndex) =>
+            colIndex === col ? e.target.checked : val
+          )
+        : rowData;
+    });
 
-    // Mettre à jour la valeur de la case à cocher
-    notes[row][col] = e.target.checked;
-
-    // Mettre à jour les données dans le magasin
-    store.updateNode(id, { notes: notes });
+    // Update data in the store
+    store.updateNode(id, { notes: updatedNotes });
   },
 });
 
@@ -80,14 +63,14 @@ const Sequencer = ({ id, data }) => {
     selector(id, data),
     shallow
   );
-
+  console.log("render sequencer");
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
         <div className="sequencer__controls">
           <label>
             Rows
-            <input type="number" value={data.rows} onChange={setRows} min={1} />
+            <input type="number" value={data.rows} onChange={setRows} min={2} />
           </label>
           <label>
             Columns
@@ -112,13 +95,13 @@ const Sequencer = ({ id, data }) => {
                         type="checkbox"
                         id={ids}
                         onChange={setNotes}
-                        checked={data.notes[rowId][colId]}
+                        checked={data.notes?.[rowId]?.[colId] || false}
                       />
                     </label>
                   </div>
                 );
               })}
-              <Handle type="source" position="right" id={rowId + ""} />
+              <Handle type="source" position="right" id={rowId.toString()} />
             </div>
           ))}
         </div>

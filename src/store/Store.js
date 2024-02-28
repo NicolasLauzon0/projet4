@@ -8,8 +8,7 @@ import {
     connect,
     isRunning,
     toggleAudio,
-    createAudioNode,
-    playPlayerNode,
+    createAudioNode
 } from '../Audio';
 
 
@@ -153,6 +152,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     ],
 
                 });
+                console.log(get().nodes);
                 break;
             }
             default:
@@ -160,37 +160,31 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }
     },
     reset() {
+        const nodes = get().nodes;
+        const edges = get().edges;
+        Array.from(edges).forEach((edge) => {
+            disconnect(edge);
+        });
+        for (const { id } of nodes) {
+            removeAudioNode(id);
+        }
         set({
             nodes: [],
             edges: [],
         });
 
-        const nodes = get().nodes;
-        const edges = get().edges;
+
     },
     test() {
         const nodes = get().nodes;
         const edges = get().edges;
-        console.log(nodes);
-        console.log(edges);
     },
-    createNodeFromData(data) {
-        let id;
-        let type;
-        let position;
-        let dataData;
-        if (data.data.type === "sequencer") {
-            id = data.data.id;
-            type = data.data.type;
-            position = data.data.position;
-            dataData = data.data;
-        } else {
-            id = data.id;
-            type = data.type;
-            position = data.position;
-            dataData = data.data;
-        }
-        console.log(position);
+    createNodeFromData(dataRef) {
+        const id = dataRef.id;
+        const type = dataRef.type;
+        const data = dataRef.data;
+        const position = dataRef.position;
+        console.log(data);
         createAudioNode(id, type, data);
         set({
             nodes: [
@@ -198,13 +192,15 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 {
                     id,
                     type,
-                    data: dataData,
+                    data,
                     position,
                 },
             ],
         });
+        console.log(get().nodes);
     },
     createEdgeFromData(data) {
+        connect(data);
         set({
             edges: [
                 ...get().edges,
@@ -218,7 +214,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     onEdgesChange(changes) {
-        console.log(changes);
+
         set({
             edges: applyEdgeChanges(changes, get().edges),
         });
@@ -233,7 +229,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
     },
 
     updateOutputs(id, outputs) {
-        console.log(outputs);
         set((state) => ({
             nodes: state.nodes.map((node) => {
                 if (node.id === id) {
@@ -244,7 +239,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }));
     },
     onNodesDelete(nodes) {
-        console.log(nodes);
+
         for (const { id } of nodes) {
             removeAudioNode(id);
         }
@@ -260,19 +255,25 @@ export const useStore = createWithEqualityFn((set, get) => ({
             nodes: get().nodes,
             edges: get().edges,
         };
+        console.log(data);
         const newData = {
             ...data,
             nodes: data.nodes.map(node => {
                 if (node.type === "sequencer") {
                     console.log(node);
                     return {
-                        ...node.data,
-                        outputs: Object.values(node.data.outputs).map(output => {
-                            return {
-                                ...output,
-                                data: {}
+                        ...node,
+                        data: {
+                            ...node.data,
+                            outputs: Object.keys(node.data.outputs).map((key, index) => {
+                                return {
+                                    id: key,
+                                    type: "",
+                                    data: "",
+                                }
                             }
-                        })
+                            )
+                        }
                     }
                 }
                 return { ...node }
@@ -286,26 +287,12 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
     },
     updateNode(id, data) {
+        console.log(id, data);
         updateAudioNode(id, data);
         set((state) => ({
-            nodes: state.nodes.map((node) => {
-                if (node.id === id) {
-                    // Pour chaque clé dans data, vérifier si c'est un objet imbriqué et nécessite une fusion profonde
-                    const newData = Object.keys(data).reduce((acc, key) => {
-                        if (typeof data[key] === 'object' && data[key] !== null) {
-                            // Si c'est un objet, fusionner profondément
-                            acc[key] = { ...node.data[key], ...data[key] };
-                        } else {
-                            // Sinon, juste mettre à jour la valeur
-                            acc[key] = data[key];
-                        }
-                        return acc;
-                    }, {});
-                    return { ...node, data: { ...node.data, ...newData } };
-                }
-                return node;
-            }),
+            nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),
         }));
+        console.log(get().nodes);
     },
     isRunning: isRunning(),
     toggleVolume() {

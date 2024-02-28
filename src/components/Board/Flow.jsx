@@ -108,11 +108,8 @@ const Flow = () => {
   const loadProject = useCallback(() => {
     const fetchData = async () => {
       const data = await JSON.parse(localStorage.getItem("project"))
-      
 
       await store.reset();
-      const nodes = store.nodes;
-      const edges = store.edges;
       await data.nodes.forEach((node) => {
         store.createNodeFromData(node);
       });

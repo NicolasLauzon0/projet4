@@ -1,48 +1,107 @@
 {
-    "nodes": [
-        {
-            "id": "1",
-            "type": "out",
-            "data": {},
-            "position": {
-                "x": 0,
-                "y": 0
-            },
-            "width": 83,
-            "height": 41
-        },
-        {
-            "rows": 1,
-            "cols": 16,
-            "notes": [
-                [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                ]
-            ],
-            "outputs": [
-                {
-                    "id": "0",
-                    "type": "",
-                    "data": {}
-                }
-            ],
-            "subdivision": "16"
-        }
-    ],
-    "edges": []
+  "nodes": [
+    {
+      "id": "1",
+      "type": "out",
+      "data": {},
+      "position": { "x": 0, "y": 0 },
+      "width": 83,
+      "height": 39
+    },
+    {
+      "id": "WhCFd1BEcMXUdneFPeXP2",
+      "type": "sequencer",
+      "data": {
+        "rows": 3,
+        "cols": 16,
+        "notes": [
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        ],
+        "outputs": [
+          { "id": "0", "type": "", "data": "" },
+          { "id": "1", "type": "", "data": "" },
+          { "id": "2", "type": "", "data": "" },
+          { "id": "3", "type": "", "data": "" }
+        ],
+        "subdivision": "16"
+      },
+      "position": { "x": -600, "y": -400 },
+      "width": 398,
+      "height": 223,
+      "selected": true,
+      "dragging": false
+    }
+  ],
+  "edges": []
 }
