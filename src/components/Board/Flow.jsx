@@ -16,6 +16,7 @@ import OutNode from "../Nodes/Master/OutNode.jsx";
 import "reactflow/dist/style.css";
 import Sampler from "../Nodes/Source/Sampler.jsx";
 import Menu from "./Menu/Menu.jsx";
+import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 
 
 const selector = (store) => ({
@@ -27,7 +28,6 @@ const selector = (store) => ({
   onNodesDelete: store.onNodesDelete,
   onEdgesDelete: store.onEdgesDelete,
   createNode: store.createNode,
-  saveProject: store.saveProject,
   createNodeFromData: store.createNodeFromData,
   createEdgeFromData: store.createEdgeFromData,
   reset: store.reset,
@@ -109,8 +109,9 @@ const menu = [
 
 const Flow = () => {
   const store = useStore(selector, shallow);
+  const { saveProject, loadProject } = useSaveAndLoad();
 
-  const loadProject = useCallback(() => {
+  const loadProjectfromStore = useCallback(() => {
     const fetchData = async () => {
       const data = await JSON.parse(localStorage.getItem("project"))
 
@@ -125,6 +126,7 @@ const Flow = () => {
     }
     fetchData();
   }, []);
+
   return (
     <ReactFlow
       nodes={store.nodes}
@@ -138,7 +140,7 @@ const Flow = () => {
       fitView
     >
       <Panel position="bottom-right">
-        <Menu menuProject={menuProject} menu={menu} store={store} loadProject={loadProject} />
+        <Menu menuProject={menuProject} menu={menu} store={store} loadProject={loadProject} saveProject={saveProject} />
       </Panel>
       <Background color="#aaa" />
       <Controls />

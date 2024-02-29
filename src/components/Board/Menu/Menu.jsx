@@ -6,7 +6,8 @@ const Menu = ({
     menuProject,
     menu,
     store,
-    loadProject
+    loadProject,
+    saveProject
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -33,6 +34,7 @@ const Menu = ({
                                 setMenuOpen={setMenuOpen}
                                 store={store}
                                 loadProject={loadProject}
+                                saveProject={saveProject}
                             />
                             <MenuOptions
                                 menu={menu}

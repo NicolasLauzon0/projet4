@@ -1,0 +1,23 @@
+.login-button{
+    position: fixed;
+    z-index: 1000;
+    top: 10px;
+    right: 10px;
+
+    padding: 10px;
+
+    font-family: var(--font);
+    font-size: 1.2em;
+    color: #000;
+    
+    transition: background-color 0.2s, color 0.3s;
+    background-color: var(--blanc);
+    border: 1px solid var(--vert);
+    border-radius: 6px;
+    cursor: pointer;
+    
+    &:hover{
+        background-color: var(--noir);
+        color: var(--blanc);
+    }
+}

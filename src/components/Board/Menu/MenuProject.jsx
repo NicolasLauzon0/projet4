@@ -1,12 +1,12 @@
+import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
+
 const MenuProject = ({
     menuProject,
     selectedMenu,
     setMenuOpen,
     setSelectedMenu,
-    store,
-    loadProject
 }) => {
-
+    const { saveData, loadData } = useSaveAndLoad();
     return (
         menuProject.map((item, index) => {
             return (
@@ -25,7 +25,7 @@ const MenuProject = ({
                             <div
                                 key={index}
                                 className="menu-item"
-                                onClick={() => { child.type === "save" ? store.saveProject() : loadProject(); setMenuOpen(false); }}
+                                onClick={() => { [child.type === "save" ? saveData() : loadData(), setMenuOpen(false)] }}
                             >
                                 {child.name}
                             </div>

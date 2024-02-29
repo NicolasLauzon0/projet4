@@ -326,12 +326,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 return node;
             })
         }
-        console.log({ ...newData });
 
-        const file = JSON.stringify({ ...newData });
-        console.log(file);
-        localStorage.setItem("project", file);
-
+        return newData;
     },
     updateNode(id, data) {
         console.log(id, data);

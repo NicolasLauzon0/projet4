@@ -1,0 +1,19 @@
+.nom-projet {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+
+    
+    & input {
+        padding: 10px;
+        
+        font-family: var(--font);
+        font-size: 1.2em;
+        color: var(--noir);
+
+        border: 4px solid var(--vert) ;
+        border-radius: 6px;
+        outline: none;
+    }
+}
