@@ -43,9 +43,7 @@ const SaveAndLoadProvider = ({ children }) => {
         setProjectName(name);
     }
 
-    
-
-    const loadData = async (id) => {
+    const loadData = async () => {
         const fetchData = async () => {
             const maCollection = await getDoc(doc(db, "projects", id));
 
