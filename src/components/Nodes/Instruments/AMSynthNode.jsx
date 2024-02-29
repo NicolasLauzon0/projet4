@@ -5,16 +5,16 @@ import { useStore } from "../../../store/Store.js"
 
 const selector = (id) => (store) => ({
   setOscilatorType: (e) => store.updateNode(id, { oscillator: { type: e.target.value } }),
-  setOscilatorAttack: (e) => store.updateNode(id, { envelope: { attack: +e.target.value } }),
-  setOscilatorDecay: (e) => store.updateNode(id, { envelope: { decay: +e.target.value } }),
-  setOscilatorSustain: (e) => store.updateNode(id, { envelope: { sustain: +e.target.value } }),
-  setOscilatorRelease: (e) => store.updateNode(id, { envelope: { release: +e.target.value } }),
+  setOscilatorAttack: (e) => store.updateNode(id, { envelope: { attack: e.target.value } }),
+  setOscilatorDecay: (e) => store.updateNode(id, { envelope: { decay: e.target.value } }),
+  setOscilatorSustain: (e) => store.updateNode(id, { envelope: { sustain: e.target.value } }),
+  setOscilatorRelease: (e) => store.updateNode(id, { envelope: { release: e.target.value } }),
   setModulationType: (e) => store.updateNode(id, { modulation: { type: e.target.value } }),
-  setModulationAttack: (e) => store.updateNode(id, { modulationEnvelope: { attack: +e.target.value } }),
-  setModulationDecay: (e) => store.updateNode(id, { modulationEnvelope: { decay: +e.target.value } }),
-  setModulationSustain: (e) => store.updateNode(id, { modulationEnvelope: { sustain: +e.target.value } }),
-  setModulationRelease: (e) => store.updateNode(id, { modulationEnvelope: { release: +e.target.value } }),
-  setHarmonicity: (e) => store.updateNode(id, { harmonicity: +e.target.value }),
+  setModulationAttack: (e) => store.updateNode(id, { modulationEnvelope: { attack: e.target.value } }),
+  setModulationDecay: (e) => store.updateNode(id, { modulationEnvelope: { decay: e.target.value } }),
+  setModulationSustain: (e) => store.updateNode(id, { modulationEnvelope: { sustain: e.target.value } }),
+  setModulationRelease: (e) => store.updateNode(id, { modulationEnvelope: { release: e.target.value } }),
+  setHarmonicity: (e) => store.updateNode(id, { harmonicity: e.target.value }),
 })
 const AMSynthNode = ({ id, data }) => {
   const {

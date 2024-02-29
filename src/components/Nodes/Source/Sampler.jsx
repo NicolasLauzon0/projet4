@@ -3,8 +3,13 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 
 const selector = (id) => (store) => ({
-  setAttack: (e) => store.updateNode(id, { attack: +e.target.value }),
-  setUrl: (e) => store.updateNode(id, { urls: { C2: e.target.value } }),
+  setAttack: (e) => {
+    store.updateNode(id, { attack: +e.target.value });
+  },
+  setUrl: (e) => {
+    console.log(e.target.value);
+    store.updateNode(id, { selected: e.target.value  });
+  },
 });
 
 const Sampler = ({ id, data }) => {
@@ -16,10 +21,11 @@ const Sampler = ({ id, data }) => {
       <div className="sampler__container">
         <h3>Sampler</h3>
 
-        <select value={data.urls.C2} onChange={setUrl} className="nodrag">
-          <option value="snare.wav">Snare</option>
-          <option value="kick.wav">Kick</option>
-          <option value="hh.wav">Hihat</option>
+        <select value={data.selected} onChange={setUrl} className="nodrag">
+          <option value="C2">Hihat</option>
+          <option value="C3">Snare</option>
+          <option value="C4">Kick</option>
+          <option value="C5">Clap</option>
         </select>
 
         <label>

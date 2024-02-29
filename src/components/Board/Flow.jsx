@@ -7,6 +7,7 @@ import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
 import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
 
 import GainNode from "../Nodes/Effects/GainNode";
+import AutoFilter from "../Nodes/Effects/AutoFilter.jsx";
 
 import Sequencer from "../Nodes/Event/Sequencer.jsx";
 
@@ -16,7 +17,6 @@ import "reactflow/dist/style.css";
 import Sampler from "../Nodes/Source/Sampler.jsx";
 import Menu from "./Menu/Menu.jsx";
 
-import file from "../../store/SaveTest.json";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -31,6 +31,7 @@ const selector = (store) => ({
   createNodeFromData: store.createNodeFromData,
   createEdgeFromData: store.createEdgeFromData,
   reset: store.reset,
+  updateNode: store.updateNode,
 });
 
 const nodeTypes = {
@@ -40,6 +41,7 @@ const nodeTypes = {
   out: OutNode,
   sampler: Sampler,
   sequencer: Sequencer,
+  autoFilter: AutoFilter,
 };
 
 
@@ -78,6 +80,10 @@ const menu = [
       {
         name: "Gain",
         type: "gain",
+      },
+      {
+        name: "AutoFilter",
+        type: "autoFilter",
       },
     ],
   },

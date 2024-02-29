@@ -60,17 +60,30 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case 'sampler': {
-      const node = new Tone.Sampler(data);
+      const node = new Tone.Sampler({
+        urls: {
+          C2: data.urls.C2,
+          C3: data.urls.C3,
+          C4: data.urls.C4,
+          C5: data.urls.C5,
+        },
+        baseUrl: data.baseUrl,
+      })
       node.data = data;
       nodes.set(id, node);
       break;
     }
-
     case 'sequencer': {
       const node = createSequence(data, id);
       node.data = data;
       nodes.set(id, node);
-      console.log(nodes);
+
+      break;
+    }
+    case 'autoFilter': {
+      const node = new Tone.AutoFilter().start();
+      node.data = data;
+      nodes.set(id, node);
       break;
     }
     default:
@@ -84,20 +97,23 @@ function createSequence(data, id) {
   const sequence = new Tone.Sequence(
     (time, note) => {
       useStore.getState().setCurrentColumn(id, note);
+      sequencers.events = sequence.data.events;
       sequence.data.outputs.forEach((output, index) => {
-
         if (sequence.data.notes[index][note]) {
-
           if (output.type === "Gain" || output.type === "") return;
           if (output.type === "Sampler") {
-            output.data.triggerAttackRelease("C2", time);
+            console.log(output.data);
+            const url = output.data.data.selected;
+            output.data.triggerAttack(url, time);
+          } else {
+            output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
           }
-          output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
         }
-      }); 
-    },
-    [...Array.from({ length: data.cols }, (_, index) => index)],
-  );
+      });
+    }
+  ).start(0);
+  sequence.events = data.events;
+
   sequence.start(0);
   return sequence;
 }
@@ -140,10 +156,14 @@ export function connect(data) {
 
   console.log(source, target);
 
-  if (source.name === "Sequence") {
+  if (source.name === "Sequence" && target.name !== "Gain") {
     handleSequencerConnection(source, sourceId, target, sourceHandle);
     return;
+  } else if (source.name === "Sequence" && target.name === "Gain") {
+    console.log("Sequence to Gain");
+    return;
   }
+
   source.connect(target);
 }
 

@@ -7,15 +7,15 @@ import { nodes } from "../../../Audio.js";
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
-    if (newRows < 1) return;
+    if (newRows < 1 || newRows !== Math.floor(newRows)) return;
     const { cols } = data;
-    const notes = [];
+    let newNotes = [];
 
     // Construire un nouveau tableau de notes avec les nouvelles lignes
     for (let i = 0; i < newRows; i++) {
-      notes[i] = [];
+      newNotes[i] = [];
       for (let j = 0; j < cols; j++) {
-        notes[i][j] = data.notes[i]?.[j] || false;
+        newNotes[i][j] = data.notes[i]?.[j] || false;
       }
     }
 
@@ -30,9 +30,6 @@ const selector = (id, data) => (store) => ({
       }
     });
 
-    const newNotes = Array.from({ length: newRows }).map((_, i) => {
-      return i < data.rows ? data.notes[i] : Array(data.cols).fill(false);
-    });
     // Update data in the store
     store.updateNode(id, {
       rows: newRows,
@@ -44,15 +41,32 @@ const selector = (id, data) => (store) => ({
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
+    let newNotes = [];
 
-    const newNotes = Array.from({ length: newCols }).map((_, i) => {
-      return i < data.rows ? data.notes[i] : Array(data.cols).fill(false);
-    });
+    // Copiez les anciennes notes
+    for (let i = 0; i < data.rows; i++) {
+      newNotes[i] = data.notes[i] ? [...data.notes[i]] : [];
+    }
+    if (newCols > data.cols) {
+      for (let i = 0; i < data.rows; i++) {
+        for (let j = data.cols; j < newCols; j++) {
+          newNotes[i][j] = false;
+        }
+      }
+    } else if (newCols < data.cols) {
+      // Conservez uniquement les notes correspondant aux nouvelles colonnes
+      for (let i = 0; i < data.rows; i++) {
+        newNotes[i] = newNotes[i].slice(0, newCols);
+      }
+    }
+    console.log(newNotes);
+    const events = Array.from({ length: newCols }, (_, index) => index);
 
     // Mettre à jour les données dans le magasin
     store.updateNode(id, {
       cols: newCols,
       notes: newNotes,
+      events: events,
     });
   },
   setNotes: (e) => {
@@ -82,31 +96,30 @@ const Sequencer = ({ id, data }) => {
     notes.current.querySelectorAll(".row").forEach((row, index) => {
       row.querySelectorAll(".cell").forEach((cell, cellIndex) => {
         if (cellIndex === data.value) {
-          cell.style.transform = "scale(1.2)";
+          cell.classList.add("active");
         } else {
-          cell.style.transform = "scale(1)";
+          cell.classList.remove("active");
         }
       });
     });
   }, [data.value, data.notes]);
 
-
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
-      <h3>Sequencer</h3>
+        <h3>Sequencer</h3>
         <div className="sequencer__controls">
           <label>
-            Rows
+            Rangées
             <input type="number" value={data.rows} onChange={setRows} min={2} />
           </label>
           <label>
-            Columns
+            Colonnes
             <input
               type="number"
               value={data.cols}
               onChange={setColumns}
-              min={2}
+              min={1}
             />
           </label>
         </div>

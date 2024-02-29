@@ -1,6 +1,4 @@
 .sequencer {
-    padding: 1rem;
-
     border-radius: 2rem;
     background-color: color-mix(in srgb, var(--vert) 70%, transparent);
     backdrop-filter: blur(2px);
@@ -8,26 +6,54 @@
     box-shadow: -2px 2px 5px 2px color-mix(in srgb, var(--vert) 30%, transparent);
 
     & .sequencer__container {
-        & .sequencer__controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
+        padding: 2rem;
 
-            & label {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        &>h3 {
+        & > h3 {
             font-family: var(--font);
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: 700;
             color: var(--noir);
             text-shadow: 2px 2px 5px color-mix(in srgb, var(--noir) 30%, transparent);
             text-align: center;
+        }
+
+        & .sequencer__controls {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 1rem;
+
+            margin-top: 1.4rem;
+            margin-bottom: 1rem;
+
+            font-family: var(--font);
+            font-size: 1.2rem;
+            font-weight: 700;
+            & > label {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem;
+
+                & > input {
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                    width: 3em;
+                    height: 2em;
+
+                    font-family: var(--font);
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    text-align: center;
+
+                    border: 1px solid var(--gris);
+                    border-radius: 0.5rem;
+                    background-color: var(--blanc);
+                }
+            }
         }
 
         & .sequencer__grid {
@@ -37,33 +63,49 @@
             gap: 1rem;
 
             padding: 1rem;
-            background-color: rgba(51, 194, 51, 0.562);
 
-            &>.row {
+            & > .row {
                 position: relative;
                 display: flex;
                 justify-content: space-between;
+                gap: 0.2rem;
 
                 width: 100%;
 
-                &>div {
-                    right: -3rem;
+                & > div {
+                    right: -5rem;
                 }
 
-                &>.cell {
-                    flex-grow: 1;
+                & > .cell {
+                    width: 2em;
+                    height: 2em;
 
-                    width: 1rem;
-                    height: 1rem;
+                    &:has(input:checked) {
+                        background-color: var(--jaune);
+                        box-shadow: inset 0 0 0 0.6rem var(--jaune);
+                    }
 
-                    &>label {
-                        width: 100%;
-                        height: 100%;
+                    &.active:has(input:checked) {
+                        box-shadow: inset 0 0 0 0.2rem var(--gris);
+                    }
 
-                        &>input {
+                    &.active {
+                        box-shadow: inset 0 0 0 0.2rem var(--jaune);
+                    }
+
+                    transition: background-color 0.1s, box-shadow 0.1s;
+                    box-shadow: inset 0 0 0 0.4rem var(--gris);
+
+                    & > label {
+                        width: 2em;
+                        height: 2em;
+
+                        & > input {
                             width: 100%;
                             height: 100%;
-                            // opacity: 0;
+                            opacity: 0;
+
+                            cursor: pointer;
                         }
                     }
                 }

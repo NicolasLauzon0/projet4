@@ -101,11 +101,15 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "sampler": {
                 const data = {
-                    attack: 0.5,
+                    attack: 0.1,
                     urls: {
                         C2: "hh.wav",
+                        C3: "snare.wav",
+                        C4: "kick.wav",
+                        C5: "clap.wav",
                     },
                     baseUrl: "src/assets/sons/",
+                    selected: "C2",
                 }
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -136,6 +140,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         type: "",
                         data: {},
                     }],
+                    events: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                     value: 0,
                     subdivision: "16",
                 };
@@ -154,6 +159,35 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
                 });
                 console.log(get().nodes);
+                break;
+            }
+            case "autoFilter": {
+                const data = {
+                    baseFrequency: 200,
+                    type: "sine",
+                    depth: 1,
+                    frequency: 400,
+                    octaves: 3,
+                    wet: 1,
+                    filter: {
+                        type: "lowpass",
+                        rolloff: -12,
+                        Q: 1,
+                    }
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
                 break;
             }
             default:
