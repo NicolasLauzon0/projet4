@@ -5,6 +5,9 @@ const FilesPopUp = () => {
   const { projects, setSeeFiles, loadProject, removeProject } = useSaveAndLoad();
   return (
     <div className="files-popup">
+      <div className="exit" onClick={() => setSeeFiles(false)}>
+        <div></div>
+      </div>
       <h2>Charger un projet</h2>
       <ul>
         {projects.map((project, index) => {

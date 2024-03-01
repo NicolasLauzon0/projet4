@@ -5,9 +5,7 @@ const Bpm = () => {
   const [bpm, setBpm] = useState(120);
 
   const handleBpmChange = (e) => {
-    if (e.target.value < 40) {
-      e.target.value = 40;
-    } else if (e.target.value > 300) {
+    if (e.target.value > 300) {
       e.target.value = 300;
     }
     setBpm(e.target.value);

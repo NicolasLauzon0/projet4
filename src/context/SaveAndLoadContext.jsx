@@ -44,6 +44,7 @@ const SaveAndLoadProvider = ({ children }) => {
 
   // Sauvegarde des données dans la base de données
   const saveDataDB = async () => {
+    if(projectName === "") setProjectName("Nouveau Projet" + " " + new Date().toLocaleDateString());
     const data = JSON.stringify(store.saveProject());
     const doc = await addDoc(collection(db, "projects"), {
       name:
@@ -56,6 +57,7 @@ const SaveAndLoadProvider = ({ children }) => {
       userID: user.uid,
     });
     setProject({ id: doc.id, name: projectName });
+    
     setProjects([
       ...projects,
       {

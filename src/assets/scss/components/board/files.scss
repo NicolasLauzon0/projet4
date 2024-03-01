@@ -22,6 +22,40 @@
     box-shadow: 0 0 10px 0 var(--gris);
 
     transform: translate(-50%, -50%);
+    & .exit{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        width: 2rem;
+        height: 2rem;
+
+        border-radius: 50%;
+        border: 2px solid var(--noir);
+        background-color: var(--vert);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.5rem;
+        color: var(--noir);
+
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &::before {
+            content: "X";
+            transition: color 0.3s;
+        }
+        &:hover {
+            background-color: var(--gris);
+
+            &:before {
+                color: var(--vert);
+            }
+        }
+    }
     & h2 {
         margin-bottom: 2rem;
         user-select: none;

@@ -133,9 +133,10 @@ function createSequence(data, id) {
           }
         }
       });
-    } , [...Array(data.cols).keys()].map((col) => col.toString()), data.subdivision
-  ).start(0);
+    }, [...Array(data.subdivision).keys()].map((i, index) => index.toString()), data.subdivision + "n"
+  )
   sequence.events = data.events;
+
   sequence.start(0);
   return sequence;
 }

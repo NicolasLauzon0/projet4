@@ -171,7 +171,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     }],
                     events: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                     value: 0,
-                    subdivision: "16n",
+                    subdivision: "32",
                 };
                 const position = { x: -600, y: -400 };
                 createAudioNode(id, type, data);
@@ -311,10 +311,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
             nodes: [],
         });
     },
-    test() {
-        const nodes = get().nodes;
-        const edges = get().edges;
-    },
     createNodeFromData(dataRef) {
         const id = dataRef.id;
         const type = dataRef.type;
@@ -357,7 +353,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
     },
     addEdge(data) {
         const id = nanoid(6);
-        const edge = { id, ...data, animated: true, type: "smoothstep" };
+        const edge = { id, ...data, animated: true };
         set({
             edges: [edge, ...get().edges],
         });
