@@ -44,30 +44,37 @@ const SaveAndLoadProvider = ({ children }) => {
 
   // Sauvegarde des données dans la base de données
   const saveDataDB = async () => {
-    if(projectName === "") setProjectName("Nouveau Projet" + " " + new Date().toLocaleDateString());
-    const data = JSON.stringify(store.saveProject());
-    const doc = await addDoc(collection(db, "projects"), {
-      name:
-        projectName === ""
-          ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-          : projectName,
-      content: data,
-      date:
-        new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
-      userID: user.uid,
-    });
-    setProject({ id: doc.id, name: projectName });
-    
-    setProjects([
-      ...projects,
-      {
-        id: doc.id,
-        name:
-          projectName === " "
-            ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-            : projectName,
-      },
-    ]);
+    if (projectName === "") {
+      if (
+        window.confirm("Voulez-vous vraiment sauvegarder ce projet sans nom ?")
+      ) {
+        const data = JSON.stringify(store.saveProject());
+        const doc = await addDoc(collection(db, "projects"), {
+          name:
+            projectName === ""
+              ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
+              : projectName,
+          content: data,
+          date:
+            new Date().toLocaleDateString() +
+            " " +
+            new Date().toLocaleTimeString(),
+          userID: user.uid,
+        });
+        setProject({ id: doc.id, name: projectName });
+
+        setProjects([
+          ...projects,
+          {
+            id: doc.id,
+            name:
+              projectName === " "
+                ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
+                : projectName,
+          },
+        ]);
+      }
+    }
   };
   const setName = (name) => {
     setProjectName(name);
