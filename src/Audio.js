@@ -62,10 +62,21 @@ export function createAudioNode(id, type, data) {
     case 'sampler': {
       const node = new Tone.Sampler({
         urls: {
+          A1: data.urls.A1,
+          A2: data.urls.A2,
+          A3: data.urls.A3,
+          B1: data.urls.B1,
+          B2: data.urls.B2,
+          B3: data.urls.B3,
+          C1: data.urls.C1,
           C2: data.urls.C2,
           C3: data.urls.C3,
-          C4: data.urls.C4,
-          C5: data.urls.C5,
+          D1: data.urls.D1,
+          D2: data.urls.D2,
+          D3: data.urls.D3,
+          E1: data.urls.E1,
+          E2: data.urls.E2,
+          E3: data.urls.E3,
         },
         baseUrl: data.baseUrl,
       })
@@ -82,6 +93,18 @@ export function createAudioNode(id, type, data) {
     }
     case 'autoFilter': {
       const node = new Tone.AutoFilter().start();
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'reverb': {
+      const node = new Tone.Reverb(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'feedbackDelay': {
+      const node = new Tone.FeedbackDelay(data);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -110,10 +133,9 @@ function createSequence(data, id) {
           }
         }
       });
-    }
+    } , [...Array(data.cols).keys()].map((col) => col.toString()), data.subdivision
   ).start(0);
   sequence.events = data.events;
-
   sequence.start(0);
   return sequence;
 }

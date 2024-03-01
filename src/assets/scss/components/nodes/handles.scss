@@ -1,0 +1,50 @@
+.react-flow__edge-path {
+    stroke: var(--vert);
+    fill: none;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+.react-flow__edge.selected .react-flow__edge-path {
+    stroke: var(--noir);
+}
+.react-flow__edge.animated .react-flow__edge-path {
+    transition: stroke 0.1s;
+}
+
+.react-flow__connection-path {
+    stroke: var(--vert);
+    fill: none;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.react-flow__handle {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: var(--gris);
+    border: 2px solid var(--vert);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+.react-flow__handle-connecting {
+    background-color: var(--vert);
+    border-color: var(--noir);
+}
+.react-flow__node.selected .react-flow__handle {
+    border-color: 3px solid var(--noir);
+}
+
+.react-flow__nodesselection {
+    position: absolute;
+    border: 2px solid var(--noir);
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    z-index: 10;
+}

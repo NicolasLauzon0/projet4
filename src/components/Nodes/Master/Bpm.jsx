@@ -1,6 +1,18 @@
-import React from "react";
+import { useState } from "react";
+import * as Tone from "tone";
 
 const Bpm = () => {
+  const [bpm, setBpm] = useState(120);
+
+  const handleBpmChange = (e) => {
+    if (e.target.value < 40) {
+      e.target.value = 40;
+    } else if (e.target.value > 300) {
+      e.target.value = 300;
+    }
+    setBpm(e.target.value);
+    Tone.Transport.bpm.value = e.target.value;
+  };
   return (
     <div className="node bpm">
       <div className="bpm__container">
@@ -9,11 +21,12 @@ const Bpm = () => {
           <div className="knob">
             <label>BPM</label>
             <input
-              type="range"
-              min="60"
-              max="240"
+              type="number"
+              value={bpm}
+              onChange={handleBpmChange}
+              min="40"
+              max="300"
               step="1"
-              className="nodrag"
             />
           </div>
         </div>

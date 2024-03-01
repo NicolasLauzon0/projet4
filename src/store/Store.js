@@ -103,13 +103,42 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     attack: 0.1,
                     urls: {
-                        C2: "hh.wav",
-                        C3: "snare.wav",
-                        C4: "kick.wav",
-                        C5: "clap.wav",
+                        A1: "hh.wav",
+                        A2: "hh2.wav",
+                        A3: "hh3.wav",
+                        B1: "snare.wav",
+                        B2: "snare2.wav",
+                        B3: "snare3.wav",
+                        C1: "kick.wav",
+                        C2: "kick2.wav",
+                        C3: "kick3.wav",
+                        D1: "clap.wav",
+                        D2: "clap2.wav",
+                        D3: "clap3.wav",
+                        E1: "perc.wav",
+                        E2: "perc2.wav",
+                        E3: "perc3.wav",
                     },
                     baseUrl: "src/assets/sons/",
-                    selected: "C2",
+                    selected: "A1",
+                    options: [
+                        { name: "Hihat", value: "A1" },
+                        { name: "Hihat 2", value: "A2" },
+                        { name: "Hihat 3", value: "A3" },
+                        { name: "Snare", value: "B1" },
+                        { name: "Snare 2", value: "B2" },
+                        { name: "Snare 3", value: "B3" },
+                        { name: "Kick", value: "C1" },
+                        { name: "Kick 2", value: "C2" },
+                        { name: "Kick 3", value: "C3" },
+                        { name: "Clap", value: "D1" },
+                        { name: "Clap 2", value: "D2" },
+                        { name: "Clap 3", value: "D3" },
+                        { name: "perc", value: "E1" },
+                        { name: "Perc 2", value: "E2" },
+                        { name: "Perc 3", value: "E3" },
+
+                    ],
                 }
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -142,7 +171,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     }],
                     events: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                     value: 0,
-                    subdivision: "16",
+                    subdivision: "16n",
                 };
                 const position = { x: -600, y: -400 };
                 createAudioNode(id, type, data);
@@ -174,6 +203,67 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         rolloff: -12,
                         Q: 1,
                     }
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "bpm": {
+                const data = {
+                    bpm: 120,
+                };
+                const position = { x: 0, y: 0 };
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "reverb": {
+                const data = {
+                    decay: 1.5,
+                    preDelay: 0.01,
+                    wet: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "feedbackDelay": {
+                const data = {
+                    delayTime: 0.25,
+                    feedback: 0.5,
+                    maxDelay: 2,
+                    wet: 0.25,
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -261,14 +351,13 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     onEdgesChange(changes) {
-
         set({
             edges: applyEdgeChanges(changes, get().edges),
         });
     },
     addEdge(data) {
         const id = nanoid(6);
-        const edge = { id, ...data };
+        const edge = { id, ...data, animated: true, type: "smoothstep" };
         set({
             edges: [edge, ...get().edges],
         });

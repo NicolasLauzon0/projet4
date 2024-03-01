@@ -1,24 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
-import ReactFlow, { Background, Controls, Panel } from "reactflow";
+import ReactFlow, { Background, Controls, MiniMap, Panel } from "reactflow";
+import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
 
+import OutNode from "../Nodes/Master/OutNode.jsx";
+
+import Sampler from "../Nodes/Instruments/Sampler.jsx";
 import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
 import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
 
 import GainNode from "../Nodes/Effects/GainNode";
 import AutoFilter from "../Nodes/Effects/AutoFilter.jsx";
+import Reverb from "../Nodes/Effects/Reverb.jsx";
+import FeedBackDelay from "../Nodes/Effects/FeedBackDelay.jsx";
 
 import Sequencer from "../Nodes/Event/Sequencer.jsx";
+import Bpm from "../Nodes/Master/Bpm.jsx";
 
-import OutNode from "../Nodes/Master/OutNode.jsx";
+import Menu from "./Menu/Menu.jsx";
+
+import Login from "../Connexion/Login.jsx";
+import NomProjet from "./NomProjet.jsx";
+import FilesPopUp from "./Menu/FilesPopUp.jsx";
+
+import { menu, menuProject } from "../Nodes/NodesT.js";
 
 import "reactflow/dist/style.css";
-import Sampler from "../Nodes/Source/Sampler.jsx";
-import Menu from "./Menu/Menu.jsx";
-import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
-
-
 const selector = (store) => ({
   nodes: store.nodes,
   edges: store.edges,
@@ -42,109 +49,68 @@ const nodeTypes = {
   sampler: Sampler,
   sequencer: Sequencer,
   autoFilter: AutoFilter,
+  bpm: Bpm,
+  reverb: Reverb,
+  feedbackDelay: FeedBackDelay,
 };
-
-
-const menuProject = [
-  {
-    name: "Project",
-    children: [
-      {
-        name: "Save",
-        type: "save",
-      },
-      {
-        name: "Load",
-        type: "load",
-      },
-    ],
-  },
-];
-const menu = [
-  {
-    name: "Instruments",
-    children: [
-      {
-        name: "Oscillator",
-        type: "oscillator",
-      },
-      {
-        name: "AM Synth",
-        type: "amSynth",
-      },
-    ],
-  },
-  {
-    name: "Effets",
-    children: [
-      {
-        name: "Gain",
-        type: "gain",
-      },
-      {
-        name: "AutoFilter",
-        type: "autoFilter",
-      },
-    ],
-  },
-  {
-    name: "Events",
-    children: [
-      {
-        name: "Sequencer",
-        type: "sequencer",
-      },
-    ],
-  },
-  {
-    name: "Source",
-    children: [
-      {
-        name: "Sampler",
-        type: "sampler",
-      },
-    ],
-  },
-];
 
 const Flow = () => {
   const store = useStore(selector, shallow);
-  const { saveProject, loadProject } = useSaveAndLoad();
-
-  const loadProjectfromStore = useCallback(() => {
-    const fetchData = async () => {
-      const data = await JSON.parse(localStorage.getItem("project"))
-
-      await store.reset();
-      await data.nodes.forEach((node) => {
-        console.log(node);
-        store.createNodeFromData(node);
-      });
-      await data.edges.forEach((edge) => {
-        store.createEdgeFromData(edge);
-      });
-    }
-    fetchData();
-  }, []);
+  const { seeFiles } = useSaveAndLoad();
 
   return (
-    <ReactFlow
-      nodes={store.nodes}
-      edges={store.edges}
-      onNodesChange={store.onNodesChange}
-      onEdgesChange={store.onEdgesChange}
-      onNodesDelete={store.onNodesDelete}
-      onConnect={store.addEdge}
-      onEdgesDelete={store.onEdgesDelete}
-      nodeTypes={nodeTypes}
-      fitView
-    >
-      <Panel position="bottom-right">
-        <Menu menuProject={menuProject} menu={menu} store={store} loadProject={loadProject} saveProject={saveProject} />
-      </Panel>
-      <Background color="#aaa" />
-      <Controls />
-    </ReactFlow>
+    <>
+      <Login />
+      <NomProjet />
+      {
+        // <FilesPopUp />
+        seeFiles && <FilesPopUp />
+      }
+      <ReactFlow
+        nodes={store.nodes}
+        edges={store.edges}
+        onNodesChange={store.onNodesChange}
+        onEdgesChange={store.onEdgesChange}
+        onNodesDelete={store.onNodesDelete}
+        onConnect={store.addEdge}
+        onEdgesDelete={store.onEdgesDelete}
+        nodeTypes={nodeTypes}
+        fitView
+      >
+        <Panel position="bottom-right">
+          <Menu menuProject={menuProject} menu={menu} store={store} />
+        </Panel>
+        <Background 
+          color="var(--gris)" 
+          gap={16} 
+          size={1.2}
+            style={{
+              borderRadius: "5px",
+              backgroundColor: "var(--blanc)",
+              padding: "0",
+              zoom: "1.2",
+            }}
+            
+
+        />
+        <MiniMap
+          nodeColor={"var(--vert)"}
+          position="bottom-left"
+          nodeBorderRadius={2}
+          style={{ 
+            border: "3px solid var(--vert)",
+            borderRadius: "5px",
+            backgroundColor: "var(--gris)",
+            padding: "0",
+            zoom: "1.2",    
+          }}
+          zoomable={true}
+          pannable={true}
+          maskColor="var(--noir)"
+
+        />
+      </ReactFlow>
+    </>
   );
 };
 

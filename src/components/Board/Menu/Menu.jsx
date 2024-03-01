@@ -1,22 +1,23 @@
 import { useState } from "react";
 import MenuOptions from "./MenuOptions"
 import MenuProject from "./MenuProject"
+import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
 
 const Menu = ({
     menuProject,
     menu,
     store,
-    loadProject,
-    saveProject
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const {setSeeFiles} = useSaveAndLoad();
     return (
         <div className="menu">
             <div
                 onClick={(e) => {
                     setMenuOpen(!menuOpen);
                     e.target.classList.add("menubutton__container--active");
+                    setSeeFiles(false);
                 }}
                 className="menubutton"
             >
@@ -33,8 +34,6 @@ const Menu = ({
                                 setSelectedMenu={setSelectedMenu}
                                 setMenuOpen={setMenuOpen}
                                 store={store}
-                                loadProject={loadProject}
-                                saveProject={saveProject}
                             />
                             <MenuOptions
                                 menu={menu}

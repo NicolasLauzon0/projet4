@@ -2,15 +2,15 @@ import React from 'react'
 import { useSaveAndLoad } from '../../context/SaveAndLoadContext'
 
 const NomProjet = () => {
-    const { nomProjet, setName } = useSaveAndLoad()
+    const { projectName, setName } = useSaveAndLoad()
     return (
         <div className="nom-projet">
             <input
                 type="text"
-                value={nomProjet}
+                value={projectName}
                 onChange={(e) => setName(e.target.value)}
                 pattern='[a-zA-Z]*'
-                placeholder="Nom du projet"
+                placeholder={projectName === "" ? "Nouveau Projet" : projectName}
             />
         </div>
     )

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
 
 const MenuProject = ({
@@ -7,10 +6,11 @@ const MenuProject = ({
   setMenuOpen,
   setSelectedMenu,
 }) => {
-  const [seeFiles, setSeeFiles] = useState(false);
-  const { saveData, loadData } = useSaveAndLoad();
+
+  const { saveData, setSeeFiles, } = useSaveAndLoad();
   return (
     <>
+
       {menuProject.map((item, index) => {
         return (
           <div
@@ -30,7 +30,9 @@ const MenuProject = ({
                   className="menu-item"
                   onClick={() => {
                     [
-                      child.type === "save" ? saveData() : loadData(),
+                      child.type === "save"
+                        ? saveData()
+                        : setSeeFiles(true),
                       setMenuOpen(false),
                     ];
                   }}

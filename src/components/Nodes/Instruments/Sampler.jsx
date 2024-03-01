@@ -8,7 +8,7 @@ const selector = (id) => (store) => ({
   },
   setUrl: (e) => {
     console.log(e.target.value);
-    store.updateNode(id, { selected: e.target.value  });
+    store.updateNode(id, { selected: e.target.value });
   },
 });
 
@@ -22,10 +22,13 @@ const Sampler = ({ id, data }) => {
         <h3>Sampler</h3>
 
         <select value={data.selected} onChange={setUrl} className="nodrag">
-          <option value="C2">Hihat</option>
-          <option value="C3">Snare</option>
-          <option value="C4">Kick</option>
-          <option value="C5">Clap</option>
+          {data?.options?.map((option, index) => {
+            return (
+              <option key={index} value={option.value} onChange={setUrl}>
+                {option.name}
+              </option>
+            );
+          })}
         </select>
 
         <label>
