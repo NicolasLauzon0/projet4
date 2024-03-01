@@ -109,6 +109,12 @@ export function createAudioNode(id, type, data) {
       nodes.set(id, node);
       break;
     }
+    case 'pitchShift': {
+      const node = new Tone.PitchShift(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
     default:
       break;
   }

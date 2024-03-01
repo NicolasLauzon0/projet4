@@ -31,10 +31,6 @@ const menu = [
                 type: "sampler",
             },
             {
-                name: "Oscillateur",
-                type: "oscillator",
-            },
-            {
                 name: "AM Synth",
                 type: "amSynth",
             },
@@ -58,7 +54,11 @@ const menu = [
             {
                 name: "FeedBackDelay",
                 type: "feedbackDelay",
-            },
+            }, 
+            {
+                name: "PitchShift",
+                type: "pitchShift",
+            }
         ],
     },
     {

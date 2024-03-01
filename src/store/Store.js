@@ -280,6 +280,28 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 });
                 break;
             }
+            case "pitchShift": {
+                const data = {
+                    pitch: 0,
+                    delayTime: 0,
+                    feedback: 0,
+                    wet: 0,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
             default:
                 break;
         }

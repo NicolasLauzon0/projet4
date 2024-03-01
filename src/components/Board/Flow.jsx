@@ -13,6 +13,7 @@ import GainNode from "../Nodes/Effects/GainNode";
 import AutoFilter from "../Nodes/Effects/AutoFilter.jsx";
 import Reverb from "../Nodes/Effects/Reverb.jsx";
 import FeedBackDelay from "../Nodes/Effects/FeedBackDelay.jsx";
+import PitchShift from "../Nodes/Effects/PitchShift.jsx";
 
 import Sequencer from "../Nodes/Event/Sequencer.jsx";
 import Bpm from "../Nodes/Master/Bpm.jsx";
@@ -52,6 +53,7 @@ const nodeTypes = {
   bpm: Bpm,
   reverb: Reverb,
   feedbackDelay: FeedBackDelay,
+  pitchShift: PitchShift,
 };
 
 const Flow = () => {
