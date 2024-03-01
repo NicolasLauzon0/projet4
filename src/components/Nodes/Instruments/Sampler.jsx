@@ -7,7 +7,7 @@ const selector = (id) => (store) => ({
     store.updateNode(id, { attack: +e.target.value });
   },
   setUrl: (e) => {
-    console.log(e.target.value);
+
     store.updateNode(id, { selected: e.target.value });
   },
 });

@@ -23,15 +23,15 @@ const selector = (store) => ({
 });
 
 const DataContext = createContext({
-  saveData: () => {},
-  loadData: () => {},
-  setName: () => {},
+  saveData: () => { },
+  loadData: () => { },
+  setName: () => { },
   projectName: "",
   project: {},
   seeFiles: false,
-  setSeeFiles: () => {},
-  loadProject: () => {},
-  removeProject: () => {},
+  setSeeFiles: () => { },
+  loadProject: () => { },
+  removeProject: () => { },
 });
 
 const SaveAndLoadProvider = ({ children }) => {
@@ -74,6 +74,21 @@ const SaveAndLoadProvider = ({ children }) => {
           },
         ]);
       }
+    } else {
+      const data = JSON.stringify(store.saveProject());
+      await addDoc(collection(db, "projects"), {
+        name: projectName,
+        content: data,
+        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
+        userID: user.uid,
+      });
+      setProjects([
+        ...projects,
+        {
+          id: project.id,
+          name: projectName,
+        },
+      ]);
     }
   };
   const setName = (name) => {
@@ -87,7 +102,6 @@ const SaveAndLoadProvider = ({ children }) => {
 
       await store.reset();
       await data.nodes.forEach((node) => {
-        console.log(node);
         store.createNodeFromData(node);
       });
       await data.edges.forEach((edge) => {
@@ -125,7 +139,7 @@ const SaveAndLoadProvider = ({ children }) => {
 
   // fetch des projets de l'utilisateur au chargement de la page
   useEffect(() => {
-    if (user === null || user === undefined) return;
+    if (!user || !user.uid) return;
     const fetchProjects = async () => {
       const collectionRef = collection(db, "projects");
       const q = query(collectionRef, where("userID", "==", user?.uid));

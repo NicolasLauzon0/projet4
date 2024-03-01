@@ -11,8 +11,8 @@ const AuthContext = createContext({
     loading: false
 });
 
-const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+const AuthProvider = ({ children }) => {    
+    const [user, setUser] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
     const [loading, setLoading] = useState(true);
 

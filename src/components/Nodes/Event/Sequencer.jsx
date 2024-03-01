@@ -59,7 +59,6 @@ const selector = (id, data) => (store) => ({
         newNotes[i] = newNotes[i].slice(0, newCols);
       }
     }
-    console.log(newNotes);
     const events = Array.from({ length: newCols }, (_, index) => index);
 
     // Mettre à jour les données dans le magasin

@@ -187,7 +187,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     ],
 
                 });
-                console.log(get().nodes);
+
                 break;
             }
             case "autoFilter": {
@@ -316,31 +316,26 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }),
         }));
     },
-    reset() {
-        const nodes = get().nodes;
-        const edges = get().edges;
-        edges.forEach((edges) => {
+    async reset() {
+        const nodes = await get().nodes;
+        const edges = await get().edges;
+        console.log(nodes, edges);
+        await edges.forEach((edges) => {
             disconnect(edges);
         }
         );
-        set({
-            edges: [],
-        });
-        nodes.forEach((node) => {
+        await nodes.forEach((node) => {
             removeAudioNode(node.id);
         });
-        set({
-            nodes: [],
-        });
+        await set({ nodes: [], edges: [] });
     },
     createNodeFromData(dataRef) {
         const id = dataRef.id;
         const type = dataRef.type;
         const position = dataRef.position;
-        const data = dataRef.data;
+        const data = { ...dataRef.data };
 
-        console.log(data);
-        createAudioNode(id, type, { ...data });
+        createAudioNode(id, type, data);
         set({
             nodes: [
                 ...get().nodes,
@@ -352,7 +347,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 },
             ],
         });
-        console.log(get().nodes);
     },
     createEdgeFromData(data) {
         connect(data);
@@ -409,13 +403,11 @@ export const useStore = createWithEqualityFn((set, get) => ({
             nodes: get().nodes,
             edges: get().edges,
         };
-        console.log(data);
         const newData = {
             ...data,
             nodes: data.nodes.map(node => {
                 if (node.type === "sequencer") {
                     console.log(node.data);
-                    console.log(node.data.outputs);
                     return {
                         ...node,
                         data: {
@@ -437,7 +429,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         return newData;
     },
     updateNode(id, data) {
-        console.log(id, data);
         updateAudioNode(id, data);
         set((state) => ({
             nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),

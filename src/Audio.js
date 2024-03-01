@@ -32,7 +32,7 @@ export function updateAudioNode(id, data) {
       }
     }
   }
-  console.log(node);
+
 }
 
 
@@ -131,7 +131,7 @@ function createSequence(data, id) {
         if (sequence.data.notes[index][note]) {
           if (output.type === "Gain" || output.type === "") return;
           if (output.type === "Sampler") {
-            console.log(output.data);
+
             const url = output.data.data.selected;
             output.data.triggerAttack(url, time);
           } else {
@@ -154,7 +154,6 @@ function createSequence(data, id) {
 
 
 function handleSequencerConnection(source, id, data, sourceHandle) {
-  console.log(source, id, data, sourceHandle);
   const outputRef = source.data.outputs;
 
   const updatedOutputs = outputRef.map((output, index) => {
@@ -179,17 +178,13 @@ export function connect(data) {
     targetHandle: targetHandle
   } = data;
 
-  console.log(data);
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
-
-  console.log(source, target);
 
   if (source.name === "Sequence" && target.name !== "Gain") {
     handleSequencerConnection(source, sourceId, target, sourceHandle);
     return;
   } else if (source.name === "Sequence" && target.name === "Gain") {
-    console.log("Sequence to Gain");
     return;
   }
 
@@ -224,7 +219,6 @@ export function disconnect(edge) {
 
   const source = nodes.get(sourceId);
   const target = nodes.get(targetId);
-  console.log(source, target);
   if (source.name === "Sequence") {
     handleSequencerDisconnection(source, sourceId, sourceHandle);
     return;
@@ -236,10 +230,11 @@ export function disconnect(edge) {
 
 
 // Function to remove an audio node
-export function removeAudioNode(id) {
-  const node = nodes.get(id);
-
-  if (node.name === "Sequence") {
+export async function removeAudioNode(id) {
+  const node = await nodes.get(id);
+  if (node === undefined || node === null) return;
+  console.log(node);
+  if (await node?.name === "Sequence") {
     node.dispose();
     nodes.delete(id);
     return;
