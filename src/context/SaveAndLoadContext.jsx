@@ -74,7 +74,7 @@ const SaveAndLoadProvider = ({ children }) => {
       }
     } else {
       const data = JSON.stringify(store.saveProject());
-      await addDoc(collection(db, "projects"), {
+      await setDoc(doc(db, "projects", project.id), {
         name: projectName,
         content: data,
         date:
