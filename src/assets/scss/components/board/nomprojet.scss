@@ -1,11 +1,16 @@
 .nom-projet {
     position: fixed;
     top: 10px;
-    left: 10px;
+    left: 50%;
     z-index: 1000;
 
-    
+    width: 40%;
+
+    transform: translateX(-50%);
     & input {
+        width: 100%;
+        
+
         padding: 10px;
         
         font-family: var(--font);

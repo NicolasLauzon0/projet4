@@ -133,9 +133,9 @@ function createSequence(data, id) {
           if (output.type === "Sampler") {
 
             const url = output.data.data.selected;
-            output.data.triggerAttack(url, time);
+            output.data?.triggerAttack(url, time);
           } else {
-            output.data.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
+            output.data?.triggerAttackRelease("C4", sequence.data.subdivision + "n", time);
           }
         }
       });

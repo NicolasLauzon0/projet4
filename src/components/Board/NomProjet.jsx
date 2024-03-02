@@ -9,8 +9,7 @@ const NomProjet = () => {
                 type="text"
                 value={projectName}
                 onChange={(e) => setName(e.target.value)}
-                pattern='[a-zA-Z]*'
-                placeholder={projectName === "" ? "Nouveau Projet" : projectName}
+                placeholder={projectName === "" ? "Nouveau Projet" + " " + new Date().toLocaleDateString() : projectName}
             />
         </div>
     )
