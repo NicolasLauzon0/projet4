@@ -319,7 +319,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
     async reset() {
         const nodes = await get().nodes;
         const edges = await get().edges;
-        console.log(nodes, edges);
         await edges.forEach((edges) => {
             disconnect(edges);
         }

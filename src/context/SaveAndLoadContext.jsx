@@ -23,15 +23,14 @@ const selector = (store) => ({
 });
 
 const DataContext = createContext({
-  saveData: () => { },
-  loadData: () => { },
-  setName: () => { },
+  saveData: () => {},
+  setName: () => {},
   projectName: "",
   project: {},
   seeFiles: false,
-  setSeeFiles: () => { },
-  loadProject: () => { },
-  removeProject: () => { },
+  setSeeFiles: () => {},
+  loadProject: () => {},
+  removeProject: () => {},
 });
 
 const SaveAndLoadProvider = ({ children }) => {
@@ -62,13 +61,12 @@ const SaveAndLoadProvider = ({ children }) => {
           userID: user.uid,
         });
         setProject({ id: doc.id, name: projectName });
-
         setProjects([
           ...projects,
           {
             id: doc.id,
             name:
-              projectName === " "
+              projectName === ""
                 ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
                 : projectName,
           },
@@ -79,9 +77,13 @@ const SaveAndLoadProvider = ({ children }) => {
       await addDoc(collection(db, "projects"), {
         name: projectName,
         content: data,
-        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
+        date:
+          new Date().toLocaleDateString() +
+          " " +
+          new Date().toLocaleTimeString(),
         userID: user.uid,
       });
+      setProject({ id: project.id, name: projectName });
       setProjects([
         ...projects,
         {
@@ -95,28 +97,13 @@ const SaveAndLoadProvider = ({ children }) => {
     setProjectName(name);
   };
 
-  // fetch des projets de l'utilisateur au clic sur le bouton
-  const loadDataDB = async () => {
-    const fetchData = async () => {
-      //   const maCollection = await getDoc(doc(db, "projects", project.id));
-
-      await store.reset();
-      await data.nodes.forEach((node) => {
-        store.createNodeFromData(node);
-      });
-      await data.edges.forEach((edge) => {
-        store.createEdgeFromData(edge);
-      });
-    };
-    fetchData();
-  };
-
   const loadProject = async (id) => {
     const docRef = doc(db, "projects", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
       setProject({ id, name: data.name });
+      setProjectName(data.name);
       await store.reset();
       await JSON.parse(data.content).nodes.forEach((node) => {
         store.createNodeFromData(node);
@@ -150,7 +137,6 @@ const SaveAndLoadProvider = ({ children }) => {
         projects.push({ id: doc.id, name, date });
       });
       setProjects(projects);
-      console.log(projects);
     };
     fetchProjects();
   }, [user]);
@@ -166,7 +152,6 @@ const SaveAndLoadProvider = ({ children }) => {
     <DataContext.Provider
       value={{
         saveData,
-        loadDataDB,
         setName,
         projectName,
         project,
