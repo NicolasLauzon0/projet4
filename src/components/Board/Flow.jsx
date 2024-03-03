@@ -6,17 +6,24 @@ import { shallow } from "zustand/shallow";
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import Sampler from "../Nodes/Instruments/Sampler.jsx";
-import OscillatorNode from "../Nodes/Instruments/OscillatorNode";
 import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
+import DuoSynth from "../Nodes/Instruments/DuoSynth.jsx";
+import FMSynth from "../Nodes/Instruments/FMSynth.jsx";
+import MonoSynth from "../Nodes/Instruments/MonoSynth.jsx";
+import MembraneSynth from "../Nodes/Instruments/MembraneSynth.jsx";
+import PluckSynth from "../Nodes/Instruments/PluckSynth.jsx";
+import Cheby from "../Nodes/Effects/Cheby.jsx";
+import Add from "../Nodes/Effects/Add.jsx";
 
 import GainNode from "../Nodes/Effects/GainNode";
 import AutoFilter from "../Nodes/Effects/AutoFilter.jsx";
 import Reverb from "../Nodes/Effects/Reverb.jsx";
 import FeedBackDelay from "../Nodes/Effects/FeedBackDelay.jsx";
 import PitchShift from "../Nodes/Effects/PitchShift.jsx";
+import BitCrusher from "../Nodes/Effects/BitCrusher.jsx";
 
-import Sequencer from "../Nodes/Event/Sequencer.jsx";
-import Bpm from "../Nodes/Master/Bpm.jsx";
+import Sequencer from "../Nodes/Rythme/Sequencer.jsx";
+import Bpm from "../Nodes/Rythme/Bpm.jsx";
 
 import Menu from "./Menu/Menu.jsx";
 
@@ -43,7 +50,6 @@ const selector = (store) => ({
 });
 
 const nodeTypes = {
-  oscillator: OscillatorNode,
   amSynth: AMSynthNode,
   gain: GainNode,
   out: OutNode,
@@ -54,6 +60,14 @@ const nodeTypes = {
   reverb: Reverb,
   feedbackDelay: FeedBackDelay,
   pitchShift: PitchShift,
+  duoSynth: DuoSynth,
+  fmSynth: FMSynth,
+  monoSynth: MonoSynth,
+  membraneSynth: MembraneSynth,
+  pluckSynth: PluckSynth,
+  bitCrusher: BitCrusher,
+  cheby: Cheby,
+  add: Add,
 };
 
 const Flow = () => {

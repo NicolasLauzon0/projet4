@@ -20,6 +20,7 @@ const selector = (store) => ({
   reset: store.reset,
   createNodeFromData: store.createNodeFromData,
   createEdgeFromData: store.createEdgeFromData,
+  toggleVolume: store.toggleVolume,
 });
 
 const DataContext = createContext({
@@ -48,6 +49,7 @@ const SaveAndLoadProvider = ({ children }) => {
       if (
         window.confirm("Voulez-vous vraiment sauvegarder ce projet sans nom ?")
       ) {
+        await store.toggleVolume();
         const data = JSON.stringify(store.saveProject());
         const doc = await addDoc(collection(db, "projects"), {
           name:
@@ -75,10 +77,12 @@ const SaveAndLoadProvider = ({ children }) => {
             name: project.name,
           },
         ]);
+        await store.toggleVolume();
       } else {
         return;
       }
     } else {
+      await store.toggleVolume();
       const data = JSON.stringify(store.saveProject());
       const doc = await addDoc(collection(db, "projects"), {
         name: project.name,
@@ -89,7 +93,13 @@ const SaveAndLoadProvider = ({ children }) => {
           new Date().toLocaleTimeString(),
         userID: user.uid,
       });
-      setProject({ id: doc.id, name: project.name });
+      setProject({
+        id: doc.id,
+        name:
+          project.name === ""
+            ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
+            : project.name,
+      });
       setProjects([
         ...projects,
         {
@@ -97,6 +107,7 @@ const SaveAndLoadProvider = ({ children }) => {
           name: project.name,
         },
       ]);
+      await store.toggleVolume();
     }
   };
   const setName = (name) => {
@@ -107,6 +118,7 @@ const SaveAndLoadProvider = ({ children }) => {
     const docRef = doc(db, "projects", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
+      await store.toggleVolume();
       const data = docSnap.data();
       await store.reset();
       await JSON.parse(data.content).nodes.forEach((node) => {

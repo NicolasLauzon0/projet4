@@ -19,12 +19,12 @@ const Reverb = ({ id, data }) => {
     <div className="node reverb">
       <Handle type="target" position="top" id="a" />
       <div className="reverb__container">
-        <h3>Reverb</h3>
+        <h3>Réverbération</h3>
         <label>
           Decay
           <input
             type="range"
-            min="0"
+            min="0.1"
             max="10"
             step="0.1"
             value={data.decay}
@@ -33,11 +33,11 @@ const Reverb = ({ id, data }) => {
           />
         </label>
         <label>
-          PreDelay
+          Pré-delay
           <input
             type="range"
             min="0"
-            max="1"
+            max="2"
             step="0.01"
             value={data.preDelay}
             onChange={setPreDelay}
@@ -45,7 +45,7 @@ const Reverb = ({ id, data }) => {
           />
         </label>
         <label>
-          Wet
+          Ratio
           <input
             type="range"
             min="0"

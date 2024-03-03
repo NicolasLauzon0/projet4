@@ -25,13 +25,13 @@ const FeedBackDelay = ({ id, data }) => {
     <div className="node feedbackDelay">
       <Handle type="target" position="top" id="a" />
       <div className="feedbackDelay__container">
-        <h3>FeedbackDelay</h3>
+        <h3>Delay</h3>
         <label>
-          DelayTime
+          Durée du delay
           <input
             type="range"
-            min="0"
-            max="1"
+            min="0.1"
+            max="2"
             step="0.01"
             value={data.delayTime}
             onChange={setDelayTime}
@@ -42,7 +42,7 @@ const FeedBackDelay = ({ id, data }) => {
           Feedback
           <input
             type="range"
-            min="0"
+            min="0.1"
             max="1"
             step="0.01"
             value={data.feedback}
@@ -51,19 +51,19 @@ const FeedBackDelay = ({ id, data }) => {
           />
         </label>
         <label>
-          MaxDelay
+          Delay maximum
           <input
             type="range"
             min="0"
-            max="1"
-            step="0.01"
+            max="4"
+            step="0.1"
             value={data.maxDelay}
             onChange={setMaxDelay}
             className="nodrag"
           />
         </label>
         <label>
-          Wet
+          Ratio
           <input
             type="range"
             min="0"

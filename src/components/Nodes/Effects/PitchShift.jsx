@@ -26,7 +26,7 @@ const PitchShift = ({ id, data }) => {
     <div className="node pitchShift">
       <Handle type="target" position="top" id="a" />
       <div className="pitchShift__container">
-        <h3>PitchShift</h3>
+        <h3>Moduleur de pitch</h3>
         <label>
           Pitch
           <input
@@ -40,12 +40,12 @@ const PitchShift = ({ id, data }) => {
           />
         </label>
         <label>
-          DelayTime
+          Delay
           <input
             type="range"
             min="0"
             max="1"
-            step="0.01"
+            step="0.05"
             value={data.delayTime}
             onChange={setDelayTime}
             className="nodrag"
@@ -64,7 +64,7 @@ const PitchShift = ({ id, data }) => {
           />
         </label>
         <label>
-          Wet
+          Ratio
           <input
             type="range"
             min="0"

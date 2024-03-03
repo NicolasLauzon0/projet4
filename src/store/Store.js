@@ -25,6 +25,57 @@ export const useStore = createWithEqualityFn((set, get) => ({
     createNode(type) {
         const id = nanoid();
         switch (type) {
+            case "pluckSynth": {
+                const data = {
+                    attackNoise: 1,
+                    dampening: 4000,
+                    resonance: 0.7,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        }
+                    ],
+                });
+                break;
+            }
+            case "membraneSynth": {
+                const data = {
+                    pitchDecay: 5,
+                    octaves: 5,
+                    oscillator: {
+                        type: "sine",
+                    },
+                    envelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5,
+                    },
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+
+                break;
+            }
             case "amSynth": {
                 const data = {
                     oscillator: {
@@ -46,8 +97,139 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         release: 0.5,
                     },
                     harmonicity: 0.5,
+                    detune: 0,
                 };
                 const position = { x: 300, y: -300 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "duoSynth": {
+                const data = {
+                    vibratoAmount: 0.5,
+                    vibratoRate: 1000,
+                    harmonicity: 10,
+                    voice0: {
+                        portamento: 1,
+                        oscillator: {
+                            type: "sine",
+                        },
+                        filterEnvelope: {
+                            attack: 0.5,
+                            decay: 0.5,
+                            sustain: 0.5,
+                            release: 0.5
+                        },
+                        envelope: {
+                            attack: 0.5,
+                            decay: 0.5,
+                            sustain: 0.5,
+                            release: 0.5
+                        }
+                    },
+                    voice1: {
+                        portamento: 0,
+                        oscillator: {
+                            type: "sine",
+                        },
+                        filterEnvelope: {
+                            attack: 0.5,
+                            decay: 0.5,
+                            sustain: 0.5,
+                            release: 0.5
+                        },
+                        envelope: {
+                            attack: 0.5,
+                            decay: 0.5,
+                            sustain: 0.5,
+                            release: 0.5
+                        }
+                    }
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "fmSynth": {
+                const data = {
+                    harmonicity: 10,
+                    modulationIndex: 10,
+                    detune: 0,
+                    oscillator: {
+                        type: "sine",
+                    },
+                    envelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5
+                    },
+                    modulation: {
+                        type: "sine",
+                    },
+                    modulationEnvelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5
+                    }
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "monoSynth": {
+                const data = {
+                    oscillator: {
+                        type: "sine",
+                    },
+                    envelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5
+                    },
+                    filterEnvelope: {
+                        attack: 0.5,
+                        decay: 0.5,
+                        sustain: 0.5,
+                        release: 0.5,
+                    },
+                    detune: 0,
+                };
+                const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -194,15 +376,10 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     baseFrequency: 200,
                     type: "sine",
-                    depth: 1,
-                    frequency: 400,
-                    octaves: 3,
-                    wet: 1,
-                    filter: {
-                        type: "lowpass",
-                        rolloff: -12,
-                        Q: 1,
-                    }
+                    depth: 0.5,
+                    frequency: 2000,
+                    octaves: 5,
+                    wet: 0.5,
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -239,8 +416,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "reverb": {
                 const data = {
-                    decay: 1.5,
-                    preDelay: 0.01,
+                    decay: 5,
+                    preDelay: 1,
                     wet: 0.5,
                 };
                 const position = { x: 0, y: 0 };
@@ -260,10 +437,10 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "feedbackDelay": {
                 const data = {
-                    delayTime: 0.25,
+                    delayTime: 0.5,
                     feedback: 0.5,
                     maxDelay: 2,
-                    wet: 0.25,
+                    wet: 0.5,
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -286,6 +463,65 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     delayTime: 0,
                     feedback: 0,
                     wet: 0,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "bitCrusher": {
+                const data = {
+                    bits: 8,
+                    wet: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "cheby": {
+                const data = {
+                    order: 50,
+                    wet: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
+            case "add": {
+                const data = {
+                    value: 0.5,
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -439,7 +675,4 @@ export const useStore = createWithEqualityFn((set, get) => ({
             set({ isRunning: isRunning() });
         });
     },
-    play(id) {
-        playPlayerNode(id);
-    }
 }));

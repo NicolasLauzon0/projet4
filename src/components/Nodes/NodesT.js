@@ -15,12 +15,16 @@ const menuProject = [
 ];
 const menu = [
     {
-        name: "Audio",
+        name: "Rythme et Séquence",
         children: [
             {
-                name: "Sortie",
-                type: "out",
+                name: "Séquenceur",
+                type: "sequencer",
             },
+            {
+                name: "BPM/Tempo",
+                type: "bpm",
+            }
         ],
     },
     {
@@ -34,6 +38,26 @@ const menu = [
                 name: "Synthétiseur AM",
                 type: "amSynth",
             },
+            {
+                name: "Synthétiseur FM",
+                type: "fmSynth",
+            },
+            {
+                name: "Synthétiseur Duo",
+                type: "duoSynth",
+            },
+            {
+                name: "Synthétiseur Mono",
+                type: "monoSynth",
+            },
+            {
+                name: "Synthétiseur de membrane",
+                type: "membraneSynth",
+            },
+            {
+                name: "Synthétiseur de pluck",
+                type: "pluckSynth",
+            }
         ],
     },
     {
@@ -54,24 +78,33 @@ const menu = [
             {
                 name: "Delay",
                 type: "feedbackDelay",
-            }, 
+            },
             {
-                name: "Pitch modulator",
+                name: "Moduleur de pitch",
                 type: "pitchShift",
+            },
+            {
+                name: "BitCrusher",
+                type: "bitCrusher",
+            },
+            {
+                name: "Cheby",
+                type: "cheby",
+            },
+            {
+                name: "Addition",
+                type: "add",
             }
         ],
     },
+
     {
-        name: "Rythme et Séquence",
+        name: "Audio",
         children: [
             {
-                name: "Séquenceur",
-                type: "sequencer",
+                name: "Sortie",
+                type: "out",
             },
-            {
-                name: "BPM/Tempo",
-                type: "bpm",
-            }
         ],
     },
 ];

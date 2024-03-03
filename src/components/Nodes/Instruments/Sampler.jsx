@@ -19,7 +19,7 @@ const Sampler = ({ id, data }) => {
     <div className="node sampler">
       <Handle type="target" position="top" id="a" />
       <div className="sampler__container">
-        <h3>Sampler</h3>
+        <h3>Sons de base</h3>
 
         <select value={data.selected} onChange={setUrl} className="nodrag">
           {data?.options?.map((option, index) => {
@@ -35,8 +35,8 @@ const Sampler = ({ id, data }) => {
           Attack
           <input
             type="range"
-            min="0"
-            max="1"
+            min="0.1"
+            max="0.99"
             step="0.01"
             value={data.attack}
             onChange={setAttack}

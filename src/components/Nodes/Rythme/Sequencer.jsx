@@ -106,7 +106,7 @@ const Sequencer = ({ id, data }) => {
   return (
     <div className="node sequencer">
       <div className="sequencer__container">
-        <h3>Sequencer</h3>
+        <h3>Séquenceur</h3>
         <div className="sequencer__controls">
           <label>
             Rangées

@@ -17,9 +17,16 @@ export function updateAudioNode(id, data) {
   node.data = { ...node.data, ...data };
   for (const [key, val] of Object.entries(data)) {
     if (typeof val === 'object' && !Array.isArray(val)) {
-      for (const [k, v] of Object.entries(val)) {
-        if (key in node && typeof node[key] === 'object' && k in node[key]) {
-          node[key][k] = v;
+      const nestedNode = node[key];
+      if (nestedNode && typeof nestedNode === 'object') {
+        for (const [nestedKey, nestedVal] of Object.entries(val)) {
+          if (nestedKey in nestedNode && typeof nestedNode[nestedKey] !== 'undefined') {
+            if (typeof nestedVal === 'object') {
+              Object.assign(nestedNode[nestedKey], nestedVal);
+            } else {
+              nestedNode[nestedKey] = nestedVal;
+            }
+          }
         }
       }
     } else {
@@ -32,8 +39,9 @@ export function updateAudioNode(id, data) {
       }
     }
   }
-
+  console.log(node);
 }
+
 
 
 
@@ -48,7 +56,7 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case 'gain': {
-      const node = new Tone.Gain();
+      const node = new Tone.Gain(data);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -88,7 +96,6 @@ export function createAudioNode(id, type, data) {
       const node = createSequence(data, id);
       node.data = data;
       nodes.set(id, node);
-
       break;
     }
     case 'autoFilter': {
@@ -115,6 +122,55 @@ export function createAudioNode(id, type, data) {
       nodes.set(id, node);
       break;
     }
+    case 'duoSynth': {
+      const node = new Tone.DuoSynth(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'fmSynth': {
+      const node = new Tone.FMSynth(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case 'monoSynth': {
+      const node = new Tone.MonoSynth(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case "membraneSynth": {
+      const node = new Tone.MembraneSynth(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case "pluckSynth": {
+      const node = new Tone.PluckSynth(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case "bitCrusher": {
+      const node = new Tone.BitCrusher(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case "cheby": {
+      const node = new Tone.Chebyshev(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+    case "add": {
+      const node = new Tone.Add(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+      
     default:
       break;
   }

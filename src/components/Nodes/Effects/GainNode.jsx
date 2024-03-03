@@ -16,7 +16,7 @@ const GainNode = ({ id, data }) => {
                 position="top"
             />
             <div>
-                <label>Gain</label>
+                <label>Gain/Volume</label>
                 <input
                     type="range"
                     min="0"
