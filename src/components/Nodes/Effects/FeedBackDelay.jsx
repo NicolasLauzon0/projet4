@@ -3,6 +3,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 
+
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
     store.updateNode(id, { delayTime: +e.target.value });
@@ -24,7 +25,7 @@ const FeedBackDelay = ({ id, data }) => {
   );
   return (
     <div className="node feedbackDelay">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"}/>
       <div className="feedbackDelay__container">
         <h3>Delay</h3>
         <label>
@@ -76,7 +77,7 @@ const FeedBackDelay = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

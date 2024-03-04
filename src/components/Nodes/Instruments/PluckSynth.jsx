@@ -22,7 +22,7 @@ const PluckSynth = ({ id, data }) => {
 
   return (
     <div className="node pluckSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"}/>
       <div className="pluckSynth__container">
         <h3>Synthétiseur de pluck</h3>
 
@@ -65,7 +65,7 @@ const PluckSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

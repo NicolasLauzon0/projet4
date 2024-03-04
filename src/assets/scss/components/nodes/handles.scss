@@ -35,6 +35,14 @@
     transition:
         background-color 0.3s ease-in-out,
         border-color 0.3s ease-in-out;
+
+        &.target {
+            top: -3rem;
+        }
+
+        &.source {
+            bottom: -3rem;
+        }
 }
 .flow .react-flow__handle-valid {
     background-color: var(--vert) !important;

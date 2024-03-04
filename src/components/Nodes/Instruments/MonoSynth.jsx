@@ -95,7 +95,7 @@ const MonoSynth = ({ id, data }) => {
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node monoSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} />
       <div className="monoSynth__container">
         <h3>Synthétiseur mono</h3>
         <label>
@@ -220,7 +220,7 @@ const MonoSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"}/>
     </div>
   );
 };

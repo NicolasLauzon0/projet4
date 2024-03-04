@@ -11,30 +11,36 @@ const CustomHandle = ({
   type,
   position,
   id,
-  nodeType,
-  nodeIdProps,
-  isConnectable,
 }) => {
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();
 
   const isHandleConnectableF = useMemo(() => {
-    if (typeof isConnectable === "function") {
-      const node = nodeInternals.get(nodeId);
-      const connectedEdges = getConnectedEdges([node], edges);
+    // Récupérer le nœud correspondant à l'ID de la poignée
+    const sourceNode = nodeInternals.get(nodeId);
 
-      return isConnectable({ node, connectedEdges });
-    }
+    // Vérifier si la poignée est connectée à un autre bord
+    const isHandleConnected = edges.some((edge) => {
+      if (
+        type === "source" &&
+        edge.source === nodeId &&
+        edge.sourceHandle === id
+      ) {
+        return true; // La poignée est connectée à un autre bord en tant que source
+      }
+      if (
+        type === "target" &&
+        edge.target === nodeId &&
+        edge.targetHandle === id
+      ) {
+        return true; // La poignée est connectée à un autre bord en tant que cible
+      }
+      return false; // La poignée n'est pas connectée à un autre bord
+    });
 
-    if (typeof isConnectable === "number") {
-      const node = nodeInternals.get(nodeId);
-      const connectedEdges = getConnectedEdges([node], edges);
-
-      return connectedEdges.length < isConnectable;
-    }
-
-    return isConnectable;
-  }, [nodeInternals, edges, nodeId, isConnectable]);
+    // Si la poignée est déjà connectée à un autre bord, retourner false, sinon true
+    return !isHandleConnected;
+  }, [nodeInternals, edges, nodeId, id, type]);
 
   return (
     <Handle

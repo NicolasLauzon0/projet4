@@ -18,7 +18,7 @@ const Reverb = ({ id, data }) => {
   const { setDecay, setPreDelay, setWet } = useStore(selector(id), shallow);
   return (
     <div className="node reverb">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} />
       <div className="reverb__container">
         <h3>Réverbération</h3>
         <label>
@@ -58,7 +58,7 @@ const Reverb = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

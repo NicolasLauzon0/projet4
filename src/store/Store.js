@@ -21,7 +21,7 @@ console.log("Store.js");
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
         {
-            id: "0",
+            id: "1",
             type: "out",
             data: {},
             position: { x: 0, y: 0 },
@@ -31,6 +31,24 @@ export const useStore = createWithEqualityFn((set, get) => ({
     createNode(type) {
         const id = nanoid();
         switch (type) {
+            case "knob": {
+                const data = {
+                    value: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        }
+                    ],
+                });
+                break;
+            }
             case "pluckSynth": {
                 const data = {
                     attackNoise: 1,
@@ -623,6 +641,33 @@ export const useStore = createWithEqualityFn((set, get) => ({
             ],
         });
     },
+    async loadProject(data) {
+        const nodes = await data.nodes;
+        const edges = await data.edges;
+        await nodes.forEach((node) => {
+            createAudioNode(node.id, node.type, node.data);
+            set({
+                nodes: [
+                    ...get().nodes,
+                    {
+                        id: node.id,
+                        type: node.type,
+                        data: node.data,
+                        position: node.position,
+                    },
+                ],
+            });
+        });
+        await edges.forEach((edge) => {
+            connect(edge);
+            set({
+                edges: [
+                    ...get().edges,
+                    edge,
+                ],
+            });
+        });
+    },
     onNodesChange(changes) {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
@@ -634,12 +679,12 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     onConnect(data) {
+        connect(data);
         const id = nanoid(6);
         const edge = { id, ...data, animated: true, className: "" };
         set({
             edges: [edge, ...get().edges],
         });
-        connect(data);
     },
     updateOutputs(id, outputs) {
         set((state) => ({
@@ -685,7 +730,11 @@ export const useStore = createWithEqualityFn((set, get) => ({
             return false;
         } else if (sequencerTypes.includes(sourceType) && effectTypes.includes(targetType)) {
             return false;
-        } else {
+        } else if (sourceType == "sequencer" && targetType == "out") {
+            return false;
+        }
+
+        else {
             return true;
         }
     },

@@ -5,11 +5,60 @@
       "type": "out",
       "data": {},
       "position": { "x": 0, "y": 0 },
-      "width": 83,
+      "width": 38,
       "height": 39
     },
     {
-      "id": "yvm5YCXBSV2vBb5Fo9mVo",
+      "id": "TBQheFkn1ge8tYuXg8OdA",
+      "type": "sampler",
+      "data": {
+        "attack": 0.1,
+        "urls": {
+          "A1": "hh.wav",
+          "A2": "hh2.wav",
+          "A3": "hh3.wav",
+          "B1": "snare.wav",
+          "B2": "snare2.wav",
+          "B3": "snare3.wav",
+          "C1": "kick.wav",
+          "C2": "kick2.wav",
+          "C3": "kick3.wav",
+          "D1": "clap.wav",
+          "D2": "clap2.wav",
+          "D3": "clap3.wav",
+          "E1": "perc.wav",
+          "E2": "perc2.wav",
+          "E3": "perc3.wav"
+        },
+        "baseUrl": "src/assets/sons/",
+        "selected": "A1",
+        "options": [
+          { "name": "Hihat", "value": "A1" },
+          { "name": "Hihat 2", "value": "A2" },
+          { "name": "Hihat 3", "value": "A3" },
+          { "name": "Snare", "value": "B1" },
+          { "name": "Snare 2", "value": "B2" },
+          { "name": "Snare 3", "value": "B3" },
+          { "name": "Kick", "value": "C1" },
+          { "name": "Kick 2", "value": "C2" },
+          { "name": "Kick 3", "value": "C3" },
+          { "name": "Clap", "value": "D1" },
+          { "name": "Clap 2", "value": "D2" },
+          { "name": "Clap 3", "value": "D3" },
+          { "name": "perc", "value": "E1" },
+          { "name": "Perc 2", "value": "E2" },
+          { "name": "Perc 3", "value": "E3" }
+        ]
+      },
+      "position": { "x": -4, "y": -536 },
+      "width": 243,
+      "height": 43,
+      "selected": false,
+      "positionAbsolute": { "x": -4, "y": -536 },
+      "dragging": false
+    },
+    {
+      "id": "pa-yDD0xGNny-NIJ-8qNg",
       "type": "amSynth",
       "data": {
         "oscillator": { "type": "sine" },
@@ -26,11 +75,211 @@
           "sustain": 0.5,
           "release": 0.5
         },
-        "harmonicity": 0.5
+        "harmonicity": 0.5,
+        "detune": 0
       },
-      "position": { "x": 300, "y": -300 },
-      "width": 210,
-      "height": 276
+      "position": { "x": -796, "y": -520 },
+      "width": 384,
+      "height": 276,
+      "selected": false,
+      "positionAbsolute": { "x": -796, "y": -520 },
+      "dragging": false
+    },
+    {
+      "id": "nGH6cqb6cjomeOnrA-4RX",
+      "type": "fmSynth",
+      "data": {
+        "harmonicity": 10,
+        "modulationIndex": 10,
+        "detune": 0,
+        "oscillator": { "type": "sine" },
+        "envelope": {
+          "attack": 0.5,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.5
+        },
+        "modulation": { "type": "sine" },
+        "modulationEnvelope": {
+          "attack": 0.5,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.5
+        }
+      },
+      "position": { "x": -204, "y": -716 },
+      "width": 1311,
+      "height": 62,
+      "selected": false,
+      "positionAbsolute": { "x": -204, "y": -716 },
+      "dragging": false
+    },
+    {
+      "id": "_iRHp_eN_uuvyBAa-xrP_",
+      "type": "duoSynth",
+      "data": {
+        "vibratoAmount": 0.5,
+        "vibratoRate": 1000,
+        "harmonicity": 10,
+        "voice0": {
+          "portamento": 1,
+          "oscillator": { "type": "sine" },
+          "filterEnvelope": {
+            "attack": 0.5,
+            "decay": 0.5,
+            "sustain": 0.5,
+            "release": 0.5
+          },
+          "envelope": {
+            "attack": 0.5,
+            "decay": 0.5,
+            "sustain": 0.5,
+            "release": 0.5
+          }
+        },
+        "voice1": {
+          "portamento": 0,
+          "oscillator": { "type": "sine" },
+          "filterEnvelope": {
+            "attack": 0.5,
+            "decay": 0.5,
+            "sustain": 0.5,
+            "release": 0.5
+          },
+          "envelope": {
+            "attack": 0.5,
+            "decay": 0.5,
+            "sustain": 0.5,
+            "release": 0.5
+          }
+        }
+      },
+      "position": { "x": 68, "y": -300 },
+      "width": 1311,
+      "height": 160,
+      "selected": false,
+      "positionAbsolute": { "x": 68, "y": -300 },
+      "dragging": false
+    },
+    {
+      "id": "BSYDXcT7voBPX-8fFLNO6",
+      "type": "monoSynth",
+      "data": {
+        "oscillator": { "type": "sine" },
+        "envelope": {
+          "attack": 0.5,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.5
+        },
+        "filterEnvelope": {
+          "attack": 0.5,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.5
+        },
+        "detune": 0
+      },
+      "position": { "x": 144, "y": 124 },
+      "width": 1311,
+      "height": 83,
+      "selected": false,
+      "positionAbsolute": { "x": 144, "y": 124 },
+      "dragging": false
+    },
+    {
+      "id": "R9S5fidkmMdsyYtVubYJm",
+      "type": "membraneSynth",
+      "data": {
+        "pitchDecay": 5,
+        "octaves": 5,
+        "oscillator": { "type": "sine" },
+        "envelope": {
+          "attack": 0.5,
+          "decay": 0.5,
+          "sustain": 0.5,
+          "release": 0.5
+        }
+      },
+      "position": { "x": -1323.199999999999, "y": -120 },
+      "width": 1311,
+      "height": 63,
+      "selected": false,
+      "positionAbsolute": { "x": -1323.199999999999, "y": -120 },
+      "dragging": false
+    },
+    {
+      "id": "C1LmQ_mqbUZlt_r5nBoOU",
+      "type": "pluckSynth",
+      "data": { "attackNoise": 1, "dampening": 4000, "resonance": 0.7 },
+      "position": { "x": -768, "y": 168 },
+      "width": 574,
+      "height": 42,
+      "selected": false,
+      "positionAbsolute": { "x": -768, "y": 168 },
+      "dragging": false
+    },
+    {
+      "id": "MVEZxhqWOTQm6bwNOI-mE",
+      "type": "gain",
+      "data": { "gain": 0.5 },
+      "position": { "x": 276, "y": 592 },
+      "width": 214,
+      "height": 20,
+      "selected": false,
+      "positionAbsolute": { "x": 276, "y": 592 },
+      "dragging": false
+    },
+    {
+      "id": "Ee8ZU0kCFrEVKLwB77y39",
+      "type": "autoFilter",
+      "data": {
+        "baseFrequency": 200,
+        "type": "sine",
+        "depth": 0.5,
+        "frequency": 2000,
+        "octaves": 5,
+        "wet": 0.5
+      },
+      "position": { "x": 316, "y": 384 },
+      "width": 988,
+      "height": 42,
+      "selected": false,
+      "positionAbsolute": { "x": 316, "y": 384 },
+      "dragging": false
+    },
+    {
+      "id": "UFPkrEJEpqxL1UfYEYluP",
+      "type": "reverb",
+      "data": { "decay": 5, "preDelay": 1, "wet": 0.5 },
+      "position": { "x": -412, "y": 580 },
+      "width": 524,
+      "height": 42,
+      "selected": false,
+      "positionAbsolute": { "x": -412, "y": 580 },
+      "dragging": false
+    },
+    {
+      "id": "EcAToH6DamMTuShP6Dqzc",
+      "type": "feedbackDelay",
+      "data": { "delayTime": 0.5, "feedback": 0.5, "maxDelay": 2, "wet": 0.5 },
+      "position": { "x": 612, "y": 548 },
+      "width": 817,
+      "height": 42,
+      "selected": false,
+      "positionAbsolute": { "x": 612, "y": 548 },
+      "dragging": false
+    },
+    {
+      "id": "Xgal3KeHp18xhQUoGa5jR",
+      "type": "pitchShift",
+      "data": { "pitch": 0, "delayTime": 0, "feedback": 0, "wet": 0 },
+      "position": { "x": -520, "y": 364 },
+      "width": 683,
+      "height": 42,
+      "selected": false,
+      "positionAbsolute": { "x": -520, "y": 364 },
+      "dragging": false
     }
   ],
   "edges": []

@@ -111,6 +111,15 @@ const menu = [
             },
         ],
     },
+    {
+        name: "Dev",
+        children: [
+            {
+                name: "Knob",
+                type: "knob",
+            },
+        ],
+    }
 ];
 
 export { menu, menuProject };

@@ -1,0 +1,10 @@
+.amsynthnode.node{
+    padding: 3rem;
+    & .amsynthnode__container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        gap: 4rem;
+    }
+}

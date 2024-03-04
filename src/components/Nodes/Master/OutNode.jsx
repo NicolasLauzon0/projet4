@@ -14,9 +14,9 @@ const Out = ({ id, data }) => {
 
   return (
     <div className="node out">
-      <CustomHandle type={"target"} position={"top"} id={"0"} isConnectable={1} nodeType={"out"} />
+      <CustomHandle type={"target"} position={"top"} id={"1"} nodeType={"out"} />
       <div>
-        <p>Sortie</p>
+        <h4>Sortie</h4>
 
         <button onClick={toggleVolume}>
           {!isRunning ? (

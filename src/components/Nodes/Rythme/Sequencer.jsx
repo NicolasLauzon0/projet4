@@ -2,6 +2,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import { useEffect, useRef } from "react";
 import { Handle, getOutgoers } from "reactflow";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
@@ -146,12 +147,7 @@ const Sequencer = ({ id, data }) => {
                   </div>
                 );
               })}
-              <Handle
-                type="source"
-                position="right"
-                id={rowId.toString()}
-                key={rowId}
-              />
+              <CustomHandle type={"source"} position={"right"} id={rowId.toString()} key={rowId} />
             </div>
           ))}
         </div>

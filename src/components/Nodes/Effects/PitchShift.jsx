@@ -25,7 +25,7 @@ const PitchShift = ({ id, data }) => {
   );
   return (
     <div className="node pitchShift">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"}/>
       <div className="pitchShift__container">
         <h3>Moduleur de pitch</h3>
         <label>
@@ -77,7 +77,7 @@ const PitchShift = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

@@ -22,6 +22,7 @@ const selector = (store) => ({
   createEdgeFromData: store.createEdgeFromData,
   toggleVolume: store.toggleVolume,
   isRunning: store.isRunning,
+  loadProject: store.loadProject,
 });
 
 const DataContext = createContext({
@@ -117,6 +118,7 @@ const SaveAndLoadProvider = ({ children }) => {
     setProject({ ...project, name: name });
   };
 
+
   const loadProject = async (id) => {
     const docRef = doc(db, "projects", id);
     const docSnap = await getDoc(docRef);
@@ -124,12 +126,7 @@ const SaveAndLoadProvider = ({ children }) => {
       await store.toggleVolume();
       const data = docSnap.data();
       await store.reset();
-      await JSON.parse(data.content).nodes.forEach((node) => {
-        store.createNodeFromData(node);
-      });
-      await JSON.parse(data.content).edges.forEach((edge) => {
-        store.createEdgeFromData(edge);
-      });
+      await store.loadProject(JSON.parse(data.content));
       setProject({
         ...project,
         id: id,

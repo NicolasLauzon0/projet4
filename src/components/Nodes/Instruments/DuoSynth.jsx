@@ -1,14 +1,14 @@
-import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
+import Input from "../Input.jsx";
 
 const selector = (id, data) => (store) => ({
-  setVibratoAmount: (e) => {
-    store.updateNode(id, { vibratoAmount: +e.target.value });
+  setVibratoAmount: (value) => {
+    store.updateNode(id, { vibratoAmount: value });
   },
-  setVibratoRate: (e) => {
-    store.updateNode(id, { vibratoRate: +e.target.value });
+  setVibratoRate: (value) => {
+    store.updateNode(id, { vibratoRate: value });
   },
   setHarmonicity: (e) => {
     store.updateNode(id, { harmonicity: +e.target.value });
@@ -259,62 +259,47 @@ const DuoSynth = ({ id, data }) => {
 
   return (
     <div className="node duoSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} />
       <div className="duoSynth__container">
         <h3>Synthétiseur Duo</h3>
-        <label>
-          Taux de vibrato
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.vibratoAmount}
-            onChange={setVibratoAmount}
-            className="nodrag"
-          />
-        </label>
 
-        <label>
-          Amplitude de vibrato
-          <input
-            type="range"
-            min="0.1"
-            max="2000"
-            step="0.01"
-            value={data.vibratoRate}
-            onChange={setVibratoRate}
-            className="nodrag"
-          />
-        </label>
+        <Input
+          min={0.1}
+          max={0.99}
+          step={0.01}
+          value={data.vibratoAmount}
+          setValue={setVibratoAmount}
+          label={"Taux de vibrato"}
+        />
+        <Input
+          min={0.1}
+          max={2000}
+          step={0.01}
+          value={data.vibratoRate}
+          setValue={setVibratoRate}
+          label={"Amplitude de vibrato"}
+        />
 
-        <label>
-          Harmonicité
-          <input
-            type="range"
-            min="0.1"
-            max="20"
-            step="0.01"
-            value={data.harmonicity}
-            onChange={setHarmonicity}
-            className="nodrag"
-          />
-        </label>
+        <Input
+          min={0.1}
+          max={20}
+          step={0.01}
+          value={data.harmonicity}
+          setValue={setHarmonicity}
+          label={"Harmonicité"}
+        />
 
         <div className="voice0">
           <h4>Voice 0</h4>
-          <label>
-            Portamento
-            <input
-              type="range"
-              min="0.1"
-              max="2"
-              step="0.01"
-              value={data.voice0.portamento}
-              onChange={setVoice0Portamento}
-              className="nodrag"
-            />
-          </label>
+
+          <Input
+            min={0.1}
+            max={2}
+            step={0.01}
+            value={data.voice0.portamento}
+            setValue={setVoice0Portamento}
+            label={"Portamento"}
+          />
           <label>
             Type d'oscillateur
             <select
@@ -549,7 +534,7 @@ const DuoSynth = ({ id, data }) => {
           </label>
         </div>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

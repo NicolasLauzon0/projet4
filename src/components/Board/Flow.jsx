@@ -7,7 +7,7 @@ import { shallow } from "zustand/shallow";
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
 import Sampler from "../Nodes/Instruments/Sampler.jsx";
-import AMSynthNode from "../Nodes/Instruments/AMSynthNode.jsx";
+import AMSynth from "../Nodes/Instruments/AMSynth.jsx";
 import DuoSynth from "../Nodes/Instruments/DuoSynth.jsx";
 import FMSynth from "../Nodes/Instruments/FMSynth.jsx";
 import MonoSynth from "../Nodes/Instruments/MonoSynth.jsx";
@@ -36,6 +36,7 @@ import FilesPopUp from "./Menu/FilesPopUp.jsx";
 import { menu, menuProject } from "../Nodes/NodesT.js";
 
 import "reactflow/dist/style.css";
+import Input from "../Nodes/Input.jsx";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -46,15 +47,13 @@ const selector = (store) => ({
   onNodesDelete: store.onNodesDelete,
   onEdgesDelete: store.onEdgesDelete,
   createNode: store.createNode,
-  createNodeFromData: store.createNodeFromData,
-  createEdgeFromData: store.createEdgeFromData,
   reset: store.reset,
   updateNode: store.updateNode,
   isValidConnection: store.isValidConnection,
 });
 
 const nodeTypes = {
-  amSynth: AMSynthNode,
+  amSynth: AMSynth,
   gain: GainNode,
   out: OutNode,
   sampler: Sampler,
@@ -73,6 +72,7 @@ const nodeTypes = {
   cheby: Cheby,
   add: Add,
   chorus: Chorus,
+  knob: Input,
 };
 
 
@@ -118,14 +118,14 @@ const Flow = () => {
         <MiniMap
           nodeColor={(n) => {
             if (n.type === "out") {
-              return "var(--vert)";
+              return "#ff6060";
             } else if (n.type === "sequencer") {
               return "var(--jaune)";
             }
             return "var(--turquoise)";
           }}
           position="bottom-left"
-          nodeBorderRadius={2}
+          nodeBorderRadius={"1rem"}
           style={{
             border: "3px solid var(--vert)",
             borderRadius: "5px",
