@@ -32,19 +32,17 @@
     cursor: pointer;
     z-index: 10;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s;
+    transition:
+        background-color 0.3s ease-in-out,
+        border-color 0.3s ease-in-out,;
 }
-.react-flow__handle-connecting {
-    background-color: var(--vert);
-    border-color: var(--noir);
-}
-.react-flow__node.selected .react-flow__handle {
-    border-color: 3px solid var(--noir);
+.flow .react-flow__handle-valid {
+    background-color: var(--vert) !important;
+    border-color: var(--noir) !important;
 }
 
-.react-flow__nodesselection {
-    position: absolute;
-    border: 2px solid var(--noir);
-    background-color: rgba(0, 0, 0, 0.1) !important;
-    z-index: 10;
+.flow .react-flow__handle-connecting {
+    background: #ff6060;
+    border-color: #ff6060;
 }
+

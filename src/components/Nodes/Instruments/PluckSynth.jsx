@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id) => (store) => ({
   setAttack: (e) => {
@@ -21,7 +22,7 @@ const PluckSynth = ({ id, data }) => {
 
   return (
     <div className="node pluckSynth">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="pluckSynth__container">
         <h3>Synthétiseur de pluck</h3>
 
@@ -64,7 +65,7 @@ const PluckSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
@@ -23,7 +24,7 @@ const FeedBackDelay = ({ id, data }) => {
   );
   return (
     <div className="node feedbackDelay">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="feedbackDelay__container">
         <h3>Delay</h3>
         <label>
@@ -75,7 +76,7 @@ const FeedBackDelay = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

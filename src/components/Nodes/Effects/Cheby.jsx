@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id) => (store) => ({
   setOrder: (e) => {
@@ -14,7 +15,7 @@ const Cheby = ({ id, data }) => {
   const { setOrder, setWet } = useStore(selector(id), shallow);
   return (
     <div className="node cheby">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="cheby__container">
         <h3>Cheby</h3>
         <label>
@@ -42,7 +43,7 @@ const Cheby = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

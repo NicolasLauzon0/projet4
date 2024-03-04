@@ -1,14 +1,15 @@
 import { Handle } from "reactflow";
+import CustomHandle from "../../Handle/CustomHandle";
 
 const Add = () => {
   return (
     <div className="node add">
-      <Handle type="target" position="top" id="a" />
-      <Handle type="target" position="left" id="c" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={3} />
+      <CustomHandle type={"target"} position={"top"} id={"b"} isConnectable={3} />
       <div className="add__container">
         <h3>Addition</h3>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"c"} isConnectable={3} />
     </div>
   );
 };

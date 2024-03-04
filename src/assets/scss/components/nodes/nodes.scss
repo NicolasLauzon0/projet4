@@ -1,3 +1,19 @@
-@import "event/event.scss";
+@import "rythmeetsequence/rythmeetsequence.scss";
 @import "handles.scss";
 
+
+.react-flow__node.selected {
+    box-shadow: 0 0 10px 6px var(--turquoise);
+
+    transition: box-shadow 0.2s;
+    border-radius: 2rem;
+}
+
+.react-flow__node:not(.selected) {
+    border-radius: 2rem;
+    transition: box-shadow 0.2s;
+}
+
+.react-flow__node.animated {
+    transition: box-shadow 0.3s;
+}

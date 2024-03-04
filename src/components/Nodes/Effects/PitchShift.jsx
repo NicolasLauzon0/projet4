@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
@@ -24,7 +25,7 @@ const PitchShift = ({ id, data }) => {
   );
   return (
     <div className="node pitchShift">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="pitchShift__container">
         <h3>Moduleur de pitch</h3>
         <label>
@@ -76,7 +77,7 @@ const PitchShift = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

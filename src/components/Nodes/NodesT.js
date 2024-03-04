@@ -94,7 +94,11 @@ const menu = [
             {
                 name: "Addition",
                 type: "add",
-            }
+            },
+            {
+                name: "Chorus",
+                type: "chorus",
+            },
         ],
     },
 

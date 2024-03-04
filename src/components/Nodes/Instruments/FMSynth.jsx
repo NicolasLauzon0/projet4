@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id, data) => (store) => ({
   setHarmonicity: (e) => {
@@ -57,7 +58,7 @@ const FMSynth = ({ id, data }) => {
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node fmSynth">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="fmSynth__container">
         <h3>Synthétiseur FM</h3>
         <label>
@@ -145,7 +146,7 @@ const FMSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

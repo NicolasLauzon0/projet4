@@ -2,6 +2,7 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (store) => ({
   isRunning: store.isRunning,
@@ -13,7 +14,7 @@ const Out = ({ id, data }) => {
 
   return (
     <div className="node out">
-      <Handle type="target" position="top" id="0" />
+      <CustomHandle type={"target"} position={"top"} id={"0"} isConnectable={1} />
       <div>
         <p>Sortie</p>
 

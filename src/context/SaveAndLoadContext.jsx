@@ -21,6 +21,7 @@ const selector = (store) => ({
   createNodeFromData: store.createNodeFromData,
   createEdgeFromData: store.createEdgeFromData,
   toggleVolume: store.toggleVolume,
+  isRunning: store.isRunning,
 });
 
 const DataContext = createContext({
@@ -38,75 +39,77 @@ const SaveAndLoadProvider = ({ children }) => {
   const [project, setProject] = useState({
     name: "",
     id: "",
+    date: "",
   });
   const [projects, setProjects] = useState([]);
   const [seeFiles, setSeeFiles] = useState(false);
   const { user } = useAuth();
-
   // Sauvegarde des données dans la base de données
   const saveDataDB = async () => {
     if (project.name === "") {
+      if (store.isRunning) {
+        await store.toggleVolume();
+      }
       if (
         window.confirm("Voulez-vous vraiment sauvegarder ce projet sans nom ?")
       ) {
-        await store.toggleVolume();
         const data = JSON.stringify(store.saveProject());
+        const name =
+          project.name === ""
+            ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
+            : project.name;
+        const date =
+          new Date().toLocaleDateString() +
+          " " +
+          new Date().toLocaleTimeString();
         const doc = await addDoc(collection(db, "projects"), {
-          name:
-            project.name === ""
-              ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-              : project.name,
+          name: name,
           content: data,
-          date:
-            new Date().toLocaleDateString() +
-            " " +
-            new Date().toLocaleTimeString(),
+          date: date,
           userID: user.uid,
         });
         setProject({
+          ...project,
           id: doc.id,
-          name:
-            project.name === ""
-              ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-              : project.name,
+          name: name,
+          date: date,
         });
-        setProjects([
-          ...projects,
-          {
-            id: doc.id,
-            name: project.name,
-          },
-        ]);
+        setProjects(projects.concat({ id: doc.id, name: name, date: date }));
+
         await store.toggleVolume();
       } else {
+        await store.toggleVolume();
         return;
       }
     } else {
       await store.toggleVolume();
       const data = JSON.stringify(store.saveProject());
+      const name =
+        project.name === ""
+          ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
+          : project.name;
+      const date =
+        new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
       const doc = await addDoc(collection(db, "projects"), {
-        name: project.name,
+        name: name,
         content: data,
-        date:
-          new Date().toLocaleDateString() +
-          " " +
-          new Date().toLocaleTimeString(),
+        date: date,
         userID: user.uid,
       });
       setProject({
+        ...project,
         id: doc.id,
-        name:
-          project.name === ""
-            ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-            : project.name,
+        name: name,
+        date: date,
       });
-      setProjects([
-        ...projects,
-        {
+      setProjects(
+        projects.concat({
           id: doc.id,
-          name: project.name,
-        },
-      ]);
+          name: name,
+          date: date,
+        })
+      );
+
       await store.toggleVolume();
     }
   };
@@ -127,11 +130,11 @@ const SaveAndLoadProvider = ({ children }) => {
       await JSON.parse(data.content).edges.forEach((edge) => {
         store.createEdgeFromData(edge);
       });
-      await setProject({
-        id: docSnap.id,
+      setProject({
+        ...project,
+        id: id,
         name: data.name,
         date: data.date,
-        content: data.content,
       });
       console.log(project);
     } else {
@@ -174,6 +177,7 @@ const SaveAndLoadProvider = ({ children }) => {
     saveDataDB();
   };
 
+  console.log(projects, project);
   return (
     <DataContext.Provider
       value={{

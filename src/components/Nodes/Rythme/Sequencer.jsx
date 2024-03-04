@@ -1,8 +1,7 @@
-import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import { useEffect, useRef } from "react";
-import { nodes } from "../../../Audio.js";
+import { Handle, getOutgoers } from "reactflow";
 
 const selector = (id, data) => (store) => ({
   setRows: (e) => {
@@ -34,10 +33,19 @@ const selector = (id, data) => (store) => ({
     store.updateNode(id, {
       rows: newRows,
       notes: newNotes,
+      outputs: updatedOutputs,
     });
+    const deletedRows = data.rows - newRows;
+    if (deletedRows > 0) {
+      const incomingEdges = store.edges.filter((edge) => edge.source === id);
+      incomingEdges.forEach((edge) => {
+        if(parseInt(edge.sourceHandle) >= newRows ) {
+          store.removeEdge(edge.id);
+        }
+      });
+    }
 
-    // Update outputs in the store
-    store.updateNode(id, { outputs: updatedOutputs });
+    
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
@@ -140,7 +148,12 @@ const Sequencer = ({ id, data }) => {
                   </div>
                 );
               })}
-              <Handle type="source" position="right" id={rowId.toString()} />
+              <Handle
+                type="source"
+                position="right"
+                id={rowId.toString()}
+                key={rowId}
+              />
             </div>
           ))}
         </div>

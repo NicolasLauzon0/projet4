@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id, data) => (store) => ({
   setVibratoAmount: (e) => {
@@ -258,7 +259,7 @@ const DuoSynth = ({ id, data }) => {
 
   return (
     <div className="node duoSynth">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="duoSynth__container">
         <h3>Synthétiseur Duo</h3>
         <label>
@@ -548,7 +549,7 @@ const DuoSynth = ({ id, data }) => {
           </label>
         </div>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

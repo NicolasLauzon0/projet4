@@ -1,4 +1,7 @@
-import { applyNodeChanges, applyEdgeChanges } from 'reactflow';
+import {
+    applyNodeChanges,
+    applyEdgeChanges,
+} from 'reactflow';
 import { nanoid } from "nanoid";
 import { createWithEqualityFn } from "zustand/traditional";
 import {
@@ -11,6 +14,9 @@ import {
     createAudioNode
 } from '../Audio';
 
+const MIN_DISTANCE = 100;
+
+console.log("Store.js");
 
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
@@ -538,6 +544,31 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 });
                 break;
             }
+            case "chorus": {
+                const data = {
+                    delayTime: 3.5,
+                    depth: 0.5,
+                    feedback: 0.5,
+                    frequency: 1.5,
+                    spread: 180,
+                    type: "sine",
+                    wet: 0.5,
+                };
+                const position = { x: 0, y: 0 };
+                createAudioNode(id, type, data);
+                set({
+                    nodes: [
+                        ...get().nodes,
+                        {
+                            id,
+                            type,
+                            data,
+                            position,
+                        },
+                    ],
+                });
+                break;
+            }
             default:
                 break;
         }
@@ -562,13 +593,13 @@ export const useStore = createWithEqualityFn((set, get) => ({
         await nodes.forEach((node) => {
             removeAudioNode(node.id);
         });
-        await set({ nodes: [], edges: [] });
+        set({ nodes: [], edges: [] });
     },
-    createNodeFromData(dataRef) {
-        const id = dataRef.id;
-        const type = dataRef.type;
-        const position = dataRef.position;
-        const data = { ...dataRef.data };
+    async createNodeFromData(dataRef) {
+        const id = await dataRef.id;
+        const type = await dataRef.type;
+        const position = await dataRef.position;
+        const data = await { ...dataRef.data };
 
         createAudioNode(id, type, data);
         set({
@@ -602,7 +633,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
             edges: applyEdgeChanges(changes, get().edges),
         });
     },
-    addEdge(data) {
+    onConnect(data) {
         const id = nanoid(6);
         const edge = { id, ...data, animated: true };
         set({
@@ -610,7 +641,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
         connect(data);
     },
-
     updateOutputs(id, outputs) {
         set((state) => ({
             nodes: state.nodes.map((node) => {
@@ -633,6 +663,26 @@ export const useStore = createWithEqualityFn((set, get) => ({
             disconnect(edge);
         });
     },
+    isValidConnection(connection) {
+        const source = get().nodes.find((node) => node.id === connection.source);
+        const target = get().nodes.find((node) => node.id === connection.target);
+        if (source === target) {
+            console.log("source and target are the same");
+            return false;
+        }
+
+        const sourceType = source.type;
+        const targetType = target.type;
+
+
+        if (sourceType === "sequencer" && targetType !== "sampler" && targetType !== "fmSynth" && targetType !== "monoSynth" && targetType !== "duoSynth" && targetType !== "amSynth" && targetType !== "membraneSynth" && targetType !== "pluckSynth") {
+            return false;
+        } else if (sourceType === "fmSynth" && targetType === "fmSynth" || sourceType === "amSynth" && targetType === "amSynth" || sourceType === "duoSynth" && targetType === "duoSynth" || sourceType === "monoSynth" && targetType === "monoSynth" || sourceType === "membraneSynth" && targetType === "membraneSynth" || sourceType === "pluckSynth" && targetType === "pluckSynth" || sourceType === "sampler" && targetType === "sampler" || sourceType === "gain" && targetType === "gain" || sourceType === "out" && targetType === "out" || sourceType === "autoFilter" && targetType === "autoFilter" || sourceType === "bpm" && targetType === "bpm" || sourceType === "reverb" && targetType === "reverb" || sourceType === "feedbackDelay" && targetType === "feedbackDelay" || sourceType === "pitchShift" && targetType === "pitchShift" || sourceType === "bitCrusher" && targetType === "bitCrusher" || sourceType === "cheby" && targetType === "cheby" || sourceType === "add" && targetType === "add" || sourceType === "chorus" && targetType === "chorus") {
+            return false;
+        } else {
+            return true;
+        }
+    },
     saveProject() {
         const data = {
             nodes: get().nodes,
@@ -642,7 +692,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
             ...data,
             nodes: data.nodes.map(node => {
                 if (node.type === "sequencer") {
-                    console.log(node.data);
                     return {
                         ...node,
                         data: {
@@ -663,6 +712,14 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
         return newData;
     },
+    removeEdge(id) {
+        set((state) => ({
+            edges: state.edges.filter((edge) => edge.id !== id),
+        }));
+    },
+    getNode(id) {
+        return get().nodes.find((node) => node.id === id);
+    },
     updateNode(id, data) {
         updateAudioNode(id, data);
         set((state) => ({
@@ -674,5 +731,15 @@ export const useStore = createWithEqualityFn((set, get) => ({
         toggleAudio().then(() => {
             set({ isRunning: isRunning() });
         });
+    },
+    onNodeDrag(event, node) {
+        const closeNode = get().getClosetNodePosition(node)
+        console.log(closeNode);
+    },
+    onNodeDragStop(event, node) {
+        console.log(event, node);
+    },
+    getClosetNodePosition(node) {
+
     },
 }));

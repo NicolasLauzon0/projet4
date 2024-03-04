@@ -153,7 +153,7 @@ export function createAudioNode(id, type, data) {
       break;
     }
     case "bitCrusher": {
-      const node = new Tone.BitCrusher(data);
+      const node = new Tone.BitCrusher()
       node.data = data;
       nodes.set(id, node);
       break;
@@ -170,7 +170,13 @@ export function createAudioNode(id, type, data) {
       nodes.set(id, node);
       break;
     }
-      
+    case "chorus": {
+      const node = new Tone.Chorus(data);
+      node.data = data;
+      nodes.set(id, node);
+      break;
+    }
+
     default:
       break;
   }

@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id) => (store) => ({
   setBits: (e) => {
@@ -14,7 +15,7 @@ const BitCrusher = ({ id, data }) => {
   const { setBits, setWet } = useStore(selector(id), shallow);
   return (
     <div className="node bitCrusher">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="bitCrusher__container">
         <h3>BitCrusher</h3>
         <label>
@@ -42,7 +43,7 @@ const BitCrusher = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };

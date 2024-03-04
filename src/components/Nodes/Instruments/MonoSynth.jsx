@@ -1,6 +1,7 @@
 import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
+import CustomHandle from "../../Handle/CustomHandle.jsx";
 
 const selector = (id, data) => (store) => ({
   setDetune: (e) => {
@@ -94,7 +95,7 @@ const MonoSynth = ({ id, data }) => {
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node monoSynth">
-      <Handle type="target" position="top" id="a" />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
       <div className="monoSynth__container">
         <h3>Synthétiseur mono</h3>
         <label>
@@ -219,7 +220,7 @@ const MonoSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <Handle type="source" position="bottom" id="b" />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
     </div>
   );
 };
