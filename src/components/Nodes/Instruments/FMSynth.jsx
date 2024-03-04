@@ -58,7 +58,7 @@ const FMSynth = ({ id, data }) => {
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node fmSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="fmSynth__container">
         <h3>Synthétiseur FM</h3>
         <label>
@@ -146,7 +146,7 @@ const FMSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

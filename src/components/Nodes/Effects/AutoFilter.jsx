@@ -38,7 +38,7 @@ const Filtre = ({ id, data }) => {
 
   return (
     <div className="node Filtre">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="Filtre__container">
         <h3>Filtre</h3>
         <label>
@@ -102,7 +102,7 @@ const Filtre = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

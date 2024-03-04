@@ -28,6 +28,15 @@ const selector = (id, data) => (store) => ({
         return data.outputs[index];
       }
     });
+    const deletedRows = data.rows - newRows;
+    if (deletedRows > 0) {
+      const incomingEdges = store.edges.filter((edge) => edge.source === id);
+      incomingEdges.forEach((edge) => {
+        if (parseInt(edge.sourceHandle) >= newRows) {
+          store.removeEdge(edge.id);
+        }
+      });
+    }
 
     // Update data in the store
     store.updateNode(id, {
@@ -35,17 +44,6 @@ const selector = (id, data) => (store) => ({
       notes: newNotes,
       outputs: updatedOutputs,
     });
-    const deletedRows = data.rows - newRows;
-    if (deletedRows > 0) {
-      const incomingEdges = store.edges.filter((edge) => edge.source === id);
-      incomingEdges.forEach((edge) => {
-        if(parseInt(edge.sourceHandle) >= newRows ) {
-          store.removeEdge(edge.id);
-        }
-      });
-    }
-
-    
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);

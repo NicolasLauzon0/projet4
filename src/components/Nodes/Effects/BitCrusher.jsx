@@ -15,7 +15,7 @@ const BitCrusher = ({ id, data }) => {
   const { setBits, setWet } = useStore(selector(id), shallow);
   return (
     <div className="node bitCrusher">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="bitCrusher__container">
         <h3>BitCrusher</h3>
         <label>
@@ -43,7 +43,7 @@ const BitCrusher = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

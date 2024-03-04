@@ -34,7 +34,7 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
     transition:
         background-color 0.3s ease-in-out,
-        border-color 0.3s ease-in-out,;
+        border-color 0.3s ease-in-out;
 }
 .flow .react-flow__handle-valid {
     background-color: var(--vert) !important;
@@ -46,3 +46,7 @@
     border-color: #ff6060;
 }
 
+.flow .react-flow__handle:not(.connectable) {
+    background-color: var(--vert) !important;
+    border-color: var(--noir) !important;
+}

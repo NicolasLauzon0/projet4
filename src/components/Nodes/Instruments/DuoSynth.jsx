@@ -259,7 +259,7 @@ const DuoSynth = ({ id, data }) => {
 
   return (
     <div className="node duoSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="duoSynth__container">
         <h3>Synthétiseur Duo</h3>
         <label>
@@ -549,7 +549,7 @@ const DuoSynth = ({ id, data }) => {
           </label>
         </div>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

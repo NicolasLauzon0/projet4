@@ -15,7 +15,7 @@ const Cheby = ({ id, data }) => {
   const { setOrder, setWet } = useStore(selector(id), shallow);
   return (
     <div className="node cheby">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="cheby__container">
         <h3>Cheby</h3>
         <label>
@@ -43,7 +43,7 @@ const Cheby = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

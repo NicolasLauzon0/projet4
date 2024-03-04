@@ -40,7 +40,7 @@ const Chorus = ({ id, data }) => {
 
   return (
     <div className="node chorus">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="chorus__container">
         <h3>Chorus</h3>
         <label>
@@ -125,7 +125,7 @@ const Chorus = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

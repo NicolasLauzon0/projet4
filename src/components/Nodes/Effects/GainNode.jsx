@@ -16,7 +16,7 @@ const GainNode = ({ id, data }) => {
         type={"target"}
         position={"top"}
         id={"a"}
-        isConnectable={2}
+        isConnectable={1}
       />
       <div>
         <label>
@@ -36,7 +36,7 @@ const GainNode = ({ id, data }) => {
         type={"source"}
         position={"bottom"}
         id={"b"}
-        isConnectable={2}
+        isConnectable={1}
       />
     </div>
   );

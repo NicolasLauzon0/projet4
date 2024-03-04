@@ -63,7 +63,7 @@ const MembraneSynth = ({ id, data }) => {
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node membraneSynth">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="membraneSynth__container">
         <h3>Synthétiseur à membrane</h3>
         <label>
@@ -152,7 +152,7 @@ const MembraneSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

@@ -100,7 +100,7 @@ const AMSynthNode = ({ id, data }) => {
 
   return (
     <div className="node amsynthnode">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="amsynthnode__container">
         <h3>Synthétiseur AM</h3>
         <div className="sound">
@@ -284,7 +284,7 @@ const AMSynthNode = ({ id, data }) => {
           </div>
         </div>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

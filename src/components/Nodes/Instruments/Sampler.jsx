@@ -18,7 +18,7 @@ const Sampler = ({ id, data }) => {
 
   return (
     <div className="node sampler">
-      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={2} />
+      <CustomHandle type={"target"} position={"top"} id={"a"} isConnectable={1} />
       <div className="sampler__container">
         <h3>Sons de base</h3>
 
@@ -45,7 +45,7 @@ const Sampler = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={2} />
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} isConnectable={1} />
     </div>
   );
 };

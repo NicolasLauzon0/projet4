@@ -51,8 +51,6 @@ const selector = (store) => ({
   reset: store.reset,
   updateNode: store.updateNode,
   isValidConnection: store.isValidConnection,
-  onNodeDrag: store.onNodeDrag,
-  onNodeDragStop: store.onNodeDragStop,
 });
 
 const nodeTypes = {
@@ -77,7 +75,6 @@ const nodeTypes = {
   chorus: Chorus,
 };
 
-const MIN_DISTANCE = 150;
 
 const Flow = () => {
   const store = useStore(selector, shallow);
@@ -100,8 +97,6 @@ const Flow = () => {
         onConnect={store.onConnect}
         onEdgesDelete={store.onEdgesDelete}
         isValidConnection={store.isValidConnection}
-        onNodeDrag={store.onNodeDrag}
-        onNodeDragStop={store.onNodeDragStop}
         nodeTypes={nodeTypes}
         fitView
         className="flow"
@@ -122,8 +117,12 @@ const Flow = () => {
         />
         <MiniMap
           nodeColor={(n) => {
-            if (n.type === "out") return "var(--vert)";
-            return "var(--gris)";
+            if (n.type === "out") {
+              return "var(--vert)";
+            } else if (n.type === "sequencer") {
+              return "var(--jaune)";
+            }
+            return "var(--turquoise)";
           }}
           position="bottom-left"
           nodeBorderRadius={2}
@@ -132,7 +131,8 @@ const Flow = () => {
             borderRadius: "5px",
             backgroundColor: "var(--gris)",
             padding: "0",
-            zoom: "1.2",
+            cursor: "grab",
+            opacity: "0.9",
           }}
           zoomable={true}
           pannable={true}
