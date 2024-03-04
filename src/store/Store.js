@@ -19,7 +19,14 @@ const MIN_DISTANCE = 1000;
 console.log("Store.js");
 
 export const useStore = createWithEqualityFn((set, get) => ({
-    nodes: [],
+    nodes: [
+        {
+            id: "0",
+            type: "out",
+            data: {},
+            position: { x: 0, y: 0 },
+        },
+    ],
     edges: [],
     createNode(type) {
         const id = nanoid();
@@ -666,7 +673,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
         const sourceType = source.type;
         const targetType = target.type;
-        
+
 
         const instrumentTypes = ["sampler", "fmSynth", "monoSynth", "duoSynth", "amSynth", "membraneSynth", "pluckSynth"];
         const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "add", "chorus"];
