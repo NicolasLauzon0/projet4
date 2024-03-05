@@ -1,3 +1,16 @@
 @import "amsynth.scss";
 @import "duosynth.scss";
 @import "fmsynth.scss";
+@import "membranesynth.scss";
+@import "sampler.scss";
+
+.membraneSynth.node {
+    padding: 3rem;
+
+    & .membraneSynth__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+}

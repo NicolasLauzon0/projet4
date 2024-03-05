@@ -29,7 +29,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         switch (type) {
             case "pluckSynth": {
                 const data = {
-                    attackNoise: 1,
+                    attackNoise: 0.2,
                     dampening: 4000,
                     resonance: 0.7,
                 };
@@ -673,7 +673,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
 
         const instrumentTypes = ["sampler", "fmSynth", "monoSynth", "duoSynth", "amSynth", "membraneSynth", "pluckSynth"];
-        const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "add", "chorus"];
+        const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "add", "chorus", "gain"];
         const sequencerTypes = ["sequencer"];
 
         if (instrumentTypes.includes(sourceType) && instrumentTypes.includes(targetType)) {

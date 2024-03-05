@@ -2,7 +2,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../Input.jsx";
-import RadioInputs from "../../RadioInputs.jsx";
+import RadioInputs from "../RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import ModulationSection from "../ModulationSection.jsx";
 
@@ -128,8 +128,6 @@ const DuoSynth = ({ id, data }) => {
           </div>
         </div>
         <section className="voices">
-
-
           <div className="voice0">
             <section className="envelopeSection">
               <div className="type">

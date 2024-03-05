@@ -2,7 +2,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../Input.jsx";
-import RadioInputs from "../../RadioInputs.jsx";
+import RadioInputs from "../RadioInputs.jsx";
 import ModulationSection from "../ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 

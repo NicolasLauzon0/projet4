@@ -3,19 +3,19 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../Input.jsx";
-import RadioInputs from "../../RadioInputs.jsx";
+import RadioInputs from "../RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import ModulationSection from "../ModulationSection.jsx";
 
 const selector = (id, data) => (store) => ({
   setHarmonicity: (e) => {
-    store.updateNode(id, { harmonicity: +e.target.value });
+    store.updateNode(id, { harmonicity: +e });
   },
   setModulationIndex: (e) => {
-    store.updateNode(id, { modulationIndex: +e.target.value });
+    store.updateNode(id, { modulationIndex: +e });
   },
   setDetune: (e) => {
-    store.updateNode(id, { detune: +e.target.value });
+    store.updateNode(id, { detune: +e });
   },
   setEnvelope: (type, value) => {
     store.updateNode(id, {

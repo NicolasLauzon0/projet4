@@ -10,7 +10,7 @@ const RadioInputs = ({
 
   const handleSelect = (e) => {
     setSelectedS(e.target.value);
-    setSelected(selectedS);
+    setSelected(e.target.value);
 
     console.log(e.target.value);
   };

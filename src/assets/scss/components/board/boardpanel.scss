@@ -1,3 +1,17 @@
+.react-flow__attribution{
+    z-index: 1000;
+    & a {
+        font-family: var(--font);
+        color: var(--noir);
+    }
+}
+
+.react-flow__panel:has(.menu) {
+    z-index: 2000;
+
+    margin: 2rem;
+}
+
 .menu {
     position: relative;
 
@@ -19,7 +33,7 @@
 
         transition: max-height 0.3s;
 
-        box-shadow: -2px 2px 10px 2px var(--vert);
+        box-shadow: 0 0 10px 2px var(--vert);
 
         &:has(.menu-item) {
             animation: openMenu 0.3s forwards ease-in-out;

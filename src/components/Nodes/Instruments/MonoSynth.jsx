@@ -2,81 +2,30 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
+import Input from "../Input.jsx";
+import RadioInputs from "../RadioInputs.jsx";
+import ModulationSection from "../ModulationSection.jsx";
+import svgs from "../../../assets/img/svg/svg.jsx";
 
 const selector = (id, data) => (store) => ({
   setDetune: (e) => {
-    store.updateNode(id, { detune: +e.target.value });
+    store.updateNode(id, { detune: +e });
   },
   setOscillatorType: (e) => {
     store.updateNode(id, {
       oscillator: {
-        ...data.oscillator,
-        type: e.target.value,
+        type: e
       },
     });
   },
-  setEnvelopeAttack: (e) => {
+  setEnvelope(type, value) {
     store.updateNode(id, {
-      envelope: {
-        ...data.envelope,
-        attack: +e.target.value,
-      },
+      envelope: { [type]: +value },
     });
   },
-  setEnvelopeDecay: (e) => {
+  setFilterEnvelope(type, value) {
     store.updateNode(id, {
-      envelope: {
-        ...data.envelope,
-        decay: +e.target.value,
-      },
-    });
-  },
-  setEnvelopeSustain: (e) => {
-    store.updateNode(id, {
-      envelope: {
-        ...data.envelope,
-        sustain: +e.target.value,
-      },
-    });
-  },
-  setEnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      envelope: {
-        ...data.envelope,
-        release: +e.target.value,
-      },
-    });
-  },
-  setFilterAttack: (e) => {
-    store.updateNode(id, {
-      filterEnvelope: {
-        ...data.filterEnvelope,
-        attack: +e.target.value,
-      },
-    });
-  },
-  setFilterDecay: (e) => {
-    store.updateNode(id, {
-      filterEnvelope: {
-        ...data.filterEnvelope,
-        decay: +e.target.value,
-      },
-    });
-  },
-  setFilterSustain: (e) => {
-    store.updateNode(id, {
-      filterEnvelope: {
-        ...data.filterEnvelope,
-        sustain: +e.target.value,
-      },
-    });
-  },
-  setFilterRelease: (e) => {
-    store.updateNode(id, {
-      filterEnvelope: {
-        ...data.filterEnvelope,
-        release: +e.target.value,
-      },
+      filterEnvelope: { [type]: +value },
     });
   },
 });
@@ -84,143 +33,42 @@ const MonoSynth = ({ id, data }) => {
   const {
     setDetune,
     setOscillatorType,
-    setEnvelopeAttack,
-    setEnvelopeDecay,
-    setEnvelopeSustain,
-    setEnvelopeRelease,
-    setFilterAttack,
-    setFilterDecay,
-    setFilterSustain,
-    setFilterRelease,
+    setEnvelope,
+    setFilterEnvelope,
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node monoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <div className="monoSynth__container">
-        <h3>Synthétiseur mono</h3>
-        <label>
-          Détune
-          <input
-            type="range"
-            min="-3000"
-            max="3000"
-            step="1"
-            value={data.detune}
-            onChange={setDetune}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Type d'oscillateur
-          <select
-            value={data.oscillator.type}
-            onChange={setOscillatorType}
-            className="nodrag"
-          >
-            <option value="sine">Sine</option>
-            <option value="square">Square</option>
-            <option value="sawtooth">Sawtooth</option>
-            <option value="triangle">Triangle</option>
-          </select>
-        </label>
-        <label>
-          Enveloppe Attack
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.attack}
-            onChange={setEnvelopeAttack}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Decay
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.decay}
-            onChange={setEnvelopeDecay}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Sustain
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.sustain}
-            onChange={setEnvelopeSustain}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Release
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.release}
-            onChange={setEnvelopeRelease}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe de filtre Attack
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.filterEnvelope.attack}
-            onChange={setFilterAttack}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe de filtre Decay
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.filterEnvelope.decay}
-            onChange={setFilterDecay}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe de filtre Sustain
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.filterEnvelope.sustain}
-            onChange={setFilterSustain}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe de filtre Release
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.filterEnvelope.release}
-            onChange={setFilterRelease}
-            className="nodrag"
-          />
-        </label>
+      <h3>Mono Synth</h3>
+      <div className="monoSynth__container node__container">
+        <div className="monoSynth__controls global__controls">
+          <h4>Global</h4>
+          <div className="knobs">
+            <Input value={data.detune} setValue={setDetune} label={"Detune"} min={-3000} max={3000} step={1} />
+          </div>
+        </div>
+        <section className="voices">
+          <div className="voice">
+            <section className="envelopeSection">
+              <div className="type">
+                <h4>Oscillator</h4>
+                <RadioInputs options={svgs} selected={data.oscillator.type} setSelected={setOscillatorType} type={"svg"} label={"Oscillator"} />
+              </div>
+              <div className="envelopes">
+                <div className="left side">
+                  <h4>Envelope</h4>
+                  <ModulationSection envelope={data.envelope} setEnvelope={setEnvelope} />
+                </div>
+                <div className="right side">
+                  <h4>Filter Envelope</h4>
+                  <ModulationSection envelope={data.filterEnvelope} setEnvelope={setFilterEnvelope} />
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"}/>
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };
