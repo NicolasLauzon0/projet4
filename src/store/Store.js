@@ -673,6 +673,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
         const sourceType = source.type;
         const targetType = target.type;
+        console.log(sourceType, targetType);
 
 
         const instrumentTypes = ["sampler", "fmSynth", "monoSynth", "duoSynth", "amSynth", "membraneSynth", "pluckSynth"];
@@ -685,10 +686,18 @@ export const useStore = createWithEqualityFn((set, get) => ({
             return false;
         } else if (sequencerTypes.includes(sourceType) && effectTypes.includes(targetType)) {
             return false;
-        } else {
+        } else if (sequencerTypes.includes(sourceType) && targetType === "out") {
+            return false;
+        }
+        else {
             return true;
         }
     },
+    async loadProject(data) {
+        data.nodes.forEach((node) => {
+        });
+    },
+
 
     saveProject() {
         const data = {
