@@ -4,20 +4,18 @@ const Input = ({ value, setValue, label, min, max, step }) => {
   const knob = useRef(null);
   const [valueToshow, setValueToshow] = useState(value);
 
-  const calculateDeg = useCallback((e) => {
+  const calculateDeg = (e) => {
     const knobRect = knob.current.getBoundingClientRect();
     const x = e.clientX - knobRect.left - knobRect.width / 2;
     const y = e.clientY - knobRect.top - knobRect.height / 2;
     const deg = Math.atan2(y, x) * (180 / Math.PI);
     return deg;
-  }, []);
+  };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
       const deg = calculateDeg(e) - 135;
-      console.log(deg);
       let newValue = degToValue(deg);
-      console.log(newValue);
       if (deg <= 0 && deg >= -45) {
         newValue = min;
       } else if (deg >= -90 && deg < -45) {
@@ -26,7 +24,7 @@ const Input = ({ value, setValue, label, min, max, step }) => {
         knob.current.style.transform = `rotate(${deg - 135}deg)`;
       }
 
-      setValue(Number(newValue.toFixed(2)));
+      setValue(newValue.toFixed(2));
       setValueToshow(newValue.toFixed(1));
     };
 
@@ -49,7 +47,6 @@ const Input = ({ value, setValue, label, min, max, step }) => {
         normalizedDeg -= 360;
       }
       const valueInRange = (normalizedDeg / 270) * range + min;
-      console.log(valueInRange);
       const newValue = Math.round(valueInRange / step) * step;
       return Math.min(max, Math.max(min, newValue));
     };
@@ -65,7 +62,7 @@ const Input = ({ value, setValue, label, min, max, step }) => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [calculateDeg]);
+  }, []);
   return (
     <div className="slider nodrag">
       <div className="infoknob">

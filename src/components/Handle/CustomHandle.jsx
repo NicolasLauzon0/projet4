@@ -16,9 +16,6 @@ const CustomHandle = ({
   const nodeId = useNodeId();
 
   const isHandleConnectableF = useMemo(() => {
-    // Récupérer le nœud correspondant à l'ID de la poignée
-    const sourceNode = nodeInternals.get(nodeId);
-
     // Vérifier si la poignée est connectée à un autre bord
     const isHandleConnected = edges.some((edge) => {
       if (

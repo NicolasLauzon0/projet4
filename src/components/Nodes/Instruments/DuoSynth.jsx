@@ -2,229 +2,39 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../Input.jsx";
+import RadioInputs from "../../RadioInputs.jsx";
+import svgs from "../../../assets/img/svg/svg.jsx";
+import ModulationSection from "../ModulationSection.jsx";
 
-const selector = (id, data) => (store) => ({
+const selector = (id) => (store) => ({
   setVibratoAmount: (value) => {
-    store.updateNode(id, { vibratoAmount: value });
+    store.updateNode(id, {vibratoAmount: +value,
+    });
   },
   setVibratoRate: (value) => {
-    store.updateNode(id, { vibratoRate: value });
+    store.updateNode(id, { vibratoRate: +value });
   },
-  setHarmonicity: (e) => {
-    store.updateNode(id, { harmonicity: +e.target.value });
+  setHarmonicity: (value) => {
+    store.updateNode(id, {  harmonicity: +value });
   },
-  setVoice0Portamento: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        portamento: +e.target.value,
-      },
+  setVoice0Portamento: (value) => {
+    store.updateNode(id, { voice0: { voice0, portamento: +value },
     });
   },
   setVoice0OscillatorType: (e) => {
     store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        oscillator: {
-          ...data.voice0.oscillator,
-          type: e.target.value,
-        },
+      voice0: { oscillator: { type: e } },
+    });
+  },
+  setVoice0FilterEnvelope: (type, value) => {
+    store.updateNode(id, {
+      voice0: { filterEnvelope: { [type]: +value },
       },
     });
   },
-  setVoice0FilterEnvelopeAttack: (e) => {
+  setVoice0Envelope: (type, value) => {
     store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        filterEnvelope: {
-          ...data.voice0.filterEnvelope,
-          attack: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0FilterEnvelopeDecay: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        filterEnvelope: {
-          ...data.voice0.filterEnvelope,
-          decay: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0FilterEnvelopeSustain: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        filterEnvelope: {
-          ...data.voice0.filterEnvelope,
-          sustain: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0FilterEnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        filterEnvelope: {
-          ...data.voice0.filterEnvelope,
-          release: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0EnvelopeAttack: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        envelope: {
-          ...data.voice0.envelope,
-          attack: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0EnvelopeDecay: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        envelope: {
-          ...data.voice0.envelope,
-          decay: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0EnvelopeSustain: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        envelope: {
-          ...data.voice0.envelope,
-          sustain: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice0EnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      voice0: {
-        ...data.voice0,
-        envelope: {
-          ...data.voice0.envelope,
-          release: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1Portamento: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        portamento: +e.target.value,
-      },
-    });
-  },
-  setVoice1OscillatorType: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        oscillator: {
-          ...data.voice1.oscillator,
-          type: e.target.value,
-        },
-      },
-    });
-  },
-
-  setVoice1FilterEnvelopeAttack: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        filterEnvelope: {
-          ...data.voice1.filterEnvelope,
-          attack: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1FilterEnvelopeDecay: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        filterEnvelope: {
-          ...data.voice1.filterEnvelope,
-          decay: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1FilterEnvelopeSustain: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        filterEnvelope: {
-          ...data.voice1.filterEnvelope,
-          sustain: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1FilterEnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        filterEnvelope: {
-          ...data.voice1.filterEnvelope,
-          release: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1EnvelopeAttack: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        envelope: {
-          ...data.voice1.envelope,
-          attack: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1EnvelopeDecay: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        envelope: {
-          ...data.voice1.envelope,
-          decay: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1EnvelopeSustain: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        envelope: {
-          ...data.voice1.envelope,
-          sustain: +e.target.value,
-        },
-      },
-    });
-  },
-  setVoice1EnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      voice1: {
-        ...data.voice1,
-        envelope: {
-          ...data.voice1.envelope,
-          release: +e.target.value,
-        },
+      voice0: {envelope: {[type]: +value },
       },
     });
   },
@@ -237,14 +47,8 @@ const DuoSynth = ({ id, data }) => {
     setHarmonicity,
     setVoice0Portamento,
     setVoice0OscillatorType,
-    setVoice0FilterEnvelopeAttack,
-    setVoice0FilterEnvelopeDecay,
-    setVoice0FilterEnvelopeSustain,
-    setVoice0FilterEnvelopeRelease,
-    setVoice0EnvelopeAttack,
-    setVoice0EnvelopeDecay,
-    setVoice0EnvelopeSustain,
-    setVoice0EnvelopeRelease,
+    setVoice0FilterEnvelope,
+    setVoice0Envelope,
     setVoice1Portamento,
     setVoice1OscillatorType,
     setVoice1FilterEnvelopeAttack,
@@ -256,158 +60,72 @@ const DuoSynth = ({ id, data }) => {
     setVoice1EnvelopeSustain,
     setVoice1EnvelopeRelease,
   } = useStore(selector(id, data), shallow);
-
+  console.log(data.voice0.filterEnvelope);
   return (
     <div className="node duoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <div className="duoSynth__container">
-        <h3>Synthétiseur Duo</h3>
-
-        <Input
-          min={0.1}
-          max={0.99}
-          step={0.01}
-          value={data.vibratoAmount}
-          setValue={setVibratoAmount}
-          label={"Taux de vibrato"}
-        />
-        <Input
-          min={0.1}
-          max={2000}
-          step={0.01}
-          value={data.vibratoRate}
-          setValue={setVibratoRate}
-          label={"Amplitude de vibrato"}
-        />
-
-        <Input
-          min={0.1}
-          max={20}
-          step={0.01}
-          value={data.harmonicity}
-          setValue={setHarmonicity}
-          label={"Harmonicité"}
-        />
-
-        <div className="voice0">
-          <h4>Voice 0</h4>
+      <h3>Synthétiseur Duo</h3>
+      <div className="duoSynth__container node__container">
+        <div className="duoSynth__controls">
+          <Input
+            min={0.1}
+            max={0.99}
+            step={0.01}
+            value={data.vibratoAmount}
+            setValue={setVibratoAmount}
+            label={"Taux de vibrato"}
+          />
+          <Input
+            min={0.1}
+            max={2000}
+            step={0.01}
+            value={data.vibratoRate}
+            setValue={setVibratoRate}
+            label={"Amplitude de vibrato"}
+          />
 
           <Input
             min={0.1}
-            max={2}
+            max={20}
             step={0.01}
-            value={data.voice0.portamento}
-            setValue={setVoice0Portamento}
-            label={"Portamento"}
+            value={data.harmonicity}
+            setValue={setHarmonicity}
+            label={"Harmonicité"}
           />
-          <label>
-            Type d'oscillateur
-            <select
-              value={data.voice0.oscillator.type}
-              onChange={setVoice0OscillatorType}
-            >
-              <option value="sine">Sine</option>
-              <option value="triangle">Triangle</option>
-              <option value="square">Square</option>
-              <option value="sawtooth">Sawtooth</option>
-            </select>
-          </label>
-          <label>
-            Enveloppe de filtre Attack
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.filterEnvelope.attack}
-              onChange={setVoice0FilterEnvelopeAttack}
-              className="nodrag"
+        </div>
+
+        <div className="voice0">
+          <section className="envelopeSection">
+            <div className="type">
+              <h4>Voice 0</h4>
+              <RadioInputs
+                options={svgs}
+                selected={data.voice0.oscillator?.type}
+                setSelected={setVoice0OscillatorType}
+                type={"svg"}
+                label={"Type d'oscillateur"}
+              />
+            </div>
+
+            <ModulationSection
+              envelope={data.voice0.filterEnvelope}
+              setEnvelope={setVoice0FilterEnvelope}
             />
-          </label>
-          <label>
-            Enveloppe de filtre Decay
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.filterEnvelope.decay}
-              onChange={setVoice0FilterEnvelopeDecay}
-              className="nodrag"
+            <Input
+              min={0.1}
+              max={2}
+              step={0.01}
+              value={data.voice0.portamento}
+              setValue={setVoice0Portamento}
+              label={"Portamento"}
             />
-          </label>
-          <label>
-            Enveloppe de filtre Sustain
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.filterEnvelope.sustain}
-              onChange={setVoice0FilterEnvelopeSustain}
-              className="nodrag"
+          </section>
+          <section className="envelopeSection">
+            <ModulationSection
+              envelope={data.voice0.envelope}
+              setEnvelope={setVoice0Envelope}
             />
-          </label>
-          <label>
-            Enveloppe de filtre Release
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.filterEnvelope.release}
-              onChange={setVoice0FilterEnvelopeRelease}
-              className="nodrag"
-            />
-          </label>
-          <label>
-            Enveloppe Attack
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.envelope.attack}
-              onChange={setVoice0EnvelopeAttack}
-              className="nodrag"
-            />
-          </label>
-          <label>
-            Enveloppe Decay
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.envelope.decay}
-              onChange={setVoice0EnvelopeDecay}
-              className="nodrag"
-            />
-          </label>
-          <label>
-            Enveloppe Sustain
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.envelope.sustain}
-              onChange={setVoice0EnvelopeSustain}
-              className="nodrag"
-            />
-          </label>
-          <label>
-            Enveloppe Release
-            <input
-              type="range"
-              min="0.1"
-              max="0.99"
-              step="0.01"
-              value={data.voice0.envelope.release}
-              onChange={setVoice0EnvelopeRelease}
-              className="nodrag"
-            />
-          </label>
+          </section>
         </div>
 
         <div className="voice1">
@@ -425,7 +143,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Type d'oscillateur
+            Type
             <select
               value={data.voice1.oscillator.type}
               onChange={setVoice1OscillatorType}
@@ -437,7 +155,7 @@ const DuoSynth = ({ id, data }) => {
             </select>
           </label>
           <label>
-            Enveloppe de filtre Attack
+            Attack
             <input
               type="range"
               min="0.1"
@@ -449,7 +167,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe de filtre Decay
+            Decay
             <input
               type="range"
               min="0.1"
@@ -461,7 +179,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe de filtre Sustain
+            Sustain
             <input
               type="range"
               min="0.1"
@@ -473,7 +191,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe de filtre Release
+            Release
             <input
               type="range"
               min="0.1"
@@ -485,7 +203,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe Attack
+            Attack
             <input
               type="range"
               min="0.1"
@@ -497,7 +215,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe Decay
+            Decay
             <input
               type="range"
               min="0.1"
@@ -509,7 +227,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe Sustain
+            Sustain
             <input
               type="range"
               min="0.1"
@@ -521,7 +239,7 @@ const DuoSynth = ({ id, data }) => {
             />
           </label>
           <label>
-            Enveloppe Release
+            Release
             <input
               type="range"
               min="0.1"

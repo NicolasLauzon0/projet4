@@ -16,7 +16,6 @@ const selector = (id, data) => (store) => ({
   setEnvelopeAttack: (e) => {
     store.updateNode(id, {
       envelope: {
-        ...data.envelope,
         attack: +e.target.value,
       },
     });
@@ -24,7 +23,6 @@ const selector = (id, data) => (store) => ({
   setEnvelopeDecay: (e) => {
     store.updateNode(id, {
       envelope: {
-        ...data.envelope,
         decay: +e.target.value,
       },
     });
@@ -32,7 +30,6 @@ const selector = (id, data) => (store) => ({
   setEnvelopeSustain: (e) => {
     store.updateNode(id, {
       envelope: {
-        ...data.envelope,
         sustain: +e.target.value,
       },
     });
@@ -40,7 +37,6 @@ const selector = (id, data) => (store) => ({
   setEnvelopeRelease: (e) => {
     store.updateNode(id, {
       envelope: {
-        ...data.envelope,
         release: +e.target.value,
       },
     });
@@ -146,7 +142,7 @@ const FMSynth = ({ id, data }) => {
           />
         </label>
       </div>
-      <CustomHandle type={"source"} position={"bottom"} id={"b"}/>
+      <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>
   );
 };

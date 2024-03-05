@@ -133,7 +133,6 @@ const SaveAndLoadProvider = ({ children }) => {
         name: data.name,
         date: data.date,
       });
-      console.log(project);
     } else {
       console.log("No such document!");
     }
@@ -174,7 +173,6 @@ const SaveAndLoadProvider = ({ children }) => {
     saveDataDB();
   };
 
-  console.log(projects, project);
   return (
     <DataContext.Provider
       value={{

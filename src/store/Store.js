@@ -14,10 +14,6 @@ import {
     createAudioNode
 } from '../Audio';
 
-const MIN_DISTANCE = 1000;
-
-console.log("Store.js");
-
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [
         {
@@ -102,6 +98,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "amSynth": {
                 const data = {
+                    harmonicity: 5,
+                    detune: 0,
                     oscillator: {
                         type: "sine",
                     },
@@ -120,10 +118,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         sustain: 0.5,
                         release: 0.5,
                     },
-                    harmonicity: 0.5,
-                    detune: 0,
                 };
-                const position = { x: 300, y: -300 };
+                const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -712,7 +708,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         const target = get().nodes.find((node) => node.id === connection.target);
 
         if (source.id === target.id) {
-            console.log("Source and target are the same");
             return false;
         }
 
@@ -774,10 +769,17 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }));
     },
     updateNode(id, data) {
+        console.log("updateNode", id, data);
         updateAudioNode(id, data);
         set((state) => ({
-            nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    return { ...node, data: { ...node.data, ...data } };
+                }
+                return node;
+            }),
         }));
+        console.log(get().nodes);
     },
     isRunning: isRunning(),
     toggleVolume() {

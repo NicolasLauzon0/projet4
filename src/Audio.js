@@ -15,7 +15,7 @@ nodes.set('1', outNode);
 export function updateAudioNode(id, data) {
   const node = nodes.get(id);
   node.data = { ...node.data, ...data };
-  console.log(node.data);
+  console.log(data);
   for (const [key, val] of Object.entries(data)) {
     if (typeof val === 'object' && !Array.isArray(val)) {
       const nestedNode = node[key];
@@ -51,7 +51,7 @@ export function createAudioNode(id, type, data) {
   if (nodes.has(id)) return;
   switch (type) {
     case 'amSynth': {
-      const node = new Tone.AMSynth();
+      const node = new Tone.AMSynth(data);
       node.data = data;
       nodes.set(id, node);
       break;
@@ -97,14 +97,14 @@ export function createAudioNode(id, type, data) {
       const node = createSequence(data, id);
       node.data = data;
       nodes.set(id, node);
-      console.log(node);
+
       break;
     }
     case 'autoFilter': {
       const node = new Tone.AutoFilter().start();
       node.data = data;
       nodes.set(id, node);
-      console.log(node);
+
       break;
     }
     case 'reverb': {
@@ -297,7 +297,7 @@ export function disconnect(edge) {
 export async function removeAudioNode(id) {
   const node = await nodes.get(id);
   if (node === undefined || node === null) return;
-  console.log(node);
+
   if (await node?.name === "Sequence") {
     node.dispose();
     nodes.delete(id);
