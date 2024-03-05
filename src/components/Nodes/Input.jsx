@@ -63,6 +63,11 @@ const Input = ({ value, setValue, label, min, max, step }) => {
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
+  useEffect(() => {
+    setValueToshow(value);
+  }, []);
+
   return (
     <div className="slider nodrag">
       <div className="infoknob">

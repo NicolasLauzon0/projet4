@@ -19,7 +19,14 @@ const MIN_DISTANCE = 1000;
 console.log("Store.js");
 
 export const useStore = createWithEqualityFn((set, get) => ({
-    nodes: [],
+    nodes: [{
+        id: "1",
+        type: "out",
+        data: {},
+        position: { x: 0, y: 0 },
+    }],
+
+
     edges: [],
     createNode(type) {
         const id = nanoid();
@@ -95,7 +102,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         sustain: 0.5,
                         release: 0.5,
                     },
-                    harmonicity: 0.5,
+                    harmonicity: 5,
                     detune: 0,
                 };
                 const position = { x: 300, y: -300 };

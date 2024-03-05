@@ -49,6 +49,7 @@ const AMSynth = ({ id, data }) => {
     setHarmonicity,
     setDetune,
   } = useStore(selector(id, data), shallow);
+  console.log(data);
   return (
     <div className="node amsynthnode">
       <CustomHandle type={"target"} position={"top"} id={"a"} />

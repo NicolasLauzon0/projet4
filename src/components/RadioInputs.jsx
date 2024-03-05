@@ -6,7 +6,7 @@ const RadioInputs = ({
   setSelected,
   type = "label",
 }) => {
-  const [selectedS, setSelectedS] = useState();
+  const [selectedS, setSelectedS] = useState(selected);
 
   const handleSelect = (e) => {
     setSelectedS(e.target.value);
