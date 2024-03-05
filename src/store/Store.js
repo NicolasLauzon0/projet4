@@ -98,7 +98,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "amSynth": {
                 const data = {
-                    harmonicity: 5,
+                    harmonicity: 0.5,
                     detune: 0,
                     oscillator: {
                         type: "sine",
@@ -772,12 +772,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         console.log("updateNode", id, data);
         updateAudioNode(id, data);
         set((state) => ({
-            nodes: state.nodes.map((node) => {
-                if (node.id === id) {
-                    return { ...node, data: { ...node.data, ...data } };
-                }
-                return node;
-            }),
+            nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),
         }));
         console.log(get().nodes);
     },

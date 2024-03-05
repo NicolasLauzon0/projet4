@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 const RadioInputs = ({
   options = [],
@@ -6,6 +6,14 @@ const RadioInputs = ({
   setSelected,
   type = "label",
 }) => {
+  const [selectedS, setSelectedS] = useState();
+
+  const handleSelect = (e) => {
+    setSelectedS(e.target.value);
+    setSelected(selectedS);
+
+    console.log(e.target.value);
+  };
   return (
     <div className="radio-inputs">
       <fieldset className="nodrag">
@@ -19,8 +27,8 @@ const RadioInputs = ({
             <input
               type="radio"
               value={option.value}
-              checked={selected === option.value}
-              onChange={(e) => setSelected(e.target.value)}
+              checked={selectedS === option.value}
+              onChange={(e) => handleSelect(e)}
             />
           </label>
         ))}
