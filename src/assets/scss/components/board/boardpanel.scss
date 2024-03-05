@@ -13,13 +13,13 @@
         }
 
         border-radius: 2rem;
-        background-color: color-mix(in srgb, var(--vert) 70%, transparent);
+        background-color: color-mix(in srgb, var(--vertNode) 70%, transparent);
         backdrop-filter: blur(2px);
         border: 0px solid var(--vert);
 
         transition: max-height 0.3s;
 
-        box-shadow: -2px 2px 5px 2px color-mix(in srgb, var(--vert) 30%, transparent);
+        box-shadow: -2px 2px 10px 2px var(--vert);
 
         &:has(.menu-item) {
             animation: openMenu 0.3s forwards ease-in-out;

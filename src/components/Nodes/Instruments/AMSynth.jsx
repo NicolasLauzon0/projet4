@@ -53,12 +53,12 @@ const AMSynth = ({ id, data }) => {
   return (
     <div className="node amsynthnode">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>Synthétiseur AM</h3>
+      <h3>AM Synth</h3>
       <div className="amsynthnode__container node__container">
         <div className="side left">
           <section className="amsynthoscilator envelopeSection">
             <div className="type">
-              <h4>Occilateur</h4>
+              <h4>oscillator</h4>
               <RadioInputs
                 options={svgs}
                 selected={data.oscillator.type}

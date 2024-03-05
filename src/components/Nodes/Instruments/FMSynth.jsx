@@ -2,6 +2,10 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
+import Input from "../Input.jsx";
+import RadioInputs from "../../RadioInputs.jsx";
+import svgs from "../../../assets/img/svg/svg.jsx";
+import ModulationSection from "../ModulationSection.jsx";
 
 const selector = (id, data) => (store) => ({
   setHarmonicity: (e) => {
@@ -13,134 +17,71 @@ const selector = (id, data) => (store) => ({
   setDetune: (e) => {
     store.updateNode(id, { detune: +e.target.value });
   },
-  setEnvelopeAttack: (e) => {
+  setEnvelope: (type, value) => {
     store.updateNode(id, {
-      envelope: {
-        attack: +e.target.value,
+      envelope: { [type]: +value },
+    });
+  },
+  setOscilatorType: (e) => {
+    store.updateNode(id, {
+      oscillator: {
+        type: e,
       },
     });
   },
-  setEnvelopeDecay: (e) => {
+  setModulationType: (e) => {
     store.updateNode(id, {
-      envelope: {
-        decay: +e.target.value,
+      modulation: {
+        type: e,
       },
     });
   },
-  setEnvelopeSustain: (e) => {
+  setModulationEnvelope: (type, value) => {
     store.updateNode(id, {
-      envelope: {
-        sustain: +e.target.value,
-      },
+      envelope: { [type]: +value },
     });
   },
-  setEnvelopeRelease: (e) => {
-    store.updateNode(id, {
-      envelope: {
-        release: +e.target.value,
-      },
-    });
-  },
+
 });
 const FMSynth = ({ id, data }) => {
   const {
     setHarmonicity,
     setModulationIndex,
     setDetune,
-    setEnvelopeAttack,
-    setEnvelopeDecay,
-    setEnvelopeSustain,
-    setEnvelopeRelease,
+    setEnvelope,
+    setOscilatorType,
+    setModulationType,
+    setModulationEnvelope,
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node fmSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <div className="fmSynth__container">
-        <h3>Synthétiseur FM</h3>
-        <label>
-          Harmonicité
-          <input
-            type="range"
-            min="0.1"
-            max="20"
-            step="0.01"
-            value={data.harmonicity}
-            onChange={setHarmonicity}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Indice de modulation
-          <input
-            type="range"
-            min="0.1"
-            max="20"
-            step="0.01"
-            value={data.modulationIndex}
-            onChange={setModulationIndex}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Détune
-          <input
-            type="range"
-            min="-3000"
-            max="3000"
-            step="0.01"
-            value={data.detune}
-            onChange={setDetune}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Attaque
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.attack}
-            onChange={setEnvelopeAttack}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Decay
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.decay}
-            onChange={setEnvelopeDecay}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Sustain
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.sustain}
-            onChange={setEnvelopeSustain}
-            className="nodrag"
-          />
-        </label>
-        <label>
-          Enveloppe Release
-          <input
-            type="range"
-            min="0.1"
-            max="0.99"
-            step="0.01"
-            value={data.envelope.release}
-            onChange={setEnvelopeRelease}
-            className="nodrag"
-          />
-        </label>
+      <h3>FM Synth</h3>
+      <div className="fmSynth__container node__container">
+        <div className="side left">
+          <section className="fmsynthoscilator envelopeSection">
+            <div className="type">
+              <h4>oscillator</h4>
+              <RadioInputs options={svgs} selected={data.oscillator.type} setSelected={setOscilatorType} type={"svg"} />
+            </div>
+            <ModulationSection envelope={data.envelope} setEnvelope={setEnvelope} />
+          </section>
+
+          <section className="fmsynthmodulation envelopeSection">
+            <div className="type">
+              <h4>modulation</h4>
+              <RadioInputs options={svgs} selected={data.modulation.type} setSelected={setModulationType} type={"svg"} />
+            </div>
+            <ModulationSection envelope={data.modulationEnvelope} setEnvelope={setModulationEnvelope} />
+          </section>
+        </div>
+        <div className="side right">
+          <div className="knobs">
+            <Input value={data.harmonicity} setValue={setHarmonicity} label={"Harmonicity"} min={0.1} max={20} step={0.01} />
+            <Input value={data.modulationIndex} setValue={setModulationIndex} label={"Index"} min={0.1} max={20} step={0.01} />
+            <Input value={data.detune} setValue={setDetune} label={"Detune"} min={-3000} max={3000} step={0.01} />
+          </div>
+        </div>
       </div>
       <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>

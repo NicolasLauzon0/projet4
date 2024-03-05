@@ -1,6 +1,38 @@
-.duoSynth__controls {
+.duoSynth .duoSynth__container{
+    gap: 1.2rem;
+}
+
+div[class^="voice"]{
     display: flex;
-    justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+
+    & h4{
+        margin-bottom: 0.5rem;
+    }
+    & .side{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 1fr;
+
+        align-items: start;
+    }
+    & .knobs{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 2.5rem;
+
+        max-width: 400px;
+        margin-top: 0;
+    }
+}
+
+.envelopes{
+    display: flex;
     gap: 3rem;
+}
+
+.voices {
+display: flex;
+gap: 4rem;
 }

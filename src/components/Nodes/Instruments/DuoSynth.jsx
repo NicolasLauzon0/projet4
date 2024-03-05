@@ -46,6 +46,36 @@ const selector = (id, data) => (store) => ({
       },
     });
   },
+  setVoice1Portamento: (value) => {
+    store.updateNode(id, { voice1: { ...data.voice1, portamento: +value } });
+  },
+  setVoice1OscillatorType: (e) => {
+    store.updateNode(id, {
+      voice1: { ...data.voice1, oscillator: { ...data.oscillator, type: e } },
+    });
+  },
+  setVoice1FilterEnvelope: (type, value) => {
+    store.updateNode(id, {
+      voice1: {
+        ...data.voice1,
+        filterEnvelope: {
+          ...data.voice1.filterEnvelope,
+          [type]: +value,
+        },
+      },
+    });
+  },
+  setVoice1Envelope: (type, value) => {
+    store.updateNode(id, {
+      voice1: {
+        ...data.voice1,
+        envelope: {
+          ...data.voice1.envelope,
+          [type]: +value,
+        },
+      },
+    });
+  },
 });
 
 const DuoSynth = ({ id, data }) => {
@@ -57,73 +87,129 @@ const DuoSynth = ({ id, data }) => {
     setVoice0OscillatorType,
     setVoice0FilterEnvelope,
     setVoice0Envelope,
+    setVoice1Portamento,
+    setVoice1OscillatorType,
+    setVoice1FilterEnvelope,
+    setVoice1Envelope,
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node duoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>Synthétiseur Duo</h3>
+      <h3>Duo Synth</h3>
       <div className="duoSynth__container node__container">
-        <div className="duoSynth__controls">
-          <Input
-            min={0.1}
-            max={0.99}
-            step={0.01}
-            value={data.vibratoAmount}
-            setValue={setVibratoAmount}
-            label={"Taux de vibrato"}
-          />
-          <Input
-            min={0.1}
-            max={2000}
-            step={0.01}
-            value={data.vibratoRate}
-            setValue={setVibratoRate}
-            label={"Amplitude de vibrato"}
-          />
-
-          <Input
-            min={0.1}
-            max={20}
-            step={0.01}
-            value={data.harmonicity}
-            setValue={setHarmonicity}
-            label={"Harmonicité"}
-          />
-        </div>
-
-        <div className="voice0">
-          <section className="envelopeSection">
-            <div className="type">
-              <h4>Voice 0</h4>
-              <RadioInputs
-                options={svgs}
-                selected={data.voice0.oscillator.type}
-                setSelected={setVoice0OscillatorType}
-                type={"svg"}
-                label={"Type d'oscillateur"}
-              />
-            </div>
-
-            <ModulationSection
-              envelope={data.voice0.filterEnvelope}
-              setEnvelope={setVoice0FilterEnvelope}
+        <div className="duoSynth__controls global__controls">
+          <h4>Global</h4>
+          <div className="knobs">
+            <Input
+              min={0.1}
+              max={0.99}
+              step={0.01}
+              value={data.vibratoAmount}
+              setValue={setVibratoAmount}
+              label={"Vibrato Amount"}
             />
             <Input
               min={0.1}
-              max={2}
+              max={2000}
               step={0.01}
-              value={data.voice0.portamento}
-              setValue={setVoice0Portamento}
-              label={"Portamento"}
+              value={data.vibratoRate}
+              setValue={setVibratoRate}
+              label={"Vibrato Rate"}
             />
-          </section>
-          <section className="envelopeSection">
-            <ModulationSection
-              envelope={data.voice0.envelope}
-              setEnvelope={setVoice0Envelope}
+
+            <Input
+              min={0.1}
+              max={20}
+              step={0.01}
+              value={data.harmonicity}
+              setValue={setHarmonicity}
+              label={"Harmonicity"}
             />
-          </section>
+          </div>
         </div>
+        <section className="voices">
+
+
+          <div className="voice0">
+            <section className="envelopeSection">
+              <div className="type">
+                <h4>Voice 0</h4>
+                <RadioInputs
+                  options={svgs}
+                  selected={data.voice0.oscillator.type}
+                  setSelected={setVoice0OscillatorType}
+                  type={"svg"}
+                  label={"Oscillator"}
+                />
+              </div>
+              <div className="envelopes">
+                <div className="left side">
+                  <h4>Filter Envelope</h4>
+                  <ModulationSection
+                    envelope={data.voice0.filterEnvelope}
+                    setEnvelope={setVoice0FilterEnvelope}
+                  >
+                    <Input
+                      min={0.1}
+                      max={2}
+                      step={0.01}
+                      value={data.voice0.portamento}
+                      setValue={setVoice0Portamento}
+                      label={"Portamento"}
+                    />
+                  </ModulationSection>
+                </div>
+                <div className="right side">
+                  <h4>Envelope</h4>
+                  <ModulationSection
+                    envelope={data.voice0.envelope}
+                    setEnvelope={setVoice0Envelope}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+          <div className="voice1">
+            <section className="envelopeSection">
+              <div className="type">
+                <h4>Voice 1</h4>
+                <RadioInputs
+                  options={svgs}
+                  selected={data.voice1.oscillator.type}
+                  setSelected={setVoice1OscillatorType}
+                  type={"svg"}
+                  label={"Oscillator"}
+                />
+              </div>
+              <div className="envelopes">
+                <div className="left side">
+                  <h4>Filter Envelope</h4>
+                  <ModulationSection
+                    envelope={data.voice1.filterEnvelope}
+                    setEnvelope={setVoice1FilterEnvelope}
+                  >
+                    <Input
+                      min={0.1}
+                      max={2}
+                      step={0.01}
+                      value={data.voice1.portamento}
+                      setValue={setVoice1Portamento}
+                      label={"Portamento"}
+                    />
+                  </ModulationSection>
+                </div>
+                <div className="right side">
+                  <h4>Envelope</h4>
+                  <ModulationSection
+                    envelope={data.voice1.envelope}
+                    setEnvelope={setVoice1Envelope}
+                  />
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </section>
       </div>
       <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>

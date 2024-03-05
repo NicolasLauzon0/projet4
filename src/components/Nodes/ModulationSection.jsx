@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import Input from "./Input";
 
-const ModulationSection = ({ envelope, setEnvelope }) => {
+const ModulationSection = ({ envelope, setEnvelope, children }) => {
   const setEnvelopeS = useCallback(
     (key, value) => {
       setEnvelope(key, value);
@@ -42,6 +42,7 @@ const ModulationSection = ({ envelope, setEnvelope }) => {
         max={0.99}
         step={0.01}
       />
+      {children}
     </div>
   );
 };

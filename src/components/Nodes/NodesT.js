@@ -3,11 +3,11 @@ const menuProject = [
         name: "Projet",
         children: [
             {
-                name: "Sauvegarder",
+                name: "Save project",
                 type: "save",
             },
             {
-                name: "Charger",
+                name: "Load project",
                 type: "load",
             },
         ],
@@ -18,11 +18,11 @@ const menu = [
         name: "Rythme et Séquence",
         children: [
             {
-                name: "Séquenceur",
+                name: "Sequencer",
                 type: "sequencer",
             },
             {
-                name: "BPM/Tempo",
+                name: "BPM",
                 type: "bpm",
             }
         ],
@@ -31,31 +31,31 @@ const menu = [
         name: "Instruments",
         children: [
             {
-                name: "Sons de base",
+                name: "Sampler",
                 type: "sampler",
             },
             {
-                name: "Synthétiseur AM",
+                name: "AM Synth",
                 type: "amSynth",
             },
             {
-                name: "Synthétiseur FM",
+                name: "FM Synth",
                 type: "fmSynth",
             },
             {
-                name: "Synthétiseur Duo",
+                name: "Duo Synth",
                 type: "duoSynth",
             },
             {
-                name: "Synthétiseur Mono",
+                name: "Mono Synth",
                 type: "monoSynth",
             },
             {
-                name: "Synthétiseur de membrane",
+                name: "Membrane Synth",
                 type: "membraneSynth",
             },
             {
-                name: "Synthétiseur de pluck",
+                name: "Pluck Synth",
                 type: "pluckSynth",
             }
         ],
@@ -64,15 +64,15 @@ const menu = [
         name: "Effets",
         children: [
             {
-                name: "Gain/Volume",
+                name: "Gain",
                 type: "gain",
             },
             {
-                name: "Filtre",
+                name: "Filter",
                 type: "autoFilter",
             },
             {
-                name: "Réverbération",
+                name: "Reverb",
                 type: "reverb",
             },
             {
@@ -80,7 +80,7 @@ const menu = [
                 type: "feedbackDelay",
             },
             {
-                name: "Moduleur de pitch",
+                name: "PitchShift",
                 type: "pitchShift",
             },
             {
@@ -92,7 +92,7 @@ const menu = [
                 type: "cheby",
             },
             {
-                name: "Addition",
+                name: "Add",
                 type: "add",
             },
             {
@@ -106,17 +106,8 @@ const menu = [
         name: "Audio",
         children: [
             {
-                name: "Sortie",
+                name: "Output",
                 type: "out",
-            },
-        ],
-    },
-    {
-        name: "Dev",
-        children: [
-            {
-                name: "Knob",
-                type: "knob",
             },
         ],
     }

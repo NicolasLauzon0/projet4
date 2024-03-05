@@ -14,10 +14,6 @@ import {
     createAudioNode
 } from '../Audio';
 
-const MIN_DISTANCE = 1000;
-
-console.log("Store.js");
-
 export const useStore = createWithEqualityFn((set, get) => ({
     nodes: [{
         id: "1",

@@ -26,13 +26,13 @@ const selector = (store) => ({
 });
 
 const DataContext = createContext({
-  saveData: () => {},
-  setName: () => {},
+  saveData: () => { },
+  setName: () => { },
   project: {},
   seeFiles: false,
-  setSeeFiles: () => {},
-  loadProject: () => {},
-  removeProject: () => {},
+  setSeeFiles: () => { },
+  loadProject: () => { },
+  removeProject: () => { },
 });
 
 const SaveAndLoadProvider = ({ children }) => {

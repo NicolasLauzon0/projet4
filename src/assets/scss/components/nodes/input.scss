@@ -7,8 +7,8 @@
 
     &:hover .knob::before {
         box-shadow: 0  3px 1px var(--gris),
-        inset 0 -1px 2px var(--gris),
-        inset 0 1px 2px var(--blanc);
+        inset 0 -1px 2px var(--noir),
+        inset 0 1px 2px var(--gris);
     }
     & .infoknob{
         position: absolute;
@@ -22,19 +22,22 @@
         justify-content: center;
         flex-direction: column;
         font-family: var(--font);
-        color: var(--noir);
+        color: var(--blanc);
 
         & label{
             font-size: 0.6rem;
             font-weight: 600;
             text-align: center;
             line-height: 1;
+
+            text-shadow: 0 0 5px var(--noir);
         }
 
         & span{
             text-align: center;
             font-size: 0.8rem;
             font-weight: 600;
+            text-shadow: 0 0 5px var(--noir);
         }
     }
 
@@ -45,11 +48,11 @@
         height: 100%;
         border-radius: 50%;
         box-shadow:
-            0 -20px 20px var(--turquoise),
-            0 20px 20px var(--gris),
-            inset 0 5px 6px var(--blanc),
+            0 -10px 20px color-mix(in srgb, var(--noir) 50%, transparent),
+            0 10px 20px var(--noir),
+            inset 0 5px 6px #7c7c7c,
             inset 0 -5px 6px var(--gris);
-        background: linear-gradient(0deg, var(--vert) 0%, var(--turquoise) 100%);
+        background: linear-gradient(0deg, var(--noir) 0%, var(--gris) 100%);
     }
 
     &::before,

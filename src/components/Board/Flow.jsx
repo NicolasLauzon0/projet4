@@ -105,12 +105,12 @@ const Flow = () => {
           <Menu menuProject={menuProject} menu={menu} store={store} />
         </Panel>
         <Background
-          color="var(--gris)"
-          gap={16}
-          size={1.2}
+          color="var(--blanc)"
+          gap={32}
+          size={2}
           style={{
             borderRadius: "5px",
-            backgroundColor: "var(--blanc)",
+            backgroundColor: "#222222",
             padding: "0",
             zoom: "1.2",
           }}
