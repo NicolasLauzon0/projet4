@@ -8,32 +8,43 @@ import ModulationSection from "../ModulationSection.jsx";
 
 const selector = (id, data) => (store) => ({
   setVibratoAmount: (value) => {
-    store.updateNode(id, { vibratoAmount: +value });
+    store.updateNode(id, { ...data, vibratoAmount: +value });
   },
   setVibratoRate: (value) => {
-    store.updateNode(id, { vibratoRate: +value });
+    store.updateNode(id, { ...data, vibratoRate: +value });
   },
   setHarmonicity: (value) => {
-    store.updateNode(id, { harmonicity: +value });
+    store.updateNode(id, { ...data, harmonicity: +value });
   },
   setVoice0Portamento: (value) => {
-    store.updateNode(id, { voice0: { voice0, portamento: +value } });
+    store.updateNode(id, { voice0: { ...data.voice0, portamento: +value } });
   },
   setVoice0OscillatorType: (e) => {
     store.updateNode(id, {
-      voice0: { oscillator: { type: e } },
+      voice0: { ...data.voice0, oscillator: { ...data.oscillator, type: e } },
     });
   },
   setVoice0FilterEnvelope: (type, value) => {
     store.updateNode(id, {
       voice0: {
-        filterEnvelope: { [type]: +value },
+        ...data.voice0,
+        filterEnvelope: {
+          ...data.voice0.filterEnvelope,
+          [type]: +value,
+        },
       },
     });
   },
   setVoice0Envelope: (type, value) => {
     store.updateNode(id, {
-      voice0: { envelope: { [type]: +value } },
+      ...data,
+      voice0: {
+        ...data.voice0,
+        envelope: {
+          ...data.voice0.envelope,
+          [type]: +value,
+        },
+      },
     });
   },
 });

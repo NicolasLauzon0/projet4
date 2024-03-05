@@ -14,37 +14,16 @@ import {
     createAudioNode
 } from '../Audio';
 
+const MIN_DISTANCE = 1000;
+
+console.log("Store.js");
+
 export const useStore = createWithEqualityFn((set, get) => ({
-    nodes: [
-        {
-            id: "1",
-            type: "out",
-            data: {},
-            position: { x: 0, y: 0 },
-        },
-    ],
+    nodes: [],
     edges: [],
     createNode(type) {
         const id = nanoid();
         switch (type) {
-            case "knob": {
-                const data = {
-                    value: 0.5,
-                };
-                const position = { x: 0, y: 0 };
-                set({
-                    nodes: [
-                        ...get().nodes,
-                        {
-                            id,
-                            type,
-                            data,
-                            position,
-                        }
-                    ],
-                });
-                break;
-            }
             case "pluckSynth": {
                 const data = {
                     attackNoise: 1,
@@ -98,8 +77,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "amSynth": {
                 const data = {
-                    harmonicity: 0.5,
-                    detune: 0,
                     oscillator: {
                         type: "sine",
                     },
@@ -118,8 +95,10 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         sustain: 0.5,
                         release: 0.5,
                     },
+                    harmonicity: 0.5,
+                    detune: 0,
                 };
-                const position = { x: 0, y: 0 };
+                const position = { x: 300, y: -300 };
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -637,33 +616,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
             ],
         });
     },
-    async loadProject(data) {
-        const nodes = await data.nodes;
-        const edges = await data.edges;
-        await nodes.forEach((node) => {
-            createAudioNode(node.id, node.type, node.data);
-            set({
-                nodes: [
-                    ...get().nodes,
-                    {
-                        id: node.id,
-                        type: node.type,
-                        data: node.data,
-                        position: node.position,
-                    },
-                ],
-            });
-        });
-        await edges.forEach((edge) => {
-            connect(edge);
-            set({
-                edges: [
-                    ...get().edges,
-                    edge,
-                ],
-            });
-        });
-    },
     onNodesChange(changes) {
         set({
             nodes: applyNodeChanges(changes, get().nodes),
@@ -675,12 +627,12 @@ export const useStore = createWithEqualityFn((set, get) => ({
         });
     },
     onConnect(data) {
-        connect(data);
         const id = nanoid(6);
         const edge = { id, ...data, animated: true, className: "" };
         set({
             edges: [edge, ...get().edges],
         });
+        connect(data);
     },
     updateOutputs(id, outputs) {
         set((state) => ({
@@ -708,6 +660,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         const target = get().nodes.find((node) => node.id === connection.target);
 
         if (source.id === target.id) {
+            console.log("Source and target are the same");
             return false;
         }
 
@@ -725,11 +678,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
             return false;
         } else if (sequencerTypes.includes(sourceType) && effectTypes.includes(targetType)) {
             return false;
-        } else if (sourceType == "sequencer" && targetType == "out") {
-            return false;
-        }
-
-        else {
+        } else {
             return true;
         }
     },
@@ -769,13 +718,34 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }));
     },
     updateNode(id, data) {
-        console.log("updateNode", id, data);
+        const updateNestedData = (nodeData, newData) => {
+            for (const [key, val] of Object.entries(newData)) {
+                if (typeof val === 'object' && !Array.isArray(val)) {
+                    const nestedNode = nodeData[key];
+                    if (nestedNode && typeof nestedNode === 'object') {
+                        updateNestedData(nestedNode, val);
+                    } else {
+                        nodeData[key] = { ...val };
+                    }
+                } else {
+                    nodeData[key] = val;
+                }
+            }
+        };
         updateAudioNode(id, data);
         set((state) => ({
-            nodes: state.nodes.map((node) => (node.id === id ? { ...node, data: { ...node.data, ...data } } : node)),
+            nodes: state.nodes.map((node) => {
+                if (node.id === id) {
+                    const updatedData = { ...node.data };
+                    updateNestedData(updatedData, data);
+                    return { ...node, data: updatedData };
+                } else {
+                    return node;
+                }
+            }),
         }));
-        console.log(get().nodes);
     },
+
     isRunning: isRunning(),
     toggleVolume() {
         toggleAudio().then(() => {
