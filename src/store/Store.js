@@ -694,12 +694,32 @@ export const useStore = createWithEqualityFn((set, get) => ({
         }
     },
     async loadProject(data) {
-        data.nodes.forEach((node) => {
+        const nodes = await data.nodes;
+        const edges = await data.edges;
+        await nodes.forEach((node) => {
+            createAudioNode(node.id, node.type, node.data);
+            set({
+                nodes: [
+                    ...get().nodes,
+                    {
+                        id: node.id,
+                        type: node.type,
+                        data: node.data,
+                        position: node.position,
+                    },
+                ],
+            });
         });
-    },
-
-
-    saveProject() {
+        await edges.forEach((edge) => {
+            connect(edge);
+            set({
+                edges: [
+                    ...get().edges,
+                    edge,
+                ],
+            });
+        });
+    }, saveProject() {
         const data = {
             nodes: get().nodes,
             edges: get().edges,
