@@ -37,7 +37,6 @@ const selector = (id, data) => (store) => ({
   },
   setVoice0Envelope: (type, value) => {
     store.updateNode(id, {
-      ...data,
       voice0: {
         ...data.voice0,
         envelope: {
