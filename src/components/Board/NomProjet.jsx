@@ -10,7 +10,7 @@ const NomProjet = () => {
         type="text"
         value={project.name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="Nom du projet"
+        placeholder="Project Name"
       />
     </div>
   );

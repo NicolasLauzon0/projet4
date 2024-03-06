@@ -716,7 +716,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         const nodes = await data.nodes;
         const edges = await data.edges;
         await nodes.forEach((node) => {
-            createAudioNode(node.id, node.type, node.data);
             set({
                 nodes: [
                     ...get().nodes,
@@ -728,15 +727,16 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     },
                 ],
             });
+            createAudioNode(node.id, node.type, node.data);
         });
         await edges.forEach((edge) => {
-            connect(edge);
             set({
                 edges: [
                     ...get().edges,
                     edge,
                 ],
             });
+            connect(edge);
         });
     }, saveProject() {
         const data = {
