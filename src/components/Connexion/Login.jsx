@@ -7,7 +7,7 @@ const Login = () => {
     return (
         <button className="login-button" onClick={user === null ? signIn : logOut
         }>
-            {user === null ? "Se connecter avec Google" : "Se déconnecter"}
+            {user === null ? "Login with Google" : "Logout"}
         </button>
     )
 }

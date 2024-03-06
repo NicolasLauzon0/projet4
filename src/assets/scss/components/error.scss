@@ -1,0 +1,42 @@
+.errorNomProjet {
+    animation: error 0.5s linear;
+
+    transform: translate(0, 0);
+}
+
+
+@keyframes error {
+    0% {
+        transform: translate(0, 0);
+        border: 4px solid #ff6060 ;
+
+    }
+    8% {
+        transform: translate(-10px, 0);
+        border: 4px solid #ff6060 ;
+    }
+    16% {
+        transform: translate(10px, 0);
+        border: 4px solid #ff6060 ;
+    }
+    24% {
+        transform: translate(-20px, 0);
+        border: 4px solid #ff6060 ;
+    }
+    32% {
+        transform: translate(20px, 0);
+        border: 4px solid #ff6060 ;
+    }
+    40% {
+        transform: translate(-10px, 0);
+        border: 4px solid #ff6060 ;
+    }
+    50% {
+        transform: translate(0, 0);
+        border: 4px solid #ff6060 ;
+    }
+    100% {
+        transform: translate(0, 0);
+        border: 4px solid #ff6060 ;
+    }
+}

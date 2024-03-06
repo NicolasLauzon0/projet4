@@ -9,7 +9,7 @@
     white-space: nowrap;
     font-family: var(--font);
     font-size: 1.2em;
-    color: #000;
+    color: var(--noir);
 
     transition: background-color 0.2s, color 0.3s;
     background-color: var(--blanc);
@@ -31,7 +31,7 @@
     align-items: center;
     justify-content: center;
 
-    gap: 16rem;
+    gap: 24rem;
 
     &>.logo {
         position: relative;
@@ -53,6 +53,11 @@
             position: relative;
             top: 0;
             right: 0;
+
+            &:hover {
+                background-color: var(--blanc);
+                color: var(--noir);
+            }
         }
     }
 }

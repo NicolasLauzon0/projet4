@@ -5,6 +5,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id, data) => (store) => ({
   setBaseFrequency: (e) => {
@@ -32,6 +33,11 @@ const Filtre = ({ id, data }) => {
   return (
     <div className="node Filtre">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="AutoFilter">
+        <>
+          This is an AutoFilter effect. It adds a filter to the sound.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>AutoFilter</h3>
       <div className="Filtre__container node__container">

@@ -4,15 +4,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 4rem;
     background: var(--noir);
 }
 
 .wave {
-    width: 5rem;
+    width: 2rem;
     height: 8rem;
     background: linear-gradient(45deg, var(--vert), var(--blanc));
     margin: 10px;
-    animation: wave 1s linear infinite alternate;
+    animation: wave 1s linear infinite; 
     border-radius: 20px;
 }
 

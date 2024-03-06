@@ -4,6 +4,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (store) => ({
   isRunning: store.isRunning,
@@ -23,6 +24,11 @@ const Out = ({ id, data }) => {
         nodeType={"out"}
       />
       <div className="out__container node__container">
+        <Infobulle titre="Output" >
+          <>
+            This is the output of your flow. Everything that is connected to this node will be played.
+          </>
+        </Infobulle>
         <Button action={() => removeNode(id)} />
         <h3>Output</h3>
         <div className="muteUnmute">

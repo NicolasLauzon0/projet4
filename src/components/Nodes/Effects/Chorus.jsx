@@ -6,6 +6,7 @@ import RadioInputs from "../../utils/RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
@@ -47,6 +48,12 @@ const Chorus = ({ id, data }) => {
   return (
     <div className="node chorus">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Chorus">
+        <>
+          This is a chorus effect. It adds multiple delayed and modulated copies
+          of the input signal.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Chorus</h3>
       <div className="chorus__container node__container">

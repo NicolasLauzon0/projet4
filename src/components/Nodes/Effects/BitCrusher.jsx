@@ -4,6 +4,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setBits: (e) => {
@@ -19,8 +20,13 @@ const BitCrusher = ({ id, data }) => {
   return (
     <div className="node bitCrusher">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>BitCrusher</h3>
+      <Infobulle titre="Bit Crusher">
+        <>
+          This is a bit crusher effect. It reduces the quality of the sound and add distortion.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
+      <h3>BitCrusher</h3>
       <div className="bitCrusher__container node__container">
         <div className="knobs">
           <Input

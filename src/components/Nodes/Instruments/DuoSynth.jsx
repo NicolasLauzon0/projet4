@@ -6,6 +6,7 @@ import RadioInputs from "../../utils/RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import ModulationSection from "../../utils/ModulationSection.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id, data) => (store) => ({
   setVibratoAmount: (value) => {
@@ -98,6 +99,11 @@ const DuoSynth = ({ id, data }) => {
   return (
     <div className="node duoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Duo Synth">
+        <>
+          This is a duo synth. It plays a sound that is similar to a synthesizer if plugged to a sequencer.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Duo Synth</h3>
       <div className="duoSynth__container node__container">

@@ -1,6 +1,6 @@
 const menuProject = [
     {
-        name: "Projet",
+        name: "Project",
         children: [
             {
                 name: "Save project",
@@ -15,7 +15,7 @@ const menuProject = [
 ];
 const menu = [
     {
-        name: "Rythme et Séquence",
+        name: "Rythm",
         children: [
             {
                 name: "Sequencer",
@@ -61,7 +61,7 @@ const menu = [
         ],
     },
     {
-        name: "Effets",
+        name: "Effects",
         children: [
             {
                 name: "Gain",
@@ -103,7 +103,7 @@ const menu = [
     },
 
     {
-        name: "Audio",
+        name: "Master",
         children: [
             {
                 name: "Output",

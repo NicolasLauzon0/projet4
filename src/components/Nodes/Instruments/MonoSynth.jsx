@@ -7,6 +7,7 @@ import RadioInputs from "../../utils/RadioInputs.jsx";
 import ModulationSection from "../../utils/ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id, data) => (store) => ({
   setDetune: (e) => {
@@ -42,6 +43,11 @@ const MonoSynth = ({ id, data }) => {
   return (
     <div className="node monoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Mono Synth">
+        <>
+          This is a mono synth. It plays a sound that is similar to a synthesizer if plugged to a sequencer. 
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Mono Synth</h3>
       <div className="monoSynth__container node__container">

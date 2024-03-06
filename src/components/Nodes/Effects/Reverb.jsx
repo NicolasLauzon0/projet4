@@ -3,6 +3,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setDecay: (e) => {
@@ -21,6 +22,11 @@ const Reverb = ({ id, data }) => {
   return (
     <div className="node reverb">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Reverb">
+        <>
+          This is a reverb. It adds a space effect to the sound.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Reverb</h3>
       <div className="reverb__container node__container">

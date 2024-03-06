@@ -6,6 +6,7 @@ import RadioInputs from "../../utils/RadioInputs.jsx";
 import ModulationSection from "../../utils/ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id, data) => (store) => ({
   setEnvelope: (type, value) => {
@@ -56,8 +57,13 @@ const AMSynth = ({ id, data }) => {
   return (
     <div className="node amsynthnode">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>AM Synth</h3>
+      <Infobulle titre="AM Synth">
+        <>
+          This is an AM synth. It plays a sound that is similar to a synthesizer if plugged to a sequencer.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
+      <h3>AM Synth</h3>
       <div className="amsynthnode__container node__container">
         <div className="side left">
           <section className="amsynthoscilator envelopeSection">

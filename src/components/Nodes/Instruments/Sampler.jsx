@@ -5,6 +5,7 @@ import CustomHandle from "../../Handle/CustomHandle.jsx";
 import DropDownMenu from "../../utils/DropDownMenu.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setAttack: (e) => {
@@ -22,6 +23,11 @@ const Sampler = ({ id, data }) => {
   return (
     <div className="node sampler">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Sampler">
+        <>
+          This is a sampler. You can load a sound and play it with the sequencer.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Sampler</h3>
       <div className="sampler__container node__container">

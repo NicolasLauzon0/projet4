@@ -13,7 +13,7 @@ const LoginAccueilNode = () => {
 
                 <Handle type="target" position="top" id="a" />
                 <button className="login-button">
-                    {user === null ? "Se connecter avec Google" : "Se déconnecter"}
+                    {user === null ? "Login with Google" : "Logout"}
                 </button>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Handle, getOutgoers } from "reactflow";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id, data) => (store) => ({
   removeNode: store.removeNode,
@@ -83,8 +84,8 @@ const selector = (id, data) => (store) => ({
     const updatedNotes = data.notes.map((rowData, rowIndex) => {
       return rowIndex === row
         ? rowData.map((val, colIndex) =>
-            colIndex === col ? e.target.checked : val
-          )
+          colIndex === col ? e.target.checked : val
+        )
         : rowData;
     });
 
@@ -114,16 +115,21 @@ const Sequencer = ({ id, data }) => {
 
   return (
     <div className="node sequencer">
-      <h3>Séquenceur</h3>
+      <Infobulle titre="Sequencer">
+        <>
+          This is a sequencer. Draw notes and plug the output to an instrument to play them.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
+      <h3>Sequencer</h3>
       <div className="sequencer__container">
         <div className="sequencer__controls">
           <label>
-            Rangées
+            Rows
             <input type="number" value={data.rows} onChange={setRows} min={2} />
           </label>
           <label>
-            Colonnes
+            Columns
             <input
               type="number"
               value={data.cols}

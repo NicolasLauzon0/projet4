@@ -4,6 +4,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
@@ -29,8 +30,13 @@ const PitchShift = ({ id, data }) => {
   return (
     <div className="node pitchShift">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>Pitch Shift</h3>
+      <Infobulle titre="Pitch Shift">
+        <>
+          This is a pitch shift effect. It changes the pitch of the sound.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
+      <h3>Pitch Shift</h3>
       <div className="pitchShift__container node__container">
         <div className="knobs">
           <Input

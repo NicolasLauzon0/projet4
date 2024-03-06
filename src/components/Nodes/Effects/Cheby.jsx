@@ -3,6 +3,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setOrder: (e) => {
@@ -18,8 +19,13 @@ const Cheby = ({ id, data }) => {
   return (
     <div className="node cheby">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
-      <h3>Cheby</h3>
+      <Infobulle titre="Cheby">
+        <>
+          This is a Cheby effect. It is a waveshaper which is good for making different types of distortion sounds.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
+      <h3>Cheby</h3>
       <div className="cheby__container node__container">
         <div className="knobs">
           <Input

@@ -7,6 +7,7 @@
 @import "LabelEdge.scss";
 @import "button.scss";
 @import "audio/mute.scss";
+@import "infobulle.scss";
 
 .react-flow__node.selected {
     box-shadow: 0 0 30px 10px var(--turquoise);
@@ -25,7 +26,7 @@
 }
 
 .node {
-    padding: 2rem;
+    padding: 3rem;
 
     min-height: 200px;
     min-width: 300px;

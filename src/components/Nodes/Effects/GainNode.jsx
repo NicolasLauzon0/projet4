@@ -5,6 +5,7 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setGain: (e) => store.updateNode(id, { gain: +e }),
@@ -16,6 +17,11 @@ const GainNode = ({ id, data }) => {
   return (
     <div className="node gainnode">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Gain">
+        <>
+          This is a gain node. It changes the volume of the sound.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Gain</h3>
       <div className="gainnode__container node__container">

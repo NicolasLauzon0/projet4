@@ -4,10 +4,11 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setAttack: (e) => {
-    store.updateNode(id, { attackNoise: +e});
+    store.updateNode(id, { attackNoise: +e });
   },
   setDampening: (e) => {
     store.updateNode(id, { dampening: +e });
@@ -26,6 +27,13 @@ const PluckSynth = ({ id, data }) => {
   return (
     <div className="node pluckSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Pluck Synth">
+        <>
+          This is a pluck synth. It plays a sound that is similar to a guitar if plugged to a sequencer.
+        </>
+      </Infobulle>
+
+
       <Button action={() => removeNode(id)} />
       <h3>Pluck Synth</h3>
       <div className="pluckSynth__container node__container">

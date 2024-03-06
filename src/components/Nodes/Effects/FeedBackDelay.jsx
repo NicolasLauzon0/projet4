@@ -4,16 +4,17 @@ import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../../utils/Input.jsx";
 import Button from "../../utils/Button.jsx";
+import Infobulle from "../../utils/Infobulle.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
     store.updateNode(id, { delayTime: +e });
   },
   setFeedback: (e) => {
-    store.updateNode(id, { feedback: +e});
+    store.updateNode(id, { feedback: +e });
   },
   setMaxDelay: (e) => {
-    store.updateNode(id, { maxDelay: +e});
+    store.updateNode(id, { maxDelay: +e });
   },
   setWet: (e) => {
     store.updateNode(id, { wet: +e });
@@ -28,6 +29,11 @@ const FeedBackDelay = ({ id, data }) => {
   return (
     <div className="node feedbackDelay">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Infobulle titre="Feedback Delay">
+        <>
+          This is a feedback delay effect. It adds a delay to the sound.
+        </>
+      </Infobulle>
       <Button action={() => removeNode(id)} />
       <h3>Delay</h3>
       <div className="feedbackDelay__container node__container">

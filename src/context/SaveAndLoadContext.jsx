@@ -44,53 +44,30 @@ const SaveAndLoadProvider = ({ children }) => {
   });
   const [projects, setProjects] = useState([]);
   const [seeFiles, setSeeFiles] = useState(false);
+  const [error, setError] = useState(false);
   const { user } = useAuth();
   // Sauvegarde des données dans la base de données
   const saveDataDB = async () => {
     if (project.name === "") {
-      if (store.isRunning) {
-        await store.toggleVolume();
-      }
-      if (
-        window.confirm("Voulez-vous vraiment sauvegarder ce projet sans nom ?")
-      ) {
-        const data = JSON.stringify(store.saveProject());
-        const name =
-          project.name === ""
-            ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-            : project.name;
-        const date =
-          new Date().toLocaleDateString() +
-          " " +
-          new Date().toLocaleTimeString();
-        const doc = await addDoc(collection(db, "projects"), {
-          name: name,
-          content: data,
-          date: date,
-          userID: user.uid,
-        });
-        setProject({
-          ...project,
-          id: doc.id,
-          name: name,
-          date: date,
-        });
-        setProjects(projects.concat({ id: doc.id, name: name, date: date }));
-
-        await store.toggleVolume();
-      } else {
-        await store.toggleVolume();
-        return;
-      }
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
+      return;
     } else {
-      await store.toggleVolume();
+      let isRunning = store.isRunning;
+      if (isRunning) {
+        await store.toggleVolume();
+      }
       const data = JSON.stringify(store.saveProject());
       const name =
         project.name === ""
           ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
           : project.name;
       const date =
-        new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+        new Date().toLocaleDateString() +
+        " " +
+        new Date().toLocaleTimeString();
       const doc = await addDoc(collection(db, "projects"), {
         name: name,
         content: data,
@@ -103,15 +80,10 @@ const SaveAndLoadProvider = ({ children }) => {
         name: name,
         date: date,
       });
-      setProjects(
-        projects.concat({
-          id: doc.id,
-          name: name,
-          date: date,
-        })
-      );
-
-      await store.toggleVolume();
+      setProjects(projects.concat({ id: doc.id, name: name, date: date }));
+      if (isRunning && !store.isRunning) {
+        await store.toggleVolume();
+      }
     }
   };
   const setName = (name) => {
@@ -164,12 +136,6 @@ const SaveAndLoadProvider = ({ children }) => {
   }, [user]);
 
   const saveData = () => {
-    if (project.name === "") {
-      setProject({
-        ...project,
-        name: "Nouveau Projet" + " " + new Date().toLocaleDateString(),
-      });
-    }
     saveDataDB();
   };
 
@@ -184,6 +150,7 @@ const SaveAndLoadProvider = ({ children }) => {
         setSeeFiles,
         loadProject,
         removeProject,
+        error,
       }}
     >
       {children}
