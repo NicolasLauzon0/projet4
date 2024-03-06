@@ -40,7 +40,7 @@ const selector = (id, data) => (store) => ({
   },
   setModulationEnvelope: (type, value) => {
     store.updateNode(id, {
-      envelope: { [type]: +value },
+      modulationEnvelope: { [type]: +value },
     });
   },
   removeNode: store.removeNode,

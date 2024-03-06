@@ -11,7 +11,9 @@
 
     margin: 2rem;
 }
-
+.menu--first{
+    animation: menufirst 1.8s forwards ease-in-out infinite;
+}
 .menu {
     position: relative;
 
@@ -176,6 +178,20 @@
     }
 }
 
+
+@keyframes menufirst {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 @keyframes disapear {
     0% {
         height: 60%;
