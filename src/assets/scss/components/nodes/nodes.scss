@@ -6,6 +6,7 @@
 @import "effets/effets.scss";
 @import "LabelEdge.scss";
 @import "button.scss";
+@import "audio/mute.scss";
 
 .react-flow__node.selected {
     box-shadow: 0 0 30px 10px var(--turquoise);

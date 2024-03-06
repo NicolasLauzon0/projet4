@@ -176,6 +176,22 @@
     }
 }
 
+.menu--first{
+    animation: idle 1s  infinite alternate ease; 
+    
+    transform: scale(1);
+}
+
+@keyframes idle {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+}
+
 @keyframes disapear {
     0% {
         height: 60%;

@@ -1,8 +1,5 @@
 .sequencer {
-
     & .sequencer__container {
-
-
         & > h3 {
             font-family: var(--font);
             font-size: 3rem;
@@ -70,11 +67,16 @@
                 & > div {
                     right: -6rem;
                 }
+                & > .cell:nth-last-child(2) {
+                    margin-right: 0 !important;
+                }
+                & > .cell:nth-child(4n){
+                    margin-right: 1rem;
+                }
 
                 & > .cell {
                     width: 2em;
                     height: 2em;
-
                     &:has(input:checked) {
                         background-color: var(--jaune);
                         box-shadow: inset 0 0 0 0.6rem var(--jaune);
@@ -88,7 +90,9 @@
                         box-shadow: inset 0 0 0 0.2rem var(--jaune);
                     }
 
-                    transition: background-color 0.1s, box-shadow 0.1s;
+                    transition:
+                        background-color 0.1s,
+                        box-shadow 0.1s;
                     box-shadow: inset 0 0 0 0.4rem var(--gris);
 
                     & > label {

@@ -1,0 +1,32 @@
+.muteUnmute {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 160px;
+    width: 160px;
+
+    padding: 2rem;
+
+    border-radius: 50%;
+    background-color: var(--noir);
+    box-shadow:
+        0 2px 6px 2px var(--noir),
+        0 2px 10px 2px var(--noir),
+        0 0 3px 4px var(--vert),
+        inset 0 -2px 5px 0 black,
+        inset 0 2px 5px 0 var(--blanc);
+
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    & .decalage {
+        margin-left: 1.2rem;
+    }
+    &:hover {
+        background-color: var(--gris);
+    }
+}
+.out__container {
+    gap: 0.5rem !important;
+    padding: 1rem;
+}

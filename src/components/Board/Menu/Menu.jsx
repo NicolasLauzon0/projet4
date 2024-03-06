@@ -6,6 +6,7 @@ import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
 const Menu = ({ menuProject, menu, store }) => {
   const menuRef = useRef(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
+  const [menuOpenOneTime, setMenuOpenOneTime] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { setSeeFiles } = useSaveAndLoad();
 
@@ -24,12 +25,14 @@ const Menu = ({ menuProject, menu, store }) => {
   }, []);
 
   return (
-    <div className="menu" ref={menuRef}>
+    <div className={!menuOpenOneTime ? "menu menu--first" : "menu"}
+    ref={menuRef}>
       <div
         onClick={(e) => {
           setMenuOpen(!menuOpen);
           e.target.classList.add("menubutton__container--active");
           setSeeFiles(false);
+          !menuOpenOneTime && setMenuOpenOneTime(true);
         }}
         className="menubutton"
       >

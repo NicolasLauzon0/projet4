@@ -3,6 +3,7 @@ import ReactFlow, { Background, Controls, MiniMap, Panel } from "reactflow";
 import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
+import CustomEdge from "../../assets/scss/components/CustomEdge/CustomEdge.jsx";
 
 import OutNode from "../Nodes/Master/OutNode.jsx";
 
@@ -36,8 +37,7 @@ import FilesPopUp from "./Menu/FilesPopUp.jsx";
 import { menu, menuProject } from "../Nodes/NodesT.js";
 
 import "reactflow/dist/style.css";
-import Input from "../Nodes/Input.jsx";
-import CustomEdge from "../../assets/scss/components/CustomEdge/CustomEdge.jsx";
+
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -73,7 +73,6 @@ const nodeTypes = {
   cheby: Cheby,
   add: Add,
   chorus: Chorus,
-  knob: Input,
 };
 
 const edgesTypes = {
@@ -90,7 +89,6 @@ const Flow = () => {
       <Login />
       <NomProjet />
       {
-        // <FilesPopUp />
         seeFiles && <FilesPopUp />
       }
       <ReactFlow
