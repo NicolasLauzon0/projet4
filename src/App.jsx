@@ -15,6 +15,17 @@ const Routes = () => {
     !isConnected &&{
       path: "/",
       element: <AuthLayout />,
+      children: [
+        {
+          path: "/",
+          index: true,
+          element: <Navigate to="/login" replace />,
+        },
+        {
+          path: "login",
+          element: <Login />,
+        },
+      ],
     },
     isConnected &&
     {
