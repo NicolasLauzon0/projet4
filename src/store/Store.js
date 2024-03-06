@@ -15,6 +15,14 @@ import {
 } from '../Audio';
 
 export const useStore = createWithEqualityFn((set, get) => ({
+    authNodes: [
+        {
+            id: "1",
+            type: "login",
+            position: { x: 0, y: 0 },
+            selectable: false,
+        },
+    ],
     nodes: [{
         id: "1",
         type: "out",
@@ -615,6 +623,23 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 ...get().edges,
                 data,
             ],
+        });
+    },
+    onAuthNodesChange(changes) {
+        set({
+            authNodes: applyNodeChanges(changes, get().authNodes),
+        });
+    },
+    onAuthEdgesChange(changes) {
+        set({
+            authEdges: applyEdgeChanges(changes, get().authEdges),
+        });
+    },
+    onAuthConnect(data) {
+        const id = nanoid(6);
+        const edge = { id, ...data, animated: true, type: "custom" };
+        set({
+            authEdges: [edge, ...get().authEdges],
         });
     },
     onNodesChange(changes) {

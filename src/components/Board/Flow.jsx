@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import ReactFlow, { Background, Controls, MiniMap, Panel } from "reactflow";
+import ReactFlow, { Background,  MiniMap, Panel } from "reactflow";
 import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
@@ -34,7 +33,7 @@ import Login from "../Connexion/Login.jsx";
 import NomProjet from "./NomProjet.jsx";
 import FilesPopUp from "./Menu/FilesPopUp.jsx";
 
-import { menu, menuProject } from "../Nodes/NodesT.js";
+import { menu, menuProject } from "./Menu/NodesT.js";
 
 import "reactflow/dist/style.css";
 

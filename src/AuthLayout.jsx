@@ -1,16 +1,17 @@
 import React from 'react'
 import Login from './components/Connexion/Login'
+import { ReactFlowProvider } from 'reactflow'
+import { Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
     return (
         <div className="interface auth">
-            <header>
-                <h1>Connexion</h1>
-            </header>
             <main>
-                <div className="auth__container">
-                    <Login />
-                </div>
+                <main style={{ width: "100%", height: "100vh" }}>
+                    <ReactFlowProvider>
+                        <Outlet />
+                    </ReactFlowProvider>
+                </main>
             </main>
         </div>
     )

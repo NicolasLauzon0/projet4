@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as Tone from "tone";
-import Input from "../Input";
-import Button from "../Button";
+import Input from "../../utils/Input.jsx";
+import Button from "../../utils/Button.jsx";
 import { useStore } from "../../../store/Store.js";
 import { shallow } from "zustand/shallow";
 

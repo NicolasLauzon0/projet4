@@ -1,4 +1,4 @@
-.login-button{
+.login-button {
     position: fixed;
     z-index: 1000;
     top: 10px;
@@ -6,18 +6,53 @@
 
     padding: 10px;
 
+    white-space: nowrap;
     font-family: var(--font);
     font-size: 1.2em;
     color: #000;
-    
+
     transition: background-color 0.2s, color 0.3s;
     background-color: var(--blanc);
     border: 1px solid var(--vert);
     border-radius: 6px;
     cursor: pointer;
-    
-    &:hover{
+
+    &:hover {
         background-color: var(--noir);
         color: var(--blanc);
+    }
+}
+
+
+.log {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16rem;
+
+    &>.logo {
+        position: relative;
+
+        font-family: var(--font);
+        font-size: 12em;
+        color: var(--vert);
+        text-shadow: 0 0 10px var(--vert),
+            0 0 20px var(--vert),
+            0 0 40px var(--vert),
+            0 0 80px var(--vert),
+            0 0 160px var(--vert);
+    }
+
+    & .login-text {
+        position: relative;
+
+        & .login-button {
+            position: relative;
+            top: 0;
+            right: 0;
+        }
     }
 }

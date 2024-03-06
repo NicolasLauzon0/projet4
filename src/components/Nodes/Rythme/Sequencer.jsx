@@ -3,7 +3,7 @@ import { useStore } from "../../../store/Store.js";
 import { useEffect, useRef } from "react";
 import { Handle, getOutgoers } from "reactflow";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
-import Button from "../Button.jsx";
+import Button from "../../utils/Button.jsx";
 
 const selector = (id, data) => (store) => ({
   removeNode: store.removeNode,

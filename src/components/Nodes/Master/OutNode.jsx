@@ -3,7 +3,7 @@ import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
-import Button from "../Button.jsx";
+import Button from "../../utils/Button.jsx";
 
 const selector = (store) => ({
   isRunning: store.isRunning,

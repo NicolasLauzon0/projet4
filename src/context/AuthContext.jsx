@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
             logOut,
             user,
             isConnected,
-            loading
+            loading,
         }}>
             {children}
         </AuthContext.Provider>

@@ -2,9 +2,9 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
-import DropDownMenu from "../DropDownMenu.jsx";
-import Input from "../Input.jsx";
-import Button from "../Button.jsx";
+import DropDownMenu from "../../utils/DropDownMenu.jsx";
+import Input from "../../utils/Input.jsx";
+import Button from "../../utils/Button.jsx";
 
 const selector = (id) => (store) => ({
   setAttack: (e) => {

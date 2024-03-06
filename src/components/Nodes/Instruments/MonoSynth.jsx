@@ -2,11 +2,11 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
-import Input from "../Input.jsx";
-import RadioInputs from "../RadioInputs.jsx";
-import ModulationSection from "../ModulationSection.jsx";
+import Input from "../../utils/Input.jsx";
+import RadioInputs from "../../utils/RadioInputs.jsx";
+import ModulationSection from "../../utils/ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
-import Button from "../Button.jsx";
+import Button from "../../utils/Button.jsx";
 
 const selector = (id, data) => (store) => ({
   setDetune: (e) => {

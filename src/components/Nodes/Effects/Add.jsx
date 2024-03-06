@@ -1,6 +1,6 @@
 import { Handle } from "reactflow";
 import CustomHandle from "../../Handle/CustomHandle";
-import Button from "../Button";
+import Button from "../../utils/Button";
 import { useStore } from "../../../store/Store";
 import { shallow } from "zustand/shallow";
 
