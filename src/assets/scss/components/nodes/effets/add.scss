@@ -1,0 +1,9 @@
+.add {
+    position: relative;
+    & [data-handleid="a"] {
+        left: 3rem;
+    }
+    & [data-handleid="b"] {
+        left: calc(100% - 3rem);
+    }
+}

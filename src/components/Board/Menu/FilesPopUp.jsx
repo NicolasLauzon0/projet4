@@ -1,38 +1,44 @@
 import React from "react";
 import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
+import Button from "../../Nodes/Button";
 
 const FilesPopUp = () => {
-  const { projects, setSeeFiles, loadProject, removeProject } = useSaveAndLoad();
+  const { projects, setSeeFiles, loadProject, removeProject } =
+    useSaveAndLoad();
   return (
-    <div className="files-popup">
-      <div className="exit" onClick={() => setSeeFiles(false)}>
-        <div></div>
+    <>
+      <Button action={() => setSeeFiles(false)} classe={"file"} />
+      <div className="files-popup">
+        <div className="files-popup__container">
+          <h2>Charger un projet</h2>
+          <ul>
+            {projects &&
+              projects.map((project, index) => {
+                return (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSeeFiles(false);
+                      loadProject(project.id);
+                    }}
+                  >
+                    {project.name}
+                    <div
+                      className="remove"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeProject(project.id);
+                      }}
+                    >
+                      <div></div>
+                    </div>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
-      <h2>Charger un projet</h2>
-      <ul>
-        {projects.map((project, index) => {
-          return (
-            <li
-              key={index}
-              onClick={() => {
-                setSeeFiles(false);
-                loadProject(project.id);
-              }}
-            >
-              {project.name}
-              <div className="remove"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeProject(project.id);
-                }}
-              >
-                <div></div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    </>
   );
 };
 

@@ -37,6 +37,7 @@ import { menu, menuProject } from "../Nodes/NodesT.js";
 
 import "reactflow/dist/style.css";
 import Input from "../Nodes/Input.jsx";
+import CustomEdge from "../../assets/scss/components/CustomEdge/CustomEdge.jsx";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -75,6 +76,10 @@ const nodeTypes = {
   knob: Input,
 };
 
+const edgesTypes = {
+  "custom": CustomEdge,
+};
+
 
 const Flow = () => {
   const store = useStore(selector, shallow);
@@ -98,6 +103,7 @@ const Flow = () => {
         onEdgesDelete={store.onEdgesDelete}
         isValidConnection={store.isValidConnection}
         nodeTypes={nodeTypes}
+        edgeTypes={edgesTypes}
         fitView
         className="flow"
       >
@@ -107,12 +113,12 @@ const Flow = () => {
         <Background
           color="var(--blanc)"
           gap={32}
-          size={2}
+          size={3}
           style={{
             borderRadius: "5px",
             backgroundColor: "#222222",
             padding: "0",
-            zoom: "1.2",
+            zoom: "1",
           }}
         />
         <MiniMap

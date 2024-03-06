@@ -2,80 +2,70 @@ import { Handle } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
+import Input from "../Input.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id) => (store) => ({
   setDelayTime: (e) => {
-    store.updateNode(id, { delayTime: +e.target.value });
+    store.updateNode(id, { delayTime: +e });
   },
   setFeedback: (e) => {
-    store.updateNode(id, { feedback: +e.target.value });
+    store.updateNode(id, { feedback: +e });
   },
   setPitch: (e) => {
-    store.updateNode(id, { pitch: +e.target.value });
+    store.updateNode(id, { pitch: +e });
   },
   setWet: (e) => {
-    store.updateNode(id, { wet: +e.target.value });
+    store.updateNode(id, { wet: +e });
   },
+  removeNode: store.removeNode,
 });
 
 const PitchShift = ({ id, data }) => {
-  const { setDelayTime, setFeedback, setPitch, setWet } = useStore(
+  const { setDelayTime, setFeedback, setPitch, setWet, removeNode } = useStore(
     selector(id),
     shallow
   );
   return (
     <div className="node pitchShift">
-      <CustomHandle type={"target"} position={"top"} id={"a"}/>
-      <div className="pitchShift__container">
-        <h3>Moduleur de pitch</h3>
-        <label>
-          Pitch
-          <input
-            type="range"
-            min="-12"
-            max="12"
-            step="1"
+      <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <h3>Pitch Shift</h3>
+      <Button action={() => removeNode(id)} />
+      <div className="pitchShift__container node__container">
+        <div className="knobs">
+          <Input
             value={data.pitch}
-            onChange={setPitch}
-            className="nodrag"
+            setValue={setPitch}
+            label={"Pitch"}
+            min={-12}
+            max={12}
+            step={1}
           />
-        </label>
-        <label>
-          Delay
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.05"
+          <Input
             value={data.delayTime}
-            onChange={setDelayTime}
-            className="nodrag"
+            setValue={setDelayTime}
+            label={"Delay"}
+            min={0}
+            max={1}
+            step={0.05}
           />
-        </label>
-        <label>
-          Feedback
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
+          <Input
             value={data.feedback}
-            onChange={setFeedback}
-            className="nodrag"
+            setValue={setFeedback}
+            label={"Feedback"}
+            min={0}
+            max={1}
+            step={0.01}
           />
-        </label>
-        <label>
-          Ratio
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
+          <Input
             value={data.wet}
-            onChange={setWet}
-            className="nodrag"
+            setValue={setWet}
+            label={"Ratio"}
+            min={0}
+            max={1}
+            step={0.01}
           />
-        </label>
+        </div>
       </div>
       <CustomHandle type={"source"} position={"bottom"} id={"b"} />
     </div>

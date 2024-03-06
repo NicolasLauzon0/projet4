@@ -5,6 +5,7 @@ import Input from "../Input.jsx";
 import RadioInputs from "../RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import ModulationSection from "../ModulationSection.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id, data) => (store) => ({
   setVibratoAmount: (value) => {
@@ -76,6 +77,7 @@ const selector = (id, data) => (store) => ({
       },
     });
   },
+  removeNode: store.removeNode,
 });
 
 const DuoSynth = ({ id, data }) => {
@@ -91,10 +93,12 @@ const DuoSynth = ({ id, data }) => {
     setVoice1OscillatorType,
     setVoice1FilterEnvelope,
     setVoice1Envelope,
+    removeNode,
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node duoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Button action={() => removeNode(id)} />
       <h3>Duo Synth</h3>
       <div className="duoSynth__container node__container">
         <div className="duoSynth__controls global__controls">

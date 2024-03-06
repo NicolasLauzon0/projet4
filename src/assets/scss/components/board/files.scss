@@ -4,10 +4,6 @@
     top: 50%;
     left: 50%;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
     padding: 3rem;
 
     width: 50%;
@@ -22,40 +18,36 @@
     box-shadow: 0 0 10px 0 var(--gris);
 
     transform: translate(-50%, -50%);
-    & .exit{
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
 
-        width: 2rem;
-        height: 2rem;
-
-        border-radius: 50%;
-        border: 2px solid var(--noir);
-        background-color: var(--vert);
+    & .files-popup__container {
+        position: relative;
+        width: 100%;
+        height: 100%;
 
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
 
-        font-size: 1.5rem;
-        color: var(--noir);
-
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &::before {
-            content: "X";
-            transition: color 0.3s;
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            width: 0.4em;
+            border-radius: 10px;
         }
-        &:hover {
-            background-color: var(--gris);
 
-            &:before {
-                color: var(--vert);
-            }
+        &::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 6px var(--noir);
+            border-radius: 10px;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--noir);
+            border-radius: 10px;
+
+            box-shadow: inset -1px 0 5px color-mix(in srgb, var(--blanc) 50%, transparent);
         }
     }
+
     & h2 {
         margin-bottom: 2rem;
         user-select: none;
@@ -69,6 +61,10 @@
         padding: 0;
         margin: 0;
         & li {
+            &:last-child {
+                margin-bottom: 2rem;
+            }
+
             position: relative;
 
             padding: 1rem 2rem;
@@ -103,7 +99,7 @@
                 border-radius: 50%;
                 border: 2px solid var(--noir);
                 transform: translateY(-50%);
-             
+
                 &::before {
                     content: "";
                     position: absolute;
@@ -116,9 +112,44 @@
                     border-radius: 1rem;
                     background-color: var(--noir);
                     transform: translate(-50%, -50%);
-
                 }
             }
+        }
+    }
+}
+.exit {
+    position: fixed;
+    z-index: 1001;
+    top: calc(25% + 1rem);
+    right: calc(25% + 1rem);
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+    border: 2px solid var(--noir);
+    background-color: var(--vert);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: var(--font);
+    font-size: 1.5rem;
+    color: var(--noir);
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &::before {
+        content: "X";
+        transition: color 0.3s;
+    }
+    &:hover {
+        background-color: var(--gris);
+
+        &:before {
+            color: var(--vert);
         }
     }
 }

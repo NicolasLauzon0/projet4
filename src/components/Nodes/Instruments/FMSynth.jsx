@@ -6,6 +6,7 @@ import Input from "../Input.jsx";
 import RadioInputs from "../RadioInputs.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
 import ModulationSection from "../ModulationSection.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id, data) => (store) => ({
   setHarmonicity: (e) => {
@@ -41,7 +42,7 @@ const selector = (id, data) => (store) => ({
       envelope: { [type]: +value },
     });
   },
-
+  removeNode: store.removeNode,
 });
 const FMSynth = ({ id, data }) => {
   const {
@@ -52,10 +53,12 @@ const FMSynth = ({ id, data }) => {
     setOscilatorType,
     setModulationType,
     setModulationEnvelope,
+    removeNode,
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node fmSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Button action={() => removeNode(id)} />
       <h3>FM Synth</h3>
       <div className="fmSynth__container node__container">
         <div className="side left">

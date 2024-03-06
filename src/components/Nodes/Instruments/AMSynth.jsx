@@ -5,6 +5,7 @@ import Input from "../Input.jsx";
 import RadioInputs from "../RadioInputs.jsx";
 import ModulationSection from "../ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id, data) => (store) => ({
   setEnvelope: (type, value) => {
@@ -38,6 +39,7 @@ const selector = (id, data) => (store) => ({
   setDetune: (e) => {
     store.updateNode(id, { detune: +e });
   },
+  removeNode: store.removeNode,
 });
 
 const AMSynth = ({ id, data }) => {
@@ -48,12 +50,14 @@ const AMSynth = ({ id, data }) => {
     setModulationType,
     setHarmonicity,
     setDetune,
+    removeNode,
   } = useStore(selector(id, data), shallow);
 
   return (
     <div className="node amsynthnode">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
       <h3>AM Synth</h3>
+      <Button action={() => removeNode(id)} />
       <div className="amsynthnode__container node__container">
         <div className="side left">
           <section className="amsynthoscilator envelopeSection">

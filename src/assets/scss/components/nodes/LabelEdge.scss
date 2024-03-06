@@ -1,0 +1,24 @@
+.deleteEdgeButton {
+    padding: 1rem 2rem;
+
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--noir);
+
+    border: none;
+    border-radius: 2rem;
+    background-color: var(--vert);
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        color 0.2s,
+        box-shadow 0.2s;
+
+    &:hover {
+        background-color: var(--noir);
+        color: var(--vert);
+
+        box-shadow: 0 0 10px 2px var(--vert);
+    }
+}

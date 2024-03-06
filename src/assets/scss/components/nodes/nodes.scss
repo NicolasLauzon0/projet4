@@ -3,6 +3,9 @@
 @import "handles.scss";
 @import "input.scss";
 @import "dropdownmenu.scss";
+@import "effets/effets.scss";
+@import "LabelEdge.scss";
+@import "button.scss";
 
 .react-flow__node.selected {
     box-shadow: 0 0 30px 10px var(--turquoise);
@@ -23,8 +26,8 @@
 .node {
     padding: 2rem;
 
-    min-height: 100px;
-    min-width: 100px;
+    min-height: 200px;
+    min-width: 300px;
 
     border-radius: 2rem;
     background-color: color-mix(in srgb, var(--vertNode) 70%, transparent);

@@ -3,6 +3,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Input from "../Input.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id) => (store) => ({
   setAttack: (e) => {
@@ -14,9 +15,10 @@ const selector = (id) => (store) => ({
   setResonance: (e) => {
     store.updateNode(id, { resonance: +e });
   },
+  removeNode: store.removeNode,
 });
 const PluckSynth = ({ id, data }) => {
-  const { setAttack, setDampening, setResonance } = useStore(
+  const { setAttack, setDampening, setResonance, removeNode } = useStore(
     selector(id),
     shallow
   );
@@ -24,6 +26,7 @@ const PluckSynth = ({ id, data }) => {
   return (
     <div className="node pluckSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Button action={() => removeNode(id)} />
       <h3>Pluck Synth</h3>
       <div className="pluckSynth__container node__container">
         <div className="pluckSynth__controls global__controls">

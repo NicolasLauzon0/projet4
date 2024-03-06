@@ -3,8 +3,10 @@ import { useStore } from "../../../store/Store.js";
 import { useEffect, useRef } from "react";
 import { Handle, getOutgoers } from "reactflow";
 import CustomHandle from "../../Handle/CustomHandle.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id, data) => (store) => ({
+  removeNode: store.removeNode,
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
     if (newRows < 1 || newRows !== Math.floor(newRows)) return;
@@ -92,7 +94,7 @@ const selector = (id, data) => (store) => ({
 });
 
 const Sequencer = ({ id, data }) => {
-  const { setRows, setColumns, setNotes } = useStore(
+  const { setRows, setColumns, setNotes, removeNode } = useStore(
     selector(id, data),
     shallow
   );
@@ -112,8 +114,9 @@ const Sequencer = ({ id, data }) => {
 
   return (
     <div className="node sequencer">
+      <h3>Séquenceur</h3>
+      <Button action={() => removeNode(id)} />
       <div className="sequencer__container">
-        <h3>Séquenceur</h3>
         <div className="sequencer__controls">
           <label>
             Rangées
@@ -147,7 +150,12 @@ const Sequencer = ({ id, data }) => {
                   </div>
                 );
               })}
-              <CustomHandle type={"source"} position={"right"} id={rowId.toString()} key={rowId} />
+              <CustomHandle
+                type={"source"}
+                position={"right"}
+                id={rowId.toString()}
+                key={rowId}
+              />
             </div>
           ))}
         </div>

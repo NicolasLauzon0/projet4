@@ -21,8 +21,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
         data: {},
         position: { x: 0, y: 0 },
     }],
-
-
     edges: [],
     createNode(type) {
         const id = nanoid();
@@ -439,7 +437,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "feedbackDelay": {
                 const data = {
-                    delayTime: 0.5,
+                    delayTime: 1,
                     feedback: 0.5,
                     maxDelay: 2,
                     wet: 0.5,
@@ -462,9 +460,9 @@ export const useStore = createWithEqualityFn((set, get) => ({
             case "pitchShift": {
                 const data = {
                     pitch: 0,
-                    delayTime: 0,
-                    feedback: 0,
-                    wet: 0,
+                    delayTime: 0.5,
+                    feedback: 0.5,
+                    wet: 0.5,
                 };
                 const position = { x: 0, y: 0 };
                 createAudioNode(id, type, data);
@@ -545,8 +543,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     delayTime: 3.5,
                     depth: 0.5,
                     feedback: 0.5,
-                    frequency: 1.5,
-                    spread: 180,
+                    frequency: 100,
+                    spread: 90,
                     type: "sine",
                     wet: 0.5,
                 };
@@ -631,7 +629,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
     },
     onConnect(data) {
         const id = nanoid(6);
-        const edge = { id, ...data, animated: true, className: "" };
+        const edge = { id, ...data, animated: true, type: "custom" };
         set({
             edges: [edge, ...get().edges],
         });
@@ -745,8 +743,17 @@ export const useStore = createWithEqualityFn((set, get) => ({
         return newData;
     },
     removeEdge(id) {
+        const edge = get().edges.find((edge) => edge.id === id);
+        disconnect(edge);
         set((state) => ({
             edges: state.edges.filter((edge) => edge.id !== id),
+        }));
+    },
+    removeNode(id) {
+        removeAudioNode(id);
+        set((state) => ({
+            nodes: state.nodes.filter((node) => node.id !== id),
+            edges: state.edges.filter((edge) => edge.source !== id && edge.target !== id),
         }));
     },
     updateNode(id, data) {

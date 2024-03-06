@@ -6,6 +6,7 @@ import Input from "../Input.jsx";
 import RadioInputs from "../RadioInputs.jsx";
 import ModulationSection from "../ModulationSection.jsx";
 import svgs from "../../../assets/img/svg/svg.jsx";
+import Button from "../Button.jsx";
 
 const selector = (id, data) => (store) => ({
   setDetune: (e) => {
@@ -28,6 +29,7 @@ const selector = (id, data) => (store) => ({
       filterEnvelope: { [type]: +value },
     });
   },
+  removeNode: store.removeNode,
 });
 const MonoSynth = ({ id, data }) => {
   const {
@@ -35,10 +37,12 @@ const MonoSynth = ({ id, data }) => {
     setOscillatorType,
     setEnvelope,
     setFilterEnvelope,
+    removeNode
   } = useStore(selector(id, data), shallow);
   return (
     <div className="node monoSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
+      <Button action={() => removeNode(id)} />
       <h3>Mono Synth</h3>
       <div className="monoSynth__container node__container">
         <div className="monoSynth__controls global__controls">

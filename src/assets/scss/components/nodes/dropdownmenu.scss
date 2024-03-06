@@ -22,11 +22,10 @@
         background-color: var(--noir);
 
         cursor: pointer;
-        transition: background-color 0.1s ease, color 0.1s ease;
+        transition: background-color 0.1s ease;
 
         &:hover {
-            background-color: var(--vert);
-            color: var(--noir);
+            background-color: var(--gris);
         }
     }
 

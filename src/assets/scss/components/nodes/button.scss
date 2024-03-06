@@ -1,0 +1,41 @@
+.exit {
+    position: absolute;
+    z-index: 1001;
+    top: 1rem;
+    right: 1rem;
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 50%;
+    background-color: var(--noir);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: var(--font);
+    font-size: 1.5rem;
+    color: var(--vert);
+
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &::before {
+        content: "X";
+        transition: color 0.3s;
+    }
+    &:hover {
+        background-color: var(--gris);
+
+        &:before {
+            color: var(--vert);
+        }
+    }
+}
+
+.exit.file {
+    position: fixed;
+    top: calc(25% + 1rem);
+    right: calc(25% + 1rem);
+}
