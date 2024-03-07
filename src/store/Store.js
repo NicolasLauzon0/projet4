@@ -309,7 +309,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         E2: "perc2.wav",
                         E3: "perc3.wav",
                     },
-                    baseUrl: "src/assets/sons/",
+                    baseUrl: "/",
                     selected: "A1",
                     options: [
                         { name: "Hihat", value: "A1" },
