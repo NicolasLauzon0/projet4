@@ -11,8 +11,6 @@ const RadioInputs = ({
   const handleSelect = (e) => {
     setSelectedS(e.target.value);
     setSelected(e.target.value);
-
-    console.log(e.target.value);
   };
   return (
     <div className="radio-inputs">
