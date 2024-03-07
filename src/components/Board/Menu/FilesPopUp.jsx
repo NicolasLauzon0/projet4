@@ -1,13 +1,14 @@
 import React from "react";
 import { useSaveAndLoad } from "../../../context/SaveAndLoadContext";
 import Button from "../../utils/Button";
+import DeleteTrash from "../../utils/DeleteTrash";
 
 const FilesPopUp = () => {
   const { projects, setSeeFiles, loadProject, removeProject } =
     useSaveAndLoad();
   return (
     <>
-      <Button action={() => setSeeFiles(false)} classe={"file"} />
+      <Button action={() => setSeeFiles(false)} classe={"file"} type="file"/>
       <div className="files-popup">
         <div className="files-popup__container">
           <h2>Charger un projet</h2>
@@ -22,15 +23,14 @@ const FilesPopUp = () => {
                       loadProject(project.id);
                     }}
                   >
-                    {project.name}
+                    <p>{project.name}</p>
                     <div
-                      className="remove"
+                      className="icone"
                       onClick={(e) => {
-                        e.stopPropagation();
-                        removeProject(project.id);
+                        removeProject(project.id), e.stopPropagation();
                       }}
                     >
-                      <div></div>
+                      <DeleteTrash />
                     </div>
                   </li>
                 );

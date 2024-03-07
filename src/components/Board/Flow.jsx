@@ -2,7 +2,7 @@ import ReactFlow, { Background,  MiniMap, Panel } from "reactflow";
 import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
-import CustomEdge from "../../assets/scss/components/CustomEdge/CustomEdge.jsx";
+import CustomEdge from "../CustomEdge/CustomEdge.jsx";
 
 import OutNode from "../Nodes/Master/OutNode.jsx";
 

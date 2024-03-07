@@ -24,17 +24,18 @@ const Out = ({ id, data }) => {
         nodeType={"out"}
       />
       <div className="out__container node__container">
-        <Infobulle titre="Output" >
+        <Infobulle titre="Output">
           <>
-            This is the output of your flow. Everything that is connected to this node will be played.
+            This is the output of your flow. Everything that is connected to
+            this node will be played.
           </>
         </Infobulle>
         <Button action={() => removeNode(id)} />
         <h3>Output</h3>
-        <div className="muteUnmute">
+        <div className="muteUnmute nodrag" onClick={toggleVolume}>
           {!isRunning ? (
-            <svg className="decalage"
-              onClick={toggleVolume}
+            <svg
+              className="decalage"
               width="145"
               height="145"
               viewBox="0 0 125 145"
@@ -48,7 +49,6 @@ const Out = ({ id, data }) => {
             </svg>
           ) : (
             <svg
-              onClick={toggleVolume}
               width="61"
               height="98"
               viewBox="0 0 61 98"

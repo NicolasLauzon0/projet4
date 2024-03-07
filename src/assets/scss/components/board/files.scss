@@ -81,47 +81,24 @@
                 outline 0.3s,
                 font-weight 0.3s;
             cursor: pointer;
-            &:hover {
+            &:has(p:hover) {
                 font-weight: 700;
 
                 outline: 2px solid var(--noir);
                 border-radius: 2rem;
             }
-
-            & .remove {
-                position: absolute;
-                top: 50%;
-                right: -3rem;
-
-                width: 2rem;
-                height: 2rem;
-
-                border-radius: 50%;
-                border: 2px solid var(--noir);
-                transform: translateY(-50%);
-
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-
-                    width: 1rem;
-                    height: 0.2rem;
-
-                    border-radius: 1rem;
-                    background-color: var(--noir);
-                    transform: translate(-50%, -50%);
-                }
-            }
         }
     }
+}
+.exit.file{
+    top: calc(25% + 1rem) !important;
+    right: calc(15% + 1rem) !important;
 }
 .exit {
     position: fixed;
     z-index: 1001;
-    top: calc(25% + 1rem);
-    right: calc(25% + 1rem);
+    top: calc(20% + 1rem);
+    right: calc(20% + 1rem);
 
     width: 2rem;
     height: 2rem;

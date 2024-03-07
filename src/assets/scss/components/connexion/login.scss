@@ -30,20 +30,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     gap: 24rem;
+
+    max-width: none;
 
     &>.logo {
         position: relative;
 
         font-family: var(--font);
-        font-size: 12em;
+        font-size: 7em;
         color: var(--vert);
         text-shadow: 0 0 10px var(--vert),
             0 0 20px var(--vert),
-            0 0 40px var(--vert),
-            0 0 80px var(--vert),
-            0 0 160px var(--vert);
+            0 0 40px var(--vert);
     }
 
     & .login-text {

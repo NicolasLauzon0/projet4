@@ -14,7 +14,7 @@ const LoginAccueilNode = () => {
   return (
     <div className="log">
       <div className="logo">
-        <h1>Logo</h1>
+        <h1>Node Wave</h1>
         <Handle type="source" position="bottom" id="a" />
       </div>
       <div className="login-text">
