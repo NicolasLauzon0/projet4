@@ -40,6 +40,9 @@ const FlowAuth = () => {
                 fitView
                 className='flow'
                 deleteKeyCode={[]}
+                panOnDrag={false}
+                draggable={false}
+                zoomOnScroll={false}
             >
                 <Background
                     color="var(--blanc)"

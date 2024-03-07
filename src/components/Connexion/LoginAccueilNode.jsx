@@ -12,7 +12,7 @@ const LoginAccueilNode = () => {
   const { signIn, logOut, user } = useAuth();
   const { toggleVolume, isRunning } = useStore(selector, shallow);
   return (
-    <div className="log">
+    <div className="log nodrag">
       <div className="logo">
         <h1>Node Wave</h1>
         <Handle type="source" position="bottom" id="a" />
@@ -20,13 +20,7 @@ const LoginAccueilNode = () => {
       <div className="login-text">
         <Handle type="target" position="top" id="a" />
         <button
-          className="login-button"
-          onClick={() => {
-            if (isRunning) toggleVolume();
-            if (user === null) signIn();
-            else logOut();
-          }}
-        >
+          className="login-button">
           {user === null ? "Login with Google" : "Logout"}
         </button>
       </div>

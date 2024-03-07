@@ -109,10 +109,12 @@ const Flow = () => {
         onEdgesDelete={store.onEdgesDelete}
         isValidConnection={store.isValidConnection}
         nodeTypes={nodeTypes}
+        fitView
         edgeTypes={edgesTypes}
         className="flow"
         maxZoom={2}
         minZoom={0.15}
+        nodeOrigin={[0.5, 0]}
 
       >
         <Panel position="bottom-right">

@@ -16,9 +16,6 @@
     border-radius: 2rem;
 }
 
-.react-flow__node:has(.sequencer) {
-    translate: -50%;
-}
 .react-flow__node:not(.selected) {
     border-radius: 2rem;
     transition: box-shadow 0.2s;

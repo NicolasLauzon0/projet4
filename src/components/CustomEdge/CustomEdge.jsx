@@ -7,15 +7,22 @@ import {
 import { useStore } from "../../store/Store";
 
 export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
+  console.log("CustomEdge", id, sourceX, sourceY, targetX, targetY);
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
     targetY,
   });
+
   return (
     <>
-      <BaseEdge id={id} path={edgePath} className="customEdge" />
+      <BaseEdge 
+      id={id}
+       path={edgePath} 
+       className="customEdge"
+       interactionWidth={ 60}
+       />
       <EdgeLabelRenderer>
         <svg
           onClick={() => {
@@ -26,7 +33,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
             pointerEvents: "all",
             cursor: "pointer",
-            width: "60px"
+            width: "60px",
           }}
           className={"edgeTrash nopan nodrag"}
           width="458"

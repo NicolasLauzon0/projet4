@@ -10,7 +10,7 @@ const selector = (id, data) => (store) => ({
   removeNode: store.removeNode,
   setRows: (e) => {
     const newRows = parseInt(e.target.value);
-    if (newRows < 1 || newRows !== Math.floor(newRows)) return;
+    if (newRows < 1 || newRows !== Math.floor(newRows) || newRows > 16) return;
     const { cols } = data;
     let newNotes = [];
 
@@ -51,7 +51,7 @@ const selector = (id, data) => (store) => ({
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
-    if (newCols < 2 || newCols !== Math.floor(newCols)) return;
+    if (newCols < 2 || newCols !== Math.floor(newCols) || newCols > 64) return;
     let newNotes = [];
 
     // Copiez les anciennes notes

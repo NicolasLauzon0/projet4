@@ -15,8 +15,7 @@ import { db } from "../config/firebase";
 import { useStore } from "../store/Store";
 import { shallow } from "zustand/shallow";
 import { useAuth } from "./AuthContext";
-import { useReactFlow } from 'reactflow';
-
+import { useReactFlow } from "reactflow";
 
 const selector = (store) => ({
   saveProject: store.saveProject,
@@ -29,13 +28,13 @@ const selector = (store) => ({
 });
 
 const DataContext = createContext({
-  saveData: () => { },
-  setName: () => { },
+  saveData: () => {},
+  setName: () => {},
   project: {},
   seeFiles: false,
-  setSeeFiles: () => { },
-  loadProject: () => { },
-  removeProject: () => { },
+  setSeeFiles: () => {},
+  loadProject: () => {},
+  removeProject: () => {},
 });
 
 const SaveAndLoadProvider = ({ children }) => {
@@ -59,9 +58,7 @@ const SaveAndLoadProvider = ({ children }) => {
     const data = JSON.stringify(store.saveProject());
     console.log();
     const date =
-      new Date().toLocaleDateString() +
-      " " +
-      new Date().toLocaleTimeString();
+      new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
     const doc = await addDoc(collection(db, "projects"), {
       name: projectRef.name,
       content: data,
@@ -73,7 +70,10 @@ const SaveAndLoadProvider = ({ children }) => {
       name: projectRef.name,
       date: date,
     });
-    setProjects([{ id: doc.id, name: projectRef.name, date: date }, ...projects]);
+    setProjects([
+      { id: doc.id, name: projectRef.name, date: date },
+      ...projects,
+    ]);
     if (isRunning && !store.isRunning) {
       await store.toggleVolume();
     }
@@ -85,39 +85,60 @@ const SaveAndLoadProvider = ({ children }) => {
     }
     const data = JSON.stringify(store.saveProject());
     const date =
-      new Date().toLocaleDateString() +
-      " " +
-      new Date().toLocaleTimeString();
-    await setDoc(doc(db, "projects", projectRef.id), {
-      name: projectRef.name,
-      content: data,
-      date: date,
-      userID: user.uid,
-    });
-    setProject({
-      ...project,
-      name: projectRef.name,
-      date: date,
-    });
-    setProjects(projects.map((p) => {
-      if (p.id === projectRef.id) {
-        return { id: projectRef.id, name: projectRef.name, date: date }
-      }
-      return p;
-    }));
+      new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+    const docRef = await getDoc(doc(db, "projects", projectRef.id));
+    if (docRef.exists()) {
+      await setDoc(doc(db, "projects", projectRef.id), {
+        name: projectRef.name,
+        content: data,
+        date: date,
+        userID: user.uid,
+      });
 
-
-  }
+      setProject({
+        ...project,
+        name: projectRef.name,
+        date: date,
+      });
+      setProjects(
+        projects.map((p) => {
+          if (p.id === projectRef.id) {
+            return { id: projectRef.id, name: projectRef.name, date: date };
+          }
+          return p;
+        })
+      );
+    } else {
+      const doc = await addDoc(collection(db, "projects"), {
+        name: projectRef.name,
+        content: data,
+        date: date,
+        userID: user.uid,
+      });
+      setProject({
+        id: doc.id,
+        name: projectRef.name,
+        date: date,
+      });
+      setProjects([
+        { id: doc.id, name: projectRef.name, date: date },
+        ...projects,
+      ]);
+    }
+    if (isRunning && !store.isRunning) {
+      await store.toggleVolume();
+    }
+  };
   const newFile = async () => {
     let projectRef = project;
     if (project.name === "") {
       projectRef = {
         ...project,
         name: "New Project" + "_" + new Date().toLocaleDateString(),
-      }
+      };
     }
     await saveDataDBAjouter(projectRef);
-  }
+  };
 
   const saveData = async () => {
     if (project.name === "") {
@@ -128,6 +149,7 @@ const SaveAndLoadProvider = ({ children }) => {
       return;
     }
     const projectRef = project;
+    console.log(projectRef);
     if (projectRef.id === "") {
       await saveDataDBAjouter(projectRef);
     } else if (project.id !== "") {
@@ -139,7 +161,9 @@ const SaveAndLoadProvider = ({ children }) => {
     const docRef = doc(db, "projects", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      await store.toggleVolume();
+      if (store.isRunning) {
+        await store.toggleVolume();
+      }
       const data = docSnap.data();
       await store.reset();
       await store.loadProject(JSON.parse(data.content));
@@ -163,16 +187,18 @@ const SaveAndLoadProvider = ({ children }) => {
     if (id === undefined) return;
     await deleteDoc(doc(db, "projects", id));
     setProjects(projects.filter((project) => project.id !== id));
-
   };
-
 
   // fetch des projets de l'utilisateur au chargement de la page
   useEffect(() => {
     if (!user || !user.uid) return;
     const fetchProjects = async () => {
       const collectionRef = collection(db, "projects");
-      const q = query(collectionRef, where("userID", "==", user?.uid), orderBy("date", "desc"));
+      const q = query(
+        collectionRef,
+        where("userID", "==", user?.uid),
+        orderBy("date", "desc")
+      );
       const querySnapshot = await getDocs(q);
       let projectsRef = [];
       querySnapshot.forEach((doc) => {
@@ -209,7 +235,6 @@ const SaveAndLoadProvider = ({ children }) => {
   );
 };
 
-
 const useSaveAndLoad = () => {
   const context = useContext(DataContext);
   if (!context) {
@@ -220,5 +245,4 @@ const useSaveAndLoad = () => {
   return context;
 };
 
-
-export { SaveAndLoadProvider, useSaveAndLoad }
+export { SaveAndLoadProvider, useSaveAndLoad };
