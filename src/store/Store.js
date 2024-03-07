@@ -686,14 +686,11 @@ export const useStore = createWithEqualityFn((set, get) => ({
         const target = get().nodes.find((node) => node.id === connection.target);
 
         if (source.id === target.id) {
-            console.log("Source and target are the same");
             return false;
         }
 
         const sourceType = source.type;
         const targetType = target.type;
-        console.log(sourceType, targetType);
-
 
         const instrumentTypes = ["sampler", "fmSynth", "monoSynth", "duoSynth", "amSynth", "membraneSynth", "pluckSynth"];
         const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "add", "chorus", "gain"];

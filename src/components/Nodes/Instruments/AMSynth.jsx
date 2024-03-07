@@ -15,7 +15,6 @@ const selector = (id, data) => (store) => ({
     });
   },
   setOscilatorType: (e) => {
-    console.log(e);
     store.updateNode(id, {
       oscillator: {
         type: e,

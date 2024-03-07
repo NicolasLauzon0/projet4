@@ -15,7 +15,6 @@ nodes.set('1', outNode);
 export function updateAudioNode(id, data) {
   const node = nodes.get(id);
   node.data = { ...node.data, ...data };
-  console.log(data);
   for (const [key, val] of Object.entries(data)) {
     if (typeof val === 'object' && !Array.isArray(val)) {
       const nestedNode = node[key];
@@ -40,7 +39,6 @@ export function updateAudioNode(id, data) {
       }
     }
   }
-  console.log(node);
 }
 
 

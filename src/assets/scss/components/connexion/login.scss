@@ -42,7 +42,10 @@
         color: var(--vert);
         text-shadow: 0 0 10px var(--vert),
             0 0 20px var(--vert),
-            0 0 40px var(--vert);
+            0 0 10px var(--vert);
+
+            text-rendering: geometricPrecision;
+
     }
 
     & .login-text {

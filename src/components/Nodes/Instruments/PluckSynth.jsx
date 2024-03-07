@@ -23,7 +23,6 @@ const PluckSynth = ({ id, data }) => {
     selector(id),
     shallow
   );
-
   return (
     <div className="node pluckSynth">
       <CustomHandle type={"target"} position={"top"} id={"a"} />
