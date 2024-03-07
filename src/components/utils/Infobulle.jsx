@@ -12,7 +12,7 @@ const Infobulle = ({ titre, children }) => {
   }, []);
 
   return (
-    <div className="infobulle" ref={info}>
+    <div className="infobulle nodrag" ref={info}>
       <div
         className="boutoni"
         onMouseOver={(e) => handleMouseOver()}
@@ -20,8 +20,6 @@ const Infobulle = ({ titre, children }) => {
       ></div>
       <div
         className="infobulle-content"
-        onMouseOver={(e) => handleMouseOver()}
-        onMouseOut={() => handleMouseOut()}
       >
         <h3>{titre}</h3>
         <p>{children}</p>

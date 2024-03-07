@@ -158,7 +158,7 @@ const Sequencer = ({ id, data }) => {
               {Array.from({ length: data.cols }).map((_, colId) => {
                 const ids = rowId + "-" + colId;
                 return (
-                  <div className="cell" key={ids}>
+                  <div className="cell nodrag" key={ids}>
                     <label key={ids}>
                       <input
                         type="checkbox"

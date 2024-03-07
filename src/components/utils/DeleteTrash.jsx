@@ -1,6 +1,6 @@
 const DeleteTrash = ({ action, style }) => {
   return (
-    <div className="iconetrash remove" onClick={action}
+    <div className="iconetrash remove nodrag" onClick={action}
         style={style}
     
     >
