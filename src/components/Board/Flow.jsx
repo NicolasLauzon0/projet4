@@ -103,6 +103,8 @@ const Flow = () => {
         edgeTypes={edgesTypes}
         fitView
         className="flow"
+        maxZoom={2}
+        minZoom={0.15}
       >
         <Panel position="bottom-right">
           <Menu menuProject={menuProject} menu={menu} store={store} />
