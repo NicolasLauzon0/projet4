@@ -1,4 +1,4 @@
-import ReactFlow, { Background,  MiniMap, Panel } from "reactflow";
+import ReactFlow, { Background, MiniMap, Panel, useReactFlow } from "reactflow";
 import { useSaveAndLoad } from "../../context/SaveAndLoadContext.jsx";
 import { useStore } from "../../store/Store.js";
 import { shallow } from "zustand/shallow";
@@ -36,6 +36,8 @@ import FilesPopUp from "./Menu/FilesPopUp.jsx";
 import { menu, menuProject } from "./Menu/NodesT.js";
 
 import "reactflow/dist/style.css";
+import { useEffect } from "react";
+
 
 
 const selector = (store) => ({
@@ -81,7 +83,14 @@ const edgesTypes = {
 
 const Flow = () => {
   const store = useStore(selector, shallow);
-  const { seeFiles } = useSaveAndLoad();
+  const { seeFiles, fitView, setFitViewF } = useSaveAndLoad();
+  const reactFlowInstance = useReactFlow();
+
+  useEffect(() => {
+
+    reactFlowInstance.fitView();
+
+  }, [fitView]);
 
   return (
     <>
@@ -101,10 +110,10 @@ const Flow = () => {
         isValidConnection={store.isValidConnection}
         nodeTypes={nodeTypes}
         edgeTypes={edgesTypes}
-        fitView
         className="flow"
         maxZoom={2}
         minZoom={0.15}
+
       >
         <Panel position="bottom-right">
           <Menu menuProject={menuProject} menu={menu} store={store} />

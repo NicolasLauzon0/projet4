@@ -8,12 +8,15 @@ import {
   where,
   getDocs,
   deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { useStore } from "../store/Store";
 import { shallow } from "zustand/shallow";
 import { useAuth } from "./AuthContext";
+import { useReactFlow } from 'reactflow';
+
 
 const selector = (store) => ({
   saveProject: store.saveProject,
@@ -45,51 +48,92 @@ const SaveAndLoadProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [seeFiles, setSeeFiles] = useState(false);
   const [error, setError] = useState(false);
+  const [fitView, setFitView] = useState(false);
   const { user } = useAuth();
   // Sauvegarde des données dans la base de données
-  const saveDataDB = async () => {
+  const saveDataDBAjouter = async (projectRef) => {
+    let isRunning = store.isRunning;
+    if (isRunning) {
+      await store.toggleVolume();
+    }
+    const data = JSON.stringify(store.saveProject());
+    console.log();
+    const date =
+      new Date().toLocaleDateString() +
+      " " +
+      new Date().toLocaleTimeString();
+    const doc = await addDoc(collection(db, "projects"), {
+      name: projectRef.name,
+      content: data,
+      date: date,
+      userID: user.uid,
+    });
+    setProject({
+      id: doc.id,
+      name: projectRef.name,
+      date: date,
+    });
+    setProjects([{ id: doc.id, name: projectRef.name, date: date }, ...projects]);
+    if (isRunning && !store.isRunning) {
+      await store.toggleVolume();
+    }
+  };
+  const saveDataDBModifier = async (projectRef) => {
+    let isRunning = store.isRunning;
+    if (isRunning) {
+      await store.toggleVolume();
+    }
+    const data = JSON.stringify(store.saveProject());
+    const date =
+      new Date().toLocaleDateString() +
+      " " +
+      new Date().toLocaleTimeString();
+    await setDoc(doc(db, "projects", projectRef.id), {
+      name: projectRef.name,
+      content: data,
+      date: date,
+      userID: user.uid,
+    });
+    setProject({
+      ...project,
+      name: projectRef.name,
+      date: date,
+    });
+    setProjects(projects.map((p) => {
+      if (p.id === projectRef.id) {
+        return { id: projectRef.id, name: projectRef.name, date: date }
+      }
+      return p;
+    }));
+
+
+  }
+  const newFile = async () => {
+    let projectRef = project;
+    if (project.name === "") {
+      projectRef = {
+        ...project,
+        name: "New Project" + "_" + new Date().toLocaleDateString(),
+      }
+    }
+    await saveDataDBAjouter(projectRef);
+  }
+
+  const saveData = async () => {
     if (project.name === "") {
       setError(true);
       setTimeout(() => {
         setError(false);
       }, 3000);
       return;
-    } else {
-      let isRunning = store.isRunning;
-      if (isRunning) {
-        await store.toggleVolume();
-      }
-      const data = JSON.stringify(store.saveProject());
-      const name =
-        project.name === ""
-          ? "Nouveau Projet" + " " + new Date().toLocaleDateString()
-          : project.name;
-      const date =
-        new Date().toLocaleDateString() +
-        " " +
-        new Date().toLocaleTimeString();
-      const doc = await addDoc(collection(db, "projects"), {
-        name: name,
-        content: data,
-        date: date,
-        userID: user.uid,
-      });
-      setProject({
-        ...project,
-        id: doc.id,
-        name: name,
-        date: date,
-      });
-      setProjects(projects.concat({ id: doc.id, name: name, date: date }));
-      if (isRunning && !store.isRunning) {
-        await store.toggleVolume();
-      }
+    }
+    const projectRef = project;
+    if (projectRef.id === "") {
+      await saveDataDBAjouter(projectRef);
+    } else if (project.id !== "") {
+      await saveDataDBModifier(projectRef);
     }
   };
-  const setName = (name) => {
-    setProject({ ...project, name: name });
-  };
-
 
   const loadProject = async (id) => {
     const docRef = doc(db, "projects", id);
@@ -105,44 +149,51 @@ const SaveAndLoadProvider = ({ children }) => {
         name: data.name,
         date: data.date,
       });
+      setFitView(!fitView);
     } else {
       console.log("No such document!");
     }
   };
 
+  const setName = (name) => {
+    setProject({ ...project, name: name });
+  };
+
   const removeProject = async (id) => {
     if (id === undefined) return;
-    if (window.confirm("Voulez-vous vraiment supprimer ce projet ?")) {
-      await deleteDoc(doc(db, "projects", id));
-      setProjects(projects.filter((project) => project.id !== id));
-    }
+    await deleteDoc(doc(db, "projects", id));
+    setProjects(projects.filter((project) => project.id !== id));
+
   };
+
 
   // fetch des projets de l'utilisateur au chargement de la page
   useEffect(() => {
     if (!user || !user.uid) return;
     const fetchProjects = async () => {
       const collectionRef = collection(db, "projects");
-      const q = query(collectionRef, where("userID", "==", user?.uid));
+      const q = query(collectionRef, where("userID", "==", user?.uid), orderBy("date", "desc"));
       const querySnapshot = await getDocs(q);
-      let projects = [];
+      let projectsRef = [];
       querySnapshot.forEach((doc) => {
         const { name, date } = doc.data();
-        projects.push({ id: doc.id, name, date });
+        projectsRef.push({ id: doc.id, name, date });
       });
-      setProjects(projects);
+      setProjects(projectsRef);
+      if (projectsRef.length > 0) {
+        await loadProject(projectsRef[0]?.id);
+        setFitView(!fitView);
+      }
     };
     fetchProjects();
   }, [user]);
-
-  const saveData = () => {
-    saveDataDB();
-  };
 
   return (
     <DataContext.Provider
       value={{
         saveData,
+        fitView,
+        newFile,
         setName,
         project,
         projects,
@@ -158,6 +209,7 @@ const SaveAndLoadProvider = ({ children }) => {
   );
 };
 
+
 const useSaveAndLoad = () => {
   const context = useContext(DataContext);
   if (!context) {
@@ -168,4 +220,5 @@ const useSaveAndLoad = () => {
   return context;
 };
 
-export { SaveAndLoadProvider, useSaveAndLoad };
+
+export { SaveAndLoadProvider, useSaveAndLoad }

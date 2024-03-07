@@ -1,6 +1,7 @@
 .sequencer {
+
     & .sequencer__container {
-        & > h3 {
+        &>h3 {
             font-family: var(--font);
             font-size: 3rem;
             font-weight: 700;
@@ -11,7 +12,7 @@
 
         & .sequencer__controls {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
             gap: 1rem;
 
@@ -21,62 +22,145 @@
             font-family: var(--font);
             font-size: 1.2rem;
             font-weight: 700;
-            & > label {
+
+            & .ajout {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            & .ajout>button {
+                position: relative;
+                width: 2.5rem;
+                height: 2.5rem;
+
+                font-family: var(--font);
+                font-size: 1.2rem;
+                font-weight: 700;
+
+                border: 2px solid var(--gris);
+                border-radius: 0.5rem;
+                background-color: var(--blanc);
+
+                cursor: pointer;
+
+                transition: background-color 0.2s,
+                    color 0.2s,
+                    border-color 0.2s;
+
+                &:hover {
+                    background-color: var(--gris);
+                    border-color: var(--blanc);
+
+                    &::before,
+                    &::after {
+                        background-color: var(--vert) !important;
+                    }
+                }
+
+                &::before,
+                &::after {
+                    transition: background-color 0.2s;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 60%;
+                    height: 6px;
+
+                    border-radius: 0.5rem;
+                    background-color: var(--noir);
+                }
+
+                &:nth-child(2)::before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 6px;
+                    height: 60%;
+
+                    border-radius: 0.5rem;
+                    background-color: var(--noir);
+
+                }
+
+                &:nth-child(2)::after {
+
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 60%;
+                    height: 6px;
+
+                    border-radius: 0.5rem;
+                    background-color: var(--noir);
+
+                }
+
+            }
+
+            &>div {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 gap: 0.2rem;
 
-                & > input {
-                    &::-webkit-outer-spin-button,
-                    &::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                        margin: 0;
-                    }
-                    width: 3em;
-                    height: 2em;
-
-                    font-family: var(--font);
-                    font-size: 1.4rem;
-                    font-weight: 700;
-                    text-align: center;
-
-                    border: 1px solid var(--gris);
-                    border-radius: 0.5rem;
-                    background-color: var(--blanc);
-                }
+                font-family: var(--font);
+                color: var(--noir);
+                font-size: 1.5rem;
+                font-weight: 900;
+                text-align: center;
             }
+        }
+
+        & .sequencer__container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         & .sequencer__grid {
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: center;
             gap: 1rem;
 
             padding: 1rem;
 
-            & > .row {
+            &>.row {
                 position: relative;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 gap: 0.2rem;
 
                 width: 100%;
 
-                & > div {
-                    right: -6rem;
+                &>div {
+                    right: -7rem;
                 }
-                & > .cell:nth-last-child(2) {
+
+                &>.cell:nth-last-child(2) {
                     margin-right: 0 !important;
                 }
-                & > .cell:nth-child(4n){
+
+                &>.cell:nth-child(4n) {
                     margin-right: 1rem;
                 }
 
-                & > .cell {
+                &>.cell {
                     width: 2em;
                     height: 2em;
+
                     &:has(input:checked) {
                         background-color: var(--jaune);
                         box-shadow: inset 0 0 0 0.6rem var(--jaune);
@@ -90,16 +174,15 @@
                         box-shadow: inset 0 0 0 0.2rem var(--jaune);
                     }
 
-                    transition:
-                        background-color 0.1s,
-                        box-shadow 0.1s;
+                    transition: background-color 0.1s,
+                    box-shadow 0.1s;
                     box-shadow: inset 0 0 0 0.4rem var(--gris);
 
-                    & > label {
+                    &>label {
                         width: 2em;
                         height: 2em;
 
-                        & > input {
+                        &>input {
                             width: 100%;
                             height: 100%;
                             opacity: 0;

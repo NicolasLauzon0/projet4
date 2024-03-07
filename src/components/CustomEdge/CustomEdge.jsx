@@ -26,6 +26,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
             pointerEvents: "all",
             cursor: "pointer",
+            width: "60px"
           }}
           className={"edgeTrash nopan nodrag"}
           width="458"

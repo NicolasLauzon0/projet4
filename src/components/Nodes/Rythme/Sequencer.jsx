@@ -1,7 +1,7 @@
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../store/Store.js";
 import { useEffect, useRef } from "react";
-import { Handle, getOutgoers } from "reactflow";
+import { useUpdateNodeInternals } from 'reactflow';
 import CustomHandle from "../../Handle/CustomHandle.jsx";
 import Button from "../../utils/Button.jsx";
 import Infobulle from "../../utils/Infobulle.jsx";
@@ -51,6 +51,7 @@ const selector = (id, data) => (store) => ({
   },
   setColumns: (e) => {
     const newCols = parseInt(e.target.value);
+    if (newCols < 2 || newCols !== Math.floor(newCols)) return;
     let newNotes = [];
 
     // Copiez les anciennes notes
@@ -95,6 +96,7 @@ const selector = (id, data) => (store) => ({
 });
 
 const Sequencer = ({ id, data }) => {
+  const updateNodeInternals = useUpdateNodeInternals();
   const { setRows, setColumns, setNotes, removeNode } = useStore(
     selector(id, data),
     shallow
@@ -113,6 +115,10 @@ const Sequencer = ({ id, data }) => {
     });
   }, [data.value, data.notes]);
 
+  useEffect(() => {
+    updateNodeInternals(id);
+  }, [data.rows, data.cols]);
+
   return (
     <div className="node sequencer">
       <Infobulle titre="Sequencer">
@@ -124,19 +130,27 @@ const Sequencer = ({ id, data }) => {
       <h3>Sequencer</h3>
       <div className="sequencer__container">
         <div className="sequencer__controls">
-          <label>
-            Rows
-            <input type="number" value={data.rows} onChange={setRows} min={2} />
-          </label>
-          <label>
-            Columns
-            <input
-              type="number"
-              value={data.cols}
-              onChange={setColumns}
-              min={1}
-            />
-          </label>
+          <div>
+            <p>Rows</p>
+            <div className="sequencer__controls__value nodrag">
+              <p>{data.rows}</p>
+            </div>
+            <div className="ajout">
+              <button onClick={() => setRows({ target: { value: data.rows - 1 } })} className="nodrag"></button>
+              <button onClick={() => setRows({ target: { value: data.rows + 1 } })} className="nodrag"></button>
+            </div>
+          </div>
+          <div>
+            <p>Columns</p>
+            <div className="sequencer__controls__value nodrag">
+              {data.cols}
+            </div>
+            <div className="ajout">
+              <button onClick={() => setColumns({ target: { value: data.cols - 1 } })} className="nodrag"></button>
+              <button onClick={() => setColumns({ target: { value: data.cols + 1 } })} className="nodrag"></button>
+            </div>
+          </div>
+
         </div>
         <div className="sequencer__grid" ref={notes}>
           {Array.from({ length: data.rows }).map((_, rowId) => (

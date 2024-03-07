@@ -3,6 +3,10 @@ const menuProject = [
         name: "Project",
         children: [
             {
+                name: "New project",
+                type: "newFile",
+            },
+            {
                 name: "Save project",
                 type: "save",
             },
