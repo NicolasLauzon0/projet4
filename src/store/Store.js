@@ -305,7 +305,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         D1: "clap.wav",
                         D2: "clap2.wav",
                         D3: "clap3.wav",
-                        E1: "perc.wav",
+                        E1: "perc1.wav",
                         E2: "perc2.wav",
                         E3: "perc3.wav",
                     },
