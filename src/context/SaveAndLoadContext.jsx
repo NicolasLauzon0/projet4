@@ -208,12 +208,32 @@ const SaveAndLoadProvider = ({ children }) => {
       setProjects(projectsRef);
       if (projectsRef.length > 0) {
         await loadProject(projectsRef[0]?.id);
+        setProject(projectsRef[0]);
         setFitView(!fitView);
       }
     };
     fetchProjects();
   }, [user]);
 
+  useEffect(() => {
+    const handleSave = (e) => {
+      const code = e.keyCode || e.which;
+
+      let charCode = String.fromCharCode(code).toLowerCase();
+      if (e.ctrlKey && charCode === "s") {
+        e.preventDefault();
+        saveData();
+      } else if (e.ctrlKey && charCode === "r") {
+        location.reload();
+      }
+    };
+    window.addEventListener("keydown", handleSave);
+
+    return () => {
+      window.removeEventListener("keydown", handleSave);
+    };
+  }, [project]);
+  console.log("render save and load");
   return (
     <DataContext.Provider
       value={{
