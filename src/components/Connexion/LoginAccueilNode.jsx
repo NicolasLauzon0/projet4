@@ -2,6 +2,7 @@ import { Handle } from "reactflow";
 import { useAuth } from "../../context/AuthContext";
 import { useStore } from "../../store/Store";
 import { shallow } from "zustand/shallow";
+import Logo from "./Logo";
 
 const selector = (store) => ({
   toggleVolume: store.toggleVolume,
@@ -14,7 +15,9 @@ const LoginAccueilNode = () => {
   return (
     <div className="log nodrag">
       <div className="logo">
-        <h1>Node Wave</h1>
+        <div className="logo">
+            <Logo />
+        </div>
         <Handle type="source" position="bottom" id="a" />
       </div>
       <div className="login-text">

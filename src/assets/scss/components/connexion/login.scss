@@ -11,7 +11,9 @@
     font-size: 1.2em;
     color: var(--noir);
 
-    transition: background-color 0.2s, color 0.3s;
+    transition:
+        background-color 0.2s,
+        color 0.3s;
     background-color: var(--blanc);
     border: 1px solid var(--vert);
     border-radius: 6px;
@@ -23,7 +25,6 @@
     }
 }
 
-
 .log {
     position: relative;
     display: flex;
@@ -34,18 +35,20 @@
 
     max-width: none;
 
-    &>.logo {
+    padding: 2rem;
+
+    & > .logo {
         position: relative;
 
         font-family: var(--font);
         font-size: 7em;
         color: var(--vert);
-        text-shadow: 0 0 10px var(--vert),
+        text-shadow:
+            0 0 10px var(--vert),
             0 0 20px var(--vert),
             0 0 10px var(--vert);
 
         text-rendering: geometricPrecision;
-
     }
 
     & .login-text {
@@ -64,7 +67,6 @@
     }
 }
 
-
 .interface.auth:has(.log) {
     & .react-flow__handle {
         width: 3rem;
@@ -72,19 +74,20 @@
     }
 
     & [data-handlepos="bottom"] {
-        bottom: -3rem;
+        bottom: -6rem;
         animation: handleanim 3s infinite ease-in-out;
-        box-shadow: 0 0 10px var(--vert),
+        box-shadow:
+            0 0 10px var(--vert),
             0 0 20px var(--vert),
             0 0 10px var(--vert);
-        transform:translateX(-50%);
-
+        transform: translateX(-50%);
     }
 
     & [data-handlepos="top"] {
         animation: handleanim 3s infinite ease-in-out;
         top: -6rem;
-        box-shadow: 0 0 10px var(--vert),
+        box-shadow:
+            0 0 10px var(--vert),
             0 0 20px var(--vert),
             0 0 10px var(--vert);
         // transform: scale(1) translate(-50%, -50%);
@@ -93,22 +96,25 @@
 
 @keyframes handleanim {
     0% {
-        transform: translateX(-50%) scale(1) ;
-        box-shadow: 0 0 10px var(--vert),
+        transform: translateX(-50%) scale(1);
+        box-shadow:
+            0 0 10px var(--vert),
             0 0 20px var(--vert),
             0 0 10px var(--vert);
     }
 
     50% {
-        transform: translateX(-50%) scale(1.5) ;
-        box-shadow: 0 0 10px var(--vert),
+        transform: translateX(-50%) scale(1.5);
+        box-shadow:
+            0 0 10px var(--vert),
             0 0 25px var(--vert),
             0 0 60px var(--vert);
     }
 
     100% {
-        transform:translateX(-50%)  scale(1) ;
-        box-shadow: 0 0 10px var(--vert),
+        transform: translateX(-50%) scale(1);
+        box-shadow:
+            0 0 10px var(--vert),
             0 0 20px var(--vert),
             0 0 10px var(--vert);
     }
