@@ -146,16 +146,7 @@ const Flow = () => {
           }}
         />
         {menuContext && (
-          <ContextMenu {...menuContext} action={() => setMenuContext(null)}>
-            <button
-              className="nodrag"
-              onClick={() => {
-                setMenuContext(null);
-              }}
-            >
-              Exit
-            </button>
-          </ContextMenu>
+          <ContextMenu {...menuContext} action={() => setMenuContext(false)} />
         )}
 
         <MiniMap

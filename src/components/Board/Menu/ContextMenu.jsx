@@ -1,6 +1,7 @@
 import { useStore } from "../../../store/Store";
 import { shallow } from "zustand/shallow";
 import { nanoid } from "nanoid";
+import { useEffect } from "react";
 
 const selector = (store) => ({
   removeNode: store.removeNode,
@@ -8,8 +9,20 @@ const selector = (store) => ({
   nodes: store.nodes,
 });
 
-const ContextMenu = ({ id, top, left, right, bottom, children, action }) => {
+const ContextMenu = ({ id, top, left, right, bottom, action }) => {
   const { removeNode, createNodeFromData, nodes } = useStore(selector, shallow);
+
+  useEffect(() => {
+    window.addEventListener("click", () => {
+      action();
+    });
+    return () => {
+      window.removeEventListener("click", () => {
+        action();
+      });
+    };
+  }, []);
+
   return (
     <div
       className="nodrag context-menu"
@@ -34,7 +47,6 @@ const ContextMenu = ({ id, top, left, right, bottom, children, action }) => {
               position: { x: node.position.x + 100, y: node.position.y + 100 },
             };
             createNodeFromData(data);
-            action();
           }}
         >
           Duplicate
@@ -43,12 +55,11 @@ const ContextMenu = ({ id, top, left, right, bottom, children, action }) => {
           className="nodrag"
           onClick={() => {
             removeNode(id);
-            action();
           }}
         >
           Delete
         </button>
-        {children}
+        <button className="nodrag">Exit</button>
       </div>
     </div>
   );
