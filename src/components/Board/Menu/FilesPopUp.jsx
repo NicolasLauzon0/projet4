@@ -11,7 +11,7 @@ const FilesPopUp = () => {
       <Button action={() => setSeeFiles(false)} classe={"file"} type="file"/>
       <div className="files-popup">
         <div className="files-popup__container">
-          <h2>Charger un projet</h2>
+          <h2>Load Project</h2>
           <ul>
             {projects &&
               projects.map((project, index) => {
