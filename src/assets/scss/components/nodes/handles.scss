@@ -24,8 +24,8 @@
 
 .react-flow__handle {
     position: absolute;
-    width: 26px;
-    height: 26px;
+    width: 3rem;
+    height: 3rem;
     background-color: var(--blanc);
     border: 2px solid var(--vertNode);
     border-radius: 50%;
@@ -37,11 +37,11 @@
         border-color 0.3s ease-in-out;
 
         &.target {
-            top: -3rem;
+            top: -5rem;
         }
 
         &.source {
-            bottom: -3rem;
+            bottom: -5rem;
         }
 }
 .flow .react-flow__handle-valid {
