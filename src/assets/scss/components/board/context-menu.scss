@@ -1,0 +1,38 @@
+.context-menu{
+    position: absolute;
+
+    padding: 1.5rem 1rem;
+
+    background-color: var(--noir);
+    color: var(--blanc);
+    border-radius: 1rem;
+    box-shadow: 0 0 10px var(--vert);
+    
+    & > .context-buttons{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        
+        & > button{
+            padding: 1rem 2rem;
+            
+            background-color: var(--blanc);
+            color: var(--noir);
+            font-family: var(--font);
+            font-size: 1.2em;
+            font-weight: 700;
+
+            border: none;
+            border-radius: 0.5rem;
+
+            cursor: pointer;
+
+            transition: background-color 0.2s, color 0.3s;
+
+            &:hover{
+                background-color: var(--vert);
+                color: var(--noir);
+            }
+        }
+    }
+}

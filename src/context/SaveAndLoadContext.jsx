@@ -56,7 +56,6 @@ const SaveAndLoadProvider = ({ children }) => {
       await store.toggleVolume();
     }
     const data = JSON.stringify(store.saveProject());
-    console.log();
     const date =
       new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
     const doc = await addDoc(collection(db, "projects"), {
@@ -149,7 +148,6 @@ const SaveAndLoadProvider = ({ children }) => {
       return;
     }
     const projectRef = project;
-    console.log(projectRef);
     if (projectRef.id === "") {
       await saveDataDBAjouter(projectRef);
     } else if (project.id !== "") {
@@ -233,7 +231,6 @@ const SaveAndLoadProvider = ({ children }) => {
       window.removeEventListener("keydown", handleSave);
     };
   }, [project]);
-  console.log("render save and load");
   return (
     <DataContext.Provider
       value={{

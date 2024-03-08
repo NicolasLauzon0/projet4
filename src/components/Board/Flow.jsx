@@ -34,11 +34,10 @@ import NomProjet from "./NomProjet.jsx";
 import FilesPopUp from "./Menu/FilesPopUp.jsx";
 
 import { menu, menuProject } from "./Menu/NodesT.js";
+import ContextMenu from "./Menu/ContextMenu.jsx";
 
 import "reactflow/dist/style.css";
-import { useEffect } from "react";
-
-
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -77,29 +76,44 @@ const nodeTypes = {
 };
 
 const edgesTypes = {
-  "custom": CustomEdge,
+  custom: CustomEdge,
 };
-
 
 const Flow = () => {
   const store = useStore(selector, shallow);
   const { seeFiles, fitView, setFitViewF } = useSaveAndLoad();
   const reactFlowInstance = useReactFlow();
+  const [menuContext, setMenuContext] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-
     reactFlowInstance.fitView();
-
   }, [fitView]);
 
+  const onNodeContextMenu = useCallback(
+    (event, node) => {
+      event.preventDefault();
+      const bounds = ref.current.getBoundingClientRect();
+
+      setMenuContext({
+        id: node.id,
+        top: event.clientY < bounds.height - 200 && event.clientY,
+        left: event.clientX < bounds.width - 200 && event.clientX,
+        right:
+          event.clientX >= bounds.width - 200 && bounds.width - event.clientX,
+        bottom:
+          event.clientY >= bounds.height - 200 && bounds.height - event.clientY,
+      });
+    },
+    [setMenuContext]
+  );
   return (
     <>
       <Login />
       <NomProjet />
-      {
-        seeFiles && <FilesPopUp />
-      }
+      {seeFiles && <FilesPopUp />}
       <ReactFlow
+        ref={ref}
         nodes={store.nodes}
         edges={store.edges}
         onNodesChange={store.onNodesChange}
@@ -115,7 +129,7 @@ const Flow = () => {
         maxZoom={2}
         minZoom={0.15}
         nodeOrigin={[0.5, 0]}
-
+        onNodeContextMenu={onNodeContextMenu}
       >
         <Panel position="bottom-right">
           <Menu menuProject={menuProject} menu={menu} store={store} />
@@ -131,6 +145,19 @@ const Flow = () => {
             zoom: "1",
           }}
         />
+        {menuContext && (
+          <ContextMenu {...menuContext} action={() => setMenuContext(null)}>
+            <button
+              className="nodrag"
+              onClick={() => {
+                setMenuContext(null);
+              }}
+            >
+              Exit
+            </button>
+          </ContextMenu>
+        )}
+
         <MiniMap
           nodeColor={(n) => {
             if (n.type === "out") {
