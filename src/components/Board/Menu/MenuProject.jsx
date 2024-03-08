@@ -33,7 +33,7 @@ const MenuProject = ({
                       child.type === "save"
                         ? saveData()
                         : child.type === "saveas"
-                          ? newfile() :
+                          ? newFile() :
                           child.type === "newProject" ?
                             newFile2() :
                             setSeeFiles(true),
