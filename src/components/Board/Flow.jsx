@@ -14,7 +14,6 @@ import MonoSynth from "../Nodes/Instruments/MonoSynth.jsx";
 import MembraneSynth from "../Nodes/Instruments/MembraneSynth.jsx";
 import PluckSynth from "../Nodes/Instruments/PluckSynth.jsx";
 import Cheby from "../Nodes/Effects/Cheby.jsx";
-import Add from "../Nodes/Effects/Add.jsx";
 
 import GainNode from "../Nodes/Effects/GainNode";
 import AutoFilter from "../Nodes/Effects/AutoFilter.jsx";
@@ -71,7 +70,6 @@ const nodeTypes = {
   pluckSynth: PluckSynth,
   bitCrusher: BitCrusher,
   cheby: Cheby,
-  add: Add,
   chorus: Chorus,
 };
 

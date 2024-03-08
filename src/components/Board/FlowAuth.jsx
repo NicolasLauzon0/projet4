@@ -35,7 +35,7 @@ const FlowAuth = () => {
                 nodes={store.nodes}
                 edges={store.edges}
                 onNodesChange={store.onNodesChange}
-                onConnect={(params) => connect(params) && store.onConnect(params)}
+                onConnect={(params) => connect(params)}
                 onEdgesChange={store.onEdgesChange}
                 fitView
                 className='flow'

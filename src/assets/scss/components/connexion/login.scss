@@ -37,6 +37,16 @@
 
     padding: 2rem;
 
+    & .Seconnecter{
+        font-family: var(--font);
+        font-size: 4em;
+        color: var(--blanc);
+        font-weight: 700;
+        text-shadow:
+            0 0 10px var(--vert),
+            0 0 20px var(--turquoise);
+    }
+
     & > .logo {
         position: relative;
 

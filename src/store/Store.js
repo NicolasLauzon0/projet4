@@ -527,25 +527,6 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 });
                 break;
             }
-            case "add": {
-                const data = {
-                    value: 0.5,
-                };
-                const position = { x: 0, y: 0 };
-                createAudioNode(id, type, data);
-                set({
-                    nodes: [
-                        ...get().nodes,
-                        {
-                            id,
-                            type,
-                            data,
-                            position,
-                        },
-                    ],
-                });
-                break;
-            }
             case "chorus": {
                 const data = {
                     delayTime: 3.5,
@@ -693,7 +674,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         const targetType = target.type;
 
         const instrumentTypes = ["sampler", "fmSynth", "monoSynth", "duoSynth", "amSynth", "membraneSynth", "pluckSynth"];
-        const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "add", "chorus", "gain"];
+        const effectTypes = ["autoFilter", "bpm", "reverb", "feedbackDelay", "pitchShift", "bitCrusher", "cheby", "chorus", "gain"];
         const sequencerTypes = ["sequencer"];
 
         if (instrumentTypes.includes(sourceType) && instrumentTypes.includes(targetType)) {

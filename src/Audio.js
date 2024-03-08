@@ -165,12 +165,6 @@ export function createAudioNode(id, type, data) {
       nodes.set(id, node);
       break;
     }
-    case "add": {
-      const node = new Tone.Add(data);
-      node.data = data;
-      nodes.set(id, node);
-      break;
-    }
     case "chorus": {
       const node = new Tone.Chorus(data);
       node.data = data;

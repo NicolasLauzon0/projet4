@@ -100,10 +100,6 @@ const menu = [
                 type: "cheby",
             },
             {
-                name: "Add",
-                type: "add",
-            },
-            {
                 name: "Chorus",
                 type: "chorus",
             },
