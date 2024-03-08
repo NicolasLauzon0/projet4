@@ -4,7 +4,11 @@ const menuProject = [
         children: [
             {
                 name: "New project",
-                type: "newFile",
+                type: "newProject",
+            },
+            {
+                name: "Save project as",
+                type: "saveas",
             },
             {
                 name: "Save project",

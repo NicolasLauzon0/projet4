@@ -192,6 +192,11 @@ const SaveAndLoadProvider = ({ children }) => {
     setProjects(projects.filter((project) => project.id !== id));
   };
 
+  const newFile2 = async () => {
+    await store.reset();
+    setProject({ name: "", id: "", date: "" });
+  };
+
   // fetch des projets de l'utilisateur au chargement de la page
   useEffect(() => {
     if (!user || !user.uid) return;
@@ -241,6 +246,7 @@ const SaveAndLoadProvider = ({ children }) => {
         saveData,
         fitView,
         newFile,
+        newFile2,
         setName,
         project,
         projects,

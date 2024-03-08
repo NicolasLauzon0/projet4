@@ -7,7 +7,7 @@ const MenuProject = ({
   setSelectedMenu,
 }) => {
 
-  const { saveData, setSeeFiles, newFile } = useSaveAndLoad();
+  const { saveData, setSeeFiles, newFile, newFile2 } = useSaveAndLoad();
   return (
     <>
 
@@ -32,9 +32,11 @@ const MenuProject = ({
                     [
                       child.type === "save"
                         ? saveData()
-                        : child.type === "newFile"
-                          ? newFile() :
-                          setSeeFiles(true),
+                        : child.type === "saveas"
+                          ? newfile() :
+                          child.type === "newProject" ?
+                            newFile2() :
+                            setSeeFiles(true),
                       setMenuOpen(false),
                     ];
                   }}
