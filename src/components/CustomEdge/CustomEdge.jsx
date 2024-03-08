@@ -7,7 +7,6 @@ import {
 import { useStore } from "../../store/Store";
 
 export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
-  console.log("CustomEdge", id, sourceX, sourceY, targetX, targetY);
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
