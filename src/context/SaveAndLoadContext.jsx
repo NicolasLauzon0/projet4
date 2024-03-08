@@ -184,6 +184,11 @@ const SaveAndLoadProvider = ({ children }) => {
   const removeProject = async (id) => {
     if (id === undefined) return;
     await deleteDoc(doc(db, "projects", id));
+    const projectRef = projects.find((project) => project.id === id);
+    if (projectRef.id === project.id) {
+      setProject({ name: "", id: "", date: "" });
+    }
+
     setProjects(projects.filter((project) => project.id !== id));
   };
 
@@ -212,7 +217,6 @@ const SaveAndLoadProvider = ({ children }) => {
     };
     fetchProjects();
   }, [user]);
-
   useEffect(() => {
     const handleSave = (e) => {
       const code = e.keyCode || e.which;
