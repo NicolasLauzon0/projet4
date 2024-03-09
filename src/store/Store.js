@@ -30,7 +30,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
         position: { x: 0, y: 0 },
     }],
     edges: [],
-    createNode(type) {
+    createNode(type, positionRef) {
         const id = nanoid();
         switch (type) {
             case "pluckSynth": {
@@ -39,7 +39,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     dampening: 4000,
                     resonance: 0.7,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -68,7 +68,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         release: 0.5,
                     },
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -164,7 +164,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         }
                     }
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -203,7 +203,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                         release: 0.5
                     }
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -237,7 +237,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     },
                     detune: 0,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -257,7 +257,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     gain: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -274,7 +274,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
             }
             case "out": {
                 const data = {};
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -330,7 +330,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
                     ],
                 }
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -389,7 +389,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     octaves: 5,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -408,7 +408,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                 const data = {
                     bpm: 120,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 set({
                     nodes: [
                         ...get().nodes,
@@ -428,7 +428,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     preDelay: 1,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -450,7 +450,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     maxDelay: 2,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -472,7 +472,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     feedback: 0.5,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -492,7 +492,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     bits: 8,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -512,7 +512,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     order: 50,
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [
@@ -537,7 +537,7 @@ export const useStore = createWithEqualityFn((set, get) => ({
                     type: "sine",
                     wet: 0.5,
                 };
-                const position = { x: 0, y: 0 };
+                const position = positionRef;
                 createAudioNode(id, type, data);
                 set({
                     nodes: [

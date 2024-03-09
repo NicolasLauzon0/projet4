@@ -105,6 +105,23 @@ const Flow = () => {
     },
     [setMenuContext]
   );
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback((event) => {
+    event.preventDefault();
+
+    const type = event.dataTransfer.getData("application/reactflow");
+    const position = reactFlowInstance.project({
+      x: event.clientX,
+      y: event.clientY,
+    });
+    console.log(position);
+    store.createNode(type, position);
+  }, [reactFlowInstance]); 
   return (
     <>
       <Login />
@@ -118,6 +135,8 @@ const Flow = () => {
         onEdgesChange={store.onEdgesChange}
         onNodesDelete={store.onNodesDelete}
         onConnect={store.onConnect}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
         onEdgesDelete={store.onEdgesDelete}
         isValidConnection={store.isValidConnection}
         nodeTypes={nodeTypes}
