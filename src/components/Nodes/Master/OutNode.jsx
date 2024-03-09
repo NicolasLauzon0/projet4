@@ -26,8 +26,8 @@ const Out = ({ id, data }) => {
       <div className="out__container node__container">
         <Infobulle titre="Output">
           <>
-            This is the output of your flow. Everything that is connected to
-            this node will be played.
+            This is the output of your flow. The input connected to this node
+            will be played. You can add as many of these as you need.
           </>
         </Infobulle>
         <Button action={() => removeNode(id)} />
