@@ -119,7 +119,6 @@ const Flow = () => {
       x: event.clientX,
       y: event.clientY,
     });
-    console.log(position);
     store.createNode(type, position);
   }, [reactFlowInstance]); 
   return (
