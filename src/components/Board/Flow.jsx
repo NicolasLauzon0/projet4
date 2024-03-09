@@ -115,7 +115,7 @@ const Flow = () => {
     event.preventDefault();
 
     const type = event.dataTransfer.getData("application/reactflow");
-    const position = reactFlowInstance.project({
+    const position = reactFlowInstance.screenToFlowPosition({
       x: event.clientX,
       y: event.clientY,
     });
